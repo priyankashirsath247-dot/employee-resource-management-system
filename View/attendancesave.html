@@ -1,0 +1,3947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>ERMS | Attendance Management</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+rel="stylesheet">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    min-height:100%;
+}
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    font-family:"Poppins",sans-serif;
+
+    color:#e5e7eb;
+
+    /* SOLID BACKGROUND */
+    background:#343b48;
+
+    overflow-x:hidden;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-container{
+
+    width:100%;
+
+    max-width:1250px;
+
+    margin:auto;
+
+    padding:22px 15px 35px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.page-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:16px;
+}
+
+.header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.header-icon{
+
+    width:50px;
+    height:50px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:23px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #0ea5e9
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(59,130,246,.30);
+}
+
+.page-title{
+
+    margin:0;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#fff;
+}
+
+.page-subtitle{
+
+    margin:2px 0 0;
+
+    color:#a7b0c0;
+
+    font-size:10px;
+}
+
+.system-badge{
+
+    padding:6px 11px;
+
+    border-radius:30px;
+
+    font-size:9px;
+
+    color:#86efac;
+
+    background:
+        rgba(34,197,94,.08);
+
+    border:
+        1px solid
+        rgba(34,197,94,.18);
+}
+
+.live-dot{
+
+    display:inline-block;
+
+    width:7px;
+    height:7px;
+
+    margin-right:5px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.3;
+    }
+}
+
+
+/* =========================================================
+   DATE CARD
+========================================================= */
+
+.date-card{
+
+    background:#182033;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:15px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.18);
+
+    margin-bottom:13px;
+}
+
+.form-label{
+
+    margin-bottom:5px;
+
+    color:#cbd5e1;
+
+    font-size:10px;
+
+    font-weight:500;
+}
+
+.form-control{
+
+    height:40px;
+
+    border-radius:9px;
+
+    border:
+        1px solid
+        rgba(148,163,184,.17);
+
+    background:#0d1424;
+
+    color:#f8fafc;
+
+    font-size:10px;
+}
+
+.form-control::placeholder{
+
+    color:#64748b;
+}
+
+.form-control:focus{
+
+    color:white;
+
+    background:#0d1424;
+
+    border-color:#6366f1;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(99,102,241,.12);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator{
+
+    filter:invert(1);
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+========================================================= */
+
+.btn-view{
+
+    height:40px;
+
+    border:0;
+
+    border-radius:9px;
+
+    font-size:10px;
+
+    font-weight:600;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #2563eb
+        );
+
+    box-shadow:
+        0 7px 18px
+        rgba(37,99,235,.18);
+
+    transition:.2s;
+}
+
+.btn-view:hover{
+
+    color:white;
+
+    transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   DATE HINT
+========================================================= */
+
+.date-hint{
+
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 11px;
+
+    border-radius:9px;
+
+    color:#94a3b8;
+
+    background:
+        rgba(30,41,59,.45);
+
+    border:
+        1px solid
+        rgba(148,163,184,.08);
+
+    font-size:9px;
+}
+
+.date-hint strong{
+
+    color:#60a5fa;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stat-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:11px;
+
+    border-radius:13px;
+
+    background:#182033;
+
+    border:
+        1px solid
+        rgba(148,163,184,.09);
+
+    transition:.2s;
+}
+
+.stat-card:hover{
+
+    transform:translateY(-2px);
+
+    border-color:
+        rgba(99,102,241,.25);
+}
+
+.stat-icon{
+
+    width:37px;
+    height:37px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    font-size:16px;
+}
+
+.total-icon{
+
+    color:#93c5fd;
+
+    background:
+        rgba(59,130,246,.12);
+}
+
+.present-icon{
+
+    color:#86efac;
+
+    background:
+        rgba(34,197,94,.12);
+}
+
+.absent-icon{
+
+    color:#fca5a5;
+
+    background:
+        rgba(239,68,68,.12);
+}
+
+.leave-icon{
+
+    color:#fcd34d;
+
+    background:
+        rgba(245,158,11,.12);
+}
+
+.stat-label{
+
+    color:#94a3b8;
+
+    font-size:8px;
+
+    margin-bottom:2px;
+}
+
+.stat-number{
+
+    color:white;
+
+    font-size:19px;
+
+    font-weight:700;
+
+    line-height:1;
+}
+
+
+/* =========================================================
+   ATTENDANCE CARD
+========================================================= */
+
+.attendance-card{
+
+    margin-top:13px;
+
+    overflow:hidden;
+
+    border-radius:15px;
+
+    background:#182033;
+
+    border:
+        1px solid
+        rgba(148,163,184,.10);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.18);
+}
+
+.attendance-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:13px 17px;
+
+    border-bottom:
+        1px solid
+        rgba(148,163,184,.09);
+}
+
+.attendance-title{
+
+    margin:0;
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.selected-date{
+
+    margin-top:3px;
+
+    color:#64748b;
+
+    font-size:9px;
+}
+
+.selected-date span{
+
+    color:#60a5fa;
+
+    font-weight:600;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-box{
+
+    width:220px;
+
+    position:relative;
+}
+
+.search-box i{
+
+    position:absolute;
+
+    left:10px;
+
+    top:50%;
+
+    z-index:2;
+
+    transform:translateY(-50%);
+
+    color:#64748b;
+
+    font-size:11px;
+}
+
+.search-box input{
+
+    height:35px;
+
+    padding-left:29px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+}
+
+table{
+
+    width:100%;
+
+    min-width:1250px;
+
+    margin:0!important;
+}
+
+thead th{
+
+    padding:10px 13px!important;
+
+    color:#94a3b8!important;
+
+    background:#0a1121!important;
+
+    border-bottom:
+        1px solid
+        rgba(148,163,184,.09)!important;
+
+    font-size:8px;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    white-space:nowrap;
+}
+
+tbody td{
+
+    padding:10px 13px!important;
+
+    color:#dbeafe!important;
+
+    background:transparent!important;
+
+    border-bottom:
+        1px solid
+        rgba(148,163,184,.06)!important;
+
+    font-size:9px;
+
+    vertical-align:middle;
+
+    white-space:nowrap;
+}
+
+tbody tr{
+
+    transition:.2s;
+}
+
+tbody tr:hover td{
+
+    background:
+        rgba(99,102,241,.05)!important;
+}
+
+
+/* =========================================================
+   EMPLOYEE
+========================================================= */
+
+.employee-name{
+
+    color:#f8fafc;
+
+    font-size:10px;
+
+    font-weight:600;
+}
+
+.employee-id{
+
+    margin-top:2px;
+
+    color:#64748b;
+
+    font-size:8px;
+}
+
+
+/* =========================================================
+   DATE BADGE
+========================================================= */
+
+.date-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    color:#93c5fd;
+
+    background:
+        rgba(59,130,246,.09);
+
+    font-size:8px;
+
+    font-weight:600;
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.time-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+}
+
+.time-icon{
+
+    width:27px;
+    height:27px;
+
+    border-radius:8px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:12px;
+}
+
+.in-icon{
+
+    color:#60a5fa;
+
+    background:
+        rgba(59,130,246,.12);
+}
+
+.out-icon{
+
+    color:#a78bfa;
+
+    background:
+        rgba(139,92,246,.12);
+}
+
+.time-value{
+
+    color:#e2e8f0;
+
+    font-size:9px;
+
+    font-weight:600;
+}
+
+.time-label{
+
+    color:#64748b;
+
+    font-size:7px;
+
+    margin-top:1px;
+}
+
+
+/* =========================================================
+   EDIT INPUTS
+========================================================= */
+
+.edit-time{
+
+    width:105px;
+
+    height:34px;
+
+    padding:5px 8px;
+
+    border-radius:8px;
+
+    border:1px solid
+        rgba(96,165,250,.35);
+
+    background:#0b1222;
+
+    color:#fff;
+
+    font-size:9px;
+
+    outline:none;
+}
+
+.edit-time:focus{
+
+    border-color:#6366f1;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(99,102,241,.12);
+}
+
+.edit-select{
+
+    height:34px;
+
+    min-width:95px;
+
+    padding:5px 8px;
+
+    border-radius:8px;
+
+    border:1px solid
+        rgba(96,165,250,.35);
+
+    background:#0b1222;
+
+    color:#fff;
+
+    font-size:9px;
+
+    outline:none;
+}
+
+.edit-select:focus{
+
+    border-color:#6366f1;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(99,102,241,.12);
+}
+
+
+/* =========================================================
+   WORK HOURS
+========================================================= */
+
+.work-hours{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    color:#67e8f9;
+
+    background:
+        rgba(6,182,212,.09);
+
+    font-size:8px;
+
+    font-weight:600;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.day-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    font-size:8px;
+
+    font-weight:600;
+}
+
+.badge-present{
+
+    color:#86efac;
+
+    background:
+        rgba(34,197,94,.10);
+}
+
+.badge-absent{
+
+    color:#fca5a5;
+
+    background:
+        rgba(239,68,68,.10);
+}
+
+.badge-leave{
+
+    color:#fcd34d;
+
+    background:
+        rgba(245,158,11,.10);
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.btn-edit{
+
+    height:32px;
+
+    padding:0 10px;
+
+    border-radius:8px;
+
+    color:#93c5fd;
+
+    background:
+        rgba(59,130,246,.10);
+
+    border:
+        1px solid
+        rgba(59,130,246,.18);
+
+    font-size:8px;
+
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.btn-edit:hover{
+
+    color:white;
+
+    background:
+        rgba(59,130,246,.22);
+}
+
+.btn-edit.active{
+
+    color:#86efac;
+
+    background:
+        rgba(34,197,94,.12);
+
+    border-color:
+        rgba(34,197,94,.25);
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-state{
+
+    padding:48px 20px;
+
+    text-align:center;
+}
+
+.empty-icon{
+
+    width:52px;
+    height:52px;
+
+    margin:0 auto 10px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    color:#64748b;
+
+    background:
+        rgba(100,116,139,.08);
+
+    font-size:21px;
+}
+
+.empty-title{
+
+    color:#cbd5e1;
+
+    font-size:12px;
+
+    font-weight:600;
+}
+
+.empty-text{
+
+    margin-top:4px;
+
+    color:#64748b;
+
+    font-size:9px;
+}
+
+.loading-state{
+
+    padding:45px 20px;
+
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:9px;
+}
+
+
+/* =========================================================
+   ACTION BAR
+========================================================= */
+
+.action-bar{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    padding:12px 17px;
+
+    border-top:
+        1px solid
+        rgba(148,163,184,.07);
+}
+
+.action-btn{
+
+    height:36px;
+
+    padding:0 14px;
+
+    border-radius:8px;
+
+    font-size:9px;
+
+    font-weight:600;
+}
+
+.btn-save{
+
+    border:0;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #22c55e
+        );
+
+    box-shadow:
+        0 6px 15px
+        rgba(34,197,94,.16);
+}
+
+.btn-save:hover{
+
+    color:white;
+
+    transform:translateY(-1px);
+}
+
+.btn-clear{
+
+    color:#cbd5e1;
+
+    background:
+        rgba(71,85,105,.25);
+
+    border:
+        1px solid
+        rgba(148,163,184,.12);
+}
+
+.btn-clear:hover{
+
+    color:white;
+
+    background:
+        rgba(71,85,105,.40);
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-content{
+
+    color:white;
+
+    border:
+        1px solid
+        rgba(148,163,184,.12);
+
+    border-radius:15px;
+
+    background:#111827;
+}
+
+.modal-icon{
+
+    width:48px;
+    height:48px;
+
+    margin:0 auto 11px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
+
+    font-size:21px;
+}
+
+.success-icon{
+
+    color:#86efac;
+
+    background:
+        rgba(34,197,94,.10);
+}
+
+.error-icon{
+
+    color:#fca5a5;
+
+    background:
+        rgba(239,68,68,.10);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .main-container{
+
+        padding:16px 10px 25px;
+    }
+
+    .page-title{
+
+        font-size:18px;
+    }
+
+    .page-subtitle{
+
+        font-size:9px;
+    }
+
+    .header-icon{
+
+        width:45px;
+        height:45px;
+
+        font-size:19px;
+    }
+
+    .system-badge{
+
+        display:none;
+    }
+
+    .attendance-header{
+
+        flex-direction:column;
+
+        align-items:stretch;
+    }
+
+    .search-box{
+
+        width:100%;
+    }
+
+    .date-hint{
+
+        display:none;
+    }
+
+    .action-bar{
+
+        justify-content:stretch;
+    }
+
+    .action-btn{
+
+        flex:1;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="main-container">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="page-header">
+
+    <div class="header-left">
+
+        <div class="header-icon">
+
+            <i class="bi bi-calendar-check-fill"></i>
+
+        </div>
+
+        <div>
+
+            <h1 class="page-title">
+                Attendance Management
+            </h1>
+
+            <p class="page-subtitle">
+                Employee attendance • Date wise • Edit enabled
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="system-badge">
+
+        <span class="live-dot"></span>
+
+        System Active
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     DATE CARD
+===================================================== -->
+
+<div class="date-card">
+
+    <div class="card-body p-3">
+
+        <form
+            id="dateForm"
+            class="row g-3 align-items-end">
+
+            <div class="col-lg-4 col-md-5">
+
+                <label class="form-label">
+
+                    <i class="bi bi-calendar3 me-1"></i>
+
+                    Select Attendance Date
+
+                </label>
+
+                <input
+                    type="date"
+                    id="attendanceDate"
+                    class="form-control"
+                    required>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-3">
+
+                <button
+                    type="submit"
+                    id="viewDateBtn"
+                    class="btn btn-view w-100">
+
+                    <i class="bi bi-search me-2"></i>
+
+                    View Attendance
+
+                </button>
+
+            </div>
+
+
+            <div class="col-lg-5 col-md-4">
+
+                <div class="date-hint">
+
+                    <i class="bi bi-info-circle me-2"></i>
+
+                    Only saved attendance for
+
+                    <strong class="ms-1">
+                        selected date
+                    </strong>
+
+                    will be shown.
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     STATS
+===================================================== -->
+
+<div class="row g-2">
+
+    <div class="col-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon total-icon">
+
+                <i class="bi bi-people-fill"></i>
+
+            </div>
+
+            <div>
+
+                <div class="stat-label">
+                    Total
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="totalCount">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon present-icon">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+            </div>
+
+            <div>
+
+                <div class="stat-label">
+                    Present
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="presentCount">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon absent-icon">
+
+                <i class="bi bi-x-circle-fill"></i>
+
+            </div>
+
+            <div>
+
+                <div class="stat-label">
+                    Absent
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="absentCount">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-6 col-lg-3">
+
+        <div class="stat-card">
+
+            <div class="stat-icon leave-icon">
+
+                <i class="bi bi-calendar-x-fill"></i>
+
+            </div>
+
+            <div>
+
+                <div class="stat-label">
+                    Leave
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="leaveCount">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ATTENDANCE
+===================================================== -->
+
+<div class="attendance-card">
+
+
+<div class="attendance-header">
+
+    <div>
+
+        <h2 class="attendance-title">
+
+            <i class="bi bi-list-check me-2"></i>
+
+            Employee Attendance
+
+        </h2>
+
+        <div class="selected-date">
+
+            Selected Date:
+
+            <span id="selectedDateLabel">
+                Not selected
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <i class="bi bi-search"></i>
+
+        <input
+            type="text"
+            id="employeeSearch"
+            class="form-control"
+            placeholder="Search employee / ID...">
+
+    </div>
+
+</div>
+
+
+<div class="table-wrapper">
+
+<table class="table table-borderless">
+
+<thead>
+
+<tr>
+
+    <th style="width:50px;">
+        #
+    </th>
+
+    <th>
+        Date
+    </th>
+
+    <th>
+        Employee
+    </th>
+
+    <th>
+        Status
+    </th>
+
+    <th>
+        Check In
+    </th>
+
+    <th>
+        Check Out
+    </th>
+
+    <th>
+        Work Hours
+    </th>
+
+    <th>
+        Day Type
+    </th>
+
+    <th>
+        Action
+    </th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="attendanceTableBody">
+
+<tr>
+
+<td colspan="9">
+
+<div class="empty-state">
+
+    <div class="empty-icon">
+
+        <i class="bi bi-calendar-event"></i>
+
+    </div>
+
+    <div class="empty-title">
+
+        Select an Attendance Date
+
+    </div>
+
+    <div class="empty-text">
+
+        Select date and click
+        View Attendance.
+
+    </div>
+
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ACTIONS -->
+
+<div class="action-bar">
+
+<button
+    type="button"
+    id="clearBtn"
+    class="btn action-btn btn-clear">
+
+    <i class="bi bi-arrow-counterclockwise me-1"></i>
+
+    Reload
+
+</button>
+
+
+<button
+    type="button"
+    id="saveBtn"
+    class="btn action-btn btn-save">
+
+    <i class="bi bi-cloud-check me-1"></i>
+
+    Save Attendance
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     SUCCESS MODAL
+===================================================== -->
+
+<div
+class="modal fade"
+id="successModal"
+tabindex="-1">
+
+<div class="modal-dialog modal-dialog-centered">
+
+<div class="modal-content">
+
+<div class="modal-body text-center p-4">
+
+<div class="modal-icon success-icon">
+
+<i class="bi bi-check-lg"></i>
+
+</div>
+
+<h5 class="fw-semibold">
+Attendance Saved
+</h5>
+
+<p
+id="successMessage"
+class="text-secondary small mb-3">
+
+Attendance saved successfully.
+
+</p>
+
+<button
+type="button"
+class="btn btn-success btn-sm px-4"
+data-bs-dismiss="modal">
+
+OK
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     ERROR MODAL
+===================================================== -->
+
+<div
+class="modal fade"
+id="errorModal"
+tabindex="-1">
+
+<div class="modal-dialog modal-dialog-centered">
+
+<div class="modal-content">
+
+<div class="modal-body text-center p-4">
+
+<div class="modal-icon error-icon">
+
+<i class="bi bi-exclamation-triangle"></i>
+
+</div>
+
+<h5 class="fw-semibold">
+Error
+</h5>
+
+<p
+id="errorMessage"
+class="text-secondary small mb-3">
+
+Something went wrong.
+
+</p>
+
+<button
+type="button"
+class="btn btn-danger btn-sm px-4"
+data-bs-dismiss="modal">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+/* =========================================================
+   ERMS ATTENDANCE MANAGEMENT
+========================================================= */
+
+let attendanceRecords = [];
+
+let allEmployees = [];
+
+let currentLoadedDate = "";
+
+let loadingRequestId = 0;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const dateInput =
+    document.getElementById("attendanceDate");
+
+const dateForm =
+    document.getElementById("dateForm");
+
+const tableBody =
+    document.getElementById("attendanceTableBody");
+
+const searchInput =
+    document.getElementById("employeeSearch");
+
+const selectedDateLabel =
+    document.getElementById("selectedDateLabel");
+
+const viewDateBtn =
+    document.getElementById("viewDateBtn");
+
+const saveButton =
+    document.getElementById("saveBtn");
+
+const clearButton =
+    document.getElementById("clearBtn");
+
+
+/* =========================================================
+   INDIA TODAY
+========================================================= */
+
+function todayIndia(){
+
+    return new Date().toLocaleDateString(
+        "en-CA",
+        {
+            timeZone:"Asia/Kolkata"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DATE FORMAT
+========================================================= */
+
+function formatDisplayDate(date){
+
+    if(!date){
+        return "Not selected";
+    }
+
+    const parts =
+        String(date)
+        .substring(0,10)
+        .split("-");
+
+    if(parts.length !== 3){
+        return date;
+    }
+
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+}
+
+
+/* =========================================================
+   UPDATE DATE
+========================================================= */
+
+function updateSelectedDate(date){
+
+    selectedDateLabel.textContent =
+        formatDisplayDate(date);
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   NORMALIZE EMPLOYEE ID
+========================================================= */
+
+function normalizeEmployeeId(value){
+
+    return String(value ?? "").trim();
+
+}
+
+
+/* =========================================================
+   DAY TYPE
+========================================================= */
+
+function getDayType(status){
+
+    status =
+        String(status || "").trim();
+
+    if(status === "Present"){
+        return "Full Day";
+    }
+
+    if(status === "Leave"){
+        return "Leave";
+    }
+
+    return "Absent";
+
+}
+
+
+/* =========================================================
+   BADGE CLASS
+========================================================= */
+
+function getBadgeClass(status){
+
+    if(status === "Present"){
+        return "badge-present";
+    }
+
+    if(status === "Absent"){
+        return "badge-absent";
+    }
+
+    return "badge-leave";
+
+}
+
+
+/* =========================================================
+   BADGE ICON
+========================================================= */
+
+function getBadgeIcon(status){
+
+    if(status === "Present"){
+        return "bi-check-circle";
+    }
+
+    if(status === "Absent"){
+        return "bi-x-circle";
+    }
+
+    return "bi-calendar-x";
+
+}
+
+
+/* =========================================================
+   FORMAT TIME
+========================================================= */
+
+function formatTime(value){
+
+    if(!value){
+        return "--";
+    }
+
+    value =
+        String(value).trim();
+
+    if(
+        value === "00:00" ||
+        value === "00:00:00"
+    ){
+        return "--";
+    }
+
+    if(/^\d{2}:\d{2}$/.test(value)){
+
+        let [hour,minute] =
+            value.split(":");
+
+        hour =
+            Number(hour);
+
+        const period =
+            hour >= 12
+                ? "PM"
+                : "AM";
+
+        hour =
+            hour % 12;
+
+        if(hour === 0){
+            hour = 12;
+        }
+
+        return (
+            String(hour).padStart(2,"0") +
+            ":" +
+            minute +
+            " " +
+            period
+        );
+
+    }
+
+    return value;
+
+}
+
+
+/* =========================================================
+   TIME TO MINUTES
+========================================================= */
+
+function timeToMinutes(time){
+
+    if(!time){
+        return null;
+    }
+
+    const value =
+        String(time).trim();
+
+    if(!/^\d{2}:\d{2}$/.test(value)){
+        return null;
+    }
+
+    const parts =
+        value.split(":");
+
+    const hours =
+        Number(parts[0]);
+
+    const minutes =
+        Number(parts[1]);
+
+    if(
+        Number.isNaN(hours) ||
+        Number.isNaN(minutes) ||
+        hours < 0 ||
+        hours > 23 ||
+        minutes < 0 ||
+        minutes > 59
+    ){
+        return null;
+    }
+
+    return (
+        hours * 60 +
+        minutes
+    );
+
+}
+
+
+/* =========================================================
+   CALCULATE WORK HOURS
+========================================================= */
+
+function calculateWorkHours(
+    checkIn,
+    checkOut
+){
+
+    const inMinutes =
+        timeToMinutes(checkIn);
+
+    const outMinutes =
+        timeToMinutes(checkOut);
+
+    if(
+        inMinutes === null ||
+        outMinutes === null
+    ){
+        return 0;
+    }
+
+    let difference =
+        outMinutes - inMinutes;
+
+    /*
+       Supports overnight attendance.
+       Example:
+       IN 22:00
+       OUT 06:00
+    */
+
+    if(difference < 0){
+
+        difference += 24 * 60;
+
+    }
+
+    return Number(
+        (difference / 60).toFixed(2)
+    );
+
+}
+
+
+/* =========================================================
+   LOAD EMPLOYEES
+========================================================= */
+
+async function loadEmployees(){
+
+    const response =
+        await fetch(
+            "/api/employees",
+            {
+                method:"GET",
+
+                cache:"no-store",
+
+                headers:{
+                    "Accept":
+                        "application/json"
+                }
+            }
+        );
+
+
+    const result =
+        await response.json();
+
+
+    if(
+        !response.ok ||
+        !result.success
+    ){
+
+        throw new Error(
+            result.message ||
+            "Unable to load employees."
+        );
+
+    }
+
+
+    allEmployees =
+        Array.isArray(
+            result.employees
+        )
+            ? result.employees
+            : [];
+
+
+    allEmployees =
+        allEmployees.filter(
+            employee => {
+
+                return (
+                    employee &&
+                    normalizeEmployeeId(
+                        employee.employeeId
+                    )
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   LOAD ATTENDANCE
+========================================================= */
+
+async function loadAttendance(){
+
+    const selectedDate =
+        dateInput.value;
+
+
+    if(!selectedDate){
+
+        showError(
+            "Please select attendance date."
+        );
+
+        return;
+
+    }
+
+
+    const requestId =
+        ++loadingRequestId;
+
+
+    currentLoadedDate = "";
+
+    attendanceRecords = [];
+
+    searchInput.value = "";
+
+
+    updateStats();
+
+    updateSelectedDate(
+        selectedDate
+    );
+
+
+    tableBody.innerHTML = `
+
+        <tr>
+
+            <td colspan="9">
+
+                <div class="loading-state">
+
+                    <div
+                        class="spinner-border
+                               spinner-border-sm
+                               me-2">
+                    </div>
+
+                    Loading attendance...
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    viewDateBtn.disabled = true;
+
+
+    viewDateBtn.innerHTML = `
+
+        <span
+            class="spinner-border
+                   spinner-border-sm
+                   me-2">
+        </span>
+
+        Loading...
+
+    `;
+
+
+    try{
+
+        await loadEmployees();
+
+
+        const response =
+            await fetch(
+                `/api/attendance?date=${encodeURIComponent(selectedDate)}`,
+                {
+                    method:"GET",
+
+                    cache:"no-store",
+
+                    headers:{
+                        "Accept":
+                            "application/json",
+
+                        "Cache-Control":
+                            "no-cache"
+                    }
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if(
+            requestId !==
+            loadingRequestId
+        ){
+            return;
+        }
+
+
+        if(
+            !response.ok ||
+            !result.success
+        ){
+
+            throw new Error(
+                result.message ||
+                "Failed to load attendance."
+            );
+
+        }
+
+
+        let apiRecords =
+            Array.isArray(
+                result.attendance
+            )
+                ? result.attendance
+                : [];
+
+
+        /* =================================================
+           STRICT DATE FILTER
+        ================================================= */
+
+        apiRecords =
+            apiRecords.filter(
+                record => {
+
+                    const recordDate =
+                        String(
+                            record.date || ""
+                        )
+                        .trim()
+                        .substring(0,10);
+
+                    return (
+                        recordDate ===
+                        selectedDate
+                    );
+
+                }
+            );
+
+
+        /*
+           Remove duplicate employee records.
+           One employee = one attendance row.
+        */
+
+        const uniqueMap =
+            new Map();
+
+
+        apiRecords.forEach(
+            record => {
+
+                const employeeId =
+                    normalizeEmployeeId(
+                        record.employeeId
+                    );
+
+                if(!employeeId){
+                    return;
+                }
+
+                uniqueMap.set(
+                    employeeId,
+                    record
+                );
+
+            }
+        );
+
+
+        apiRecords =
+            Array.from(
+                uniqueMap.values()
+            );
+
+
+        /* =================================================
+           FINAL ATTENDANCE RECORDS
+        ================================================= */
+
+        attendanceRecords =
+            apiRecords.map(
+                record => {
+
+                    const employeeId =
+                        normalizeEmployeeId(
+                            record.employeeId
+                        );
+
+
+                    const employee =
+                        allEmployees.find(
+                            emp =>
+                                normalizeEmployeeId(
+                                    emp.employeeId
+                                ) === employeeId
+                        );
+
+
+                    const status =
+                        [
+                            "Present",
+                            "Absent",
+                            "Leave"
+                        ].includes(
+                            record.status
+                        )
+                            ? record.status
+                            : "Present";
+
+
+                    const checkIn =
+                        record.checkInTime || "";
+
+
+                    const checkOut =
+                        record.checkOutTime || "";
+
+
+                    /*
+                       IMPORTANT:
+                       Work hours automatically
+                       calculated from IN and OUT.
+                    */
+
+                    const calculatedHours =
+                        calculateWorkHours(
+                            checkIn,
+                            checkOut
+                        );
+
+
+                    return {
+
+                        ...record,
+
+                        employeeId:
+                            employeeId,
+
+                        employeeName:
+                            record.employeeName ||
+                            employee?.name ||
+                            employeeId,
+
+                        date:
+                            selectedDate,
+
+                        status:
+                            status,
+
+                        checkInTime:
+                            checkIn,
+
+                        checkOutTime:
+                            checkOut,
+
+                        workHours:
+                            calculatedHours,
+
+                        dayType:
+                            record.dayType ||
+                            getDayType(status),
+
+                        photo:
+                            record.photo || "",
+
+                        editing:false
+
+                    };
+
+                }
+            );
+
+
+        currentLoadedDate =
+            selectedDate;
+
+
+        updateStats();
+
+        renderAttendance();
+
+
+    }
+    catch(error){
+
+        console.error(
+            "LOAD ATTENDANCE ERROR:",
+            error
+        );
+
+
+        attendanceRecords = [];
+
+        currentLoadedDate = "";
+
+
+        updateStats();
+
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="9">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-exclamation-circle"></i>
+
+                        </div>
+
+                        <div class="empty-title">
+
+                            Unable to Load Attendance
+
+                        </div>
+
+                        <div class="empty-text">
+
+                            ${escapeHtml(
+                                error.message ||
+                                "Server error"
+                            )}
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        showError(
+            error.message ||
+            "Unable to load attendance."
+        );
+
+    }
+    finally{
+
+        viewDateBtn.disabled = false;
+
+        viewDateBtn.innerHTML = `
+
+            <i class="bi bi-search me-2"></i>
+
+            View Attendance
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE STATS
+========================================================= */
+
+function updateStats(){
+
+    let total =
+        attendanceRecords.length;
+
+    let present = 0;
+
+    let absent = 0;
+
+    let leave = 0;
+
+
+    attendanceRecords.forEach(
+        record => {
+
+            const status =
+                String(
+                    record.status || ""
+                ).trim();
+
+
+            if(status === "Present"){
+
+                present++;
+
+            }
+            else if(status === "Absent"){
+
+                absent++;
+
+            }
+            else if(status === "Leave"){
+
+                leave++;
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent = total;
+
+
+    document.getElementById(
+        "presentCount"
+    ).textContent = present;
+
+
+    document.getElementById(
+        "absentCount"
+    ).textContent = absent;
+
+
+    document.getElementById(
+        "leaveCount"
+    ).textContent = leave;
+
+}
+
+
+/* =========================================================
+   RENDER ATTENDANCE
+========================================================= */
+
+function renderAttendance(
+    searchText = ""
+){
+
+    const search =
+        String(searchText)
+        .trim()
+        .toLowerCase();
+
+
+    const dateRecords =
+        attendanceRecords.filter(
+            record => {
+
+                const recordDate =
+                    String(
+                        record.date || ""
+                    )
+                    .trim()
+                    .substring(0,10);
+
+
+                return (
+                    recordDate ===
+                    currentLoadedDate
+                );
+
+            }
+        );
+
+
+    const filteredRecords =
+        dateRecords.filter(
+            record => {
+
+                const name =
+                    String(
+                        record.employeeName ||
+                        ""
+                    ).toLowerCase();
+
+
+                const employeeId =
+                    String(
+                        record.employeeId ||
+                        ""
+                    ).toLowerCase();
+
+
+                return (
+                    name.includes(search) ||
+                    employeeId.includes(search)
+                );
+
+            }
+        );
+
+
+    if(dateRecords.length === 0){
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="9">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-calendar-x"></i>
+
+                        </div>
+
+                        <div class="empty-title">
+
+                            No Attendance Available
+
+                        </div>
+
+                        <div class="empty-text">
+
+                            No attendance has been saved
+                            for
+                            ${escapeHtml(
+                                formatDisplayDate(
+                                    currentLoadedDate
+                                )
+                            )}.
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(filteredRecords.length === 0){
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="9">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-search"></i>
+
+                        </div>
+
+                        <div class="empty-title">
+
+                            No Employee Found
+
+                        </div>
+
+                        <div class="empty-text">
+
+                            Try another employee name or ID.
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tableBody.innerHTML =
+        filteredRecords
+        .map(
+            (record,index) => {
+
+                return createAttendanceRow(
+                    record,
+                    index + 1
+                );
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   CREATE ROW
+========================================================= */
+
+function createAttendanceRow(
+    record,
+    index
+){
+
+    const employeeId =
+        normalizeEmployeeId(
+            record.employeeId
+        );
+
+
+    const employeeName =
+        escapeHtml(
+            record.employeeName ||
+            "Unknown Employee"
+        );
+
+
+    const status =
+        [
+            "Present",
+            "Absent",
+            "Leave"
+        ].includes(
+            record.status
+        )
+            ? record.status
+            : "Present";
+
+
+    const checkIn =
+        record.checkInTime || "";
+
+
+    const checkOut =
+        record.checkOutTime || "";
+
+
+    const workHours =
+        calculateWorkHours(
+            checkIn,
+            checkOut
+        );
+
+
+    /*
+       Keep object updated.
+    */
+
+    record.workHours =
+        workHours;
+
+
+    const dayType =
+        record.dayType ||
+        getDayType(status);
+
+
+    const isEditing =
+        record.editing === true;
+
+
+    /* =====================================================
+       NORMAL VIEW
+    ===================================================== */
+
+    if(!isEditing){
+
+        return `
+
+        <tr
+            data-employee-id="${escapeHtml(employeeId)}"
+            data-date="${escapeHtml(record.date)}"
+        >
+
+            <td>
+
+                <span class="text-secondary">
+                    ${index}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <span class="date-badge">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    ${escapeHtml(
+                        formatDisplayDate(
+                            record.date
+                        )
+                    )}
+
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <div class="employee-name">
+
+                    ${employeeName}
+
+                </div>
+
+                <div class="employee-id">
+
+                    ID:
+                    ${escapeHtml(employeeId)}
+
+                </div>
+
+            </td>
+
+
+            <td>
+
+                <span
+                    class="day-badge
+                    ${getBadgeClass(status)}"
+                >
+
+                    <i class="bi
+                    ${getBadgeIcon(status)}">
+                    </i>
+
+                    ${escapeHtml(status)}
+
+                </span>
+
+            </td>
+
+
+            <!-- CHECK IN -->
+
+            <td>
+
+                <div class="time-box">
+
+                    <div class="time-icon in-icon">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                    </div>
+
+                    <div>
+
+                        <div class="time-value">
+
+                            ${escapeHtml(
+                                formatTime(checkIn)
+                            )}
+
+                        </div>
+
+                        <div class="time-label">
+                            IN
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </td>
+
+
+            <!-- CHECK OUT -->
+
+            <td>
+
+                <div class="time-box">
+
+                    <div class="time-icon out-icon">
+
+                        <i class="bi bi-box-arrow-right"></i>
+
+                    </div>
+
+                    <div>
+
+                        <div class="time-value">
+
+                            ${escapeHtml(
+                                formatTime(checkOut)
+                            )}
+
+                        </div>
+
+                        <div class="time-label">
+                            OUT
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </td>
+
+
+            <!-- WORK HOURS -->
+
+            <td>
+
+                <span class="work-hours">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    ${
+                        workHours > 0
+                            ? workHours.toFixed(2) + " hrs"
+                            : "--"
+                    }
+
+                </span>
+
+            </td>
+
+
+            <!-- DAY TYPE -->
+
+            <td>
+
+                <span
+                    class="day-badge
+                    ${getBadgeClass(status)}"
+                >
+
+                    <i class="bi
+                    ${getBadgeIcon(status)}">
+                    </i>
+
+                    ${escapeHtml(dayType)}
+
+                </span>
+
+            </td>
+
+
+            <!-- ACTION -->
+
+            <td>
+
+                <button
+                    type="button"
+                    class="btn btn-edit"
+                    onclick="toggleEdit('${escapeHtml(employeeId)}')"
+                >
+
+                    <i class="bi bi-pencil-square me-1"></i>
+
+                    Edit
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       EDIT MODE
+    ===================================================== */
+
+    return `
+
+    <tr
+        data-employee-id="${escapeHtml(employeeId)}"
+        data-date="${escapeHtml(record.date)}"
+        class="editing-row"
+    >
+
+        <td>
+
+            <span class="text-secondary">
+
+                ${index}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            <span class="date-badge">
+
+                <i class="bi bi-calendar3"></i>
+
+                ${escapeHtml(
+                    formatDisplayDate(record.date)
+                )}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            <div class="employee-name">
+
+                ${employeeName}
+
+            </div>
+
+            <div class="employee-id">
+
+                ID:
+                ${escapeHtml(employeeId)}
+
+            </div>
+
+        </td>
+
+
+        <!-- STATUS -->
+
+        <td>
+
+            <select
+                class="edit-select status-input"
+                data-employee-id="${escapeHtml(employeeId)}"
+            >
+
+                <option
+                    value="Present"
+                    ${status === "Present" ? "selected" : ""}
+                >
+                    Present
+                </option>
+
+                <option
+                    value="Absent"
+                    ${status === "Absent" ? "selected" : ""}
+                >
+                    Absent
+                </option>
+
+                <option
+                    value="Leave"
+                    ${status === "Leave" ? "selected" : ""}
+                >
+                    Leave
+                </option>
+
+            </select>
+
+        </td>
+
+
+        <!-- CHECK IN -->
+
+        <td>
+
+            <input
+                type="time"
+                class="edit-time checkin-input"
+                value="${escapeHtml(checkIn)}"
+                data-employee-id="${escapeHtml(employeeId)}"
+            >
+
+        </td>
+
+
+        <!-- CHECK OUT -->
+
+        <td>
+
+            <input
+                type="time"
+                class="edit-time checkout-input"
+                value="${escapeHtml(checkOut)}"
+                data-employee-id="${escapeHtml(employeeId)}"
+            >
+
+        </td>
+
+
+        <!-- WORK HOURS -->
+
+        <td>
+
+            <span
+                class="work-hours calculated-hours"
+                data-employee-id="${escapeHtml(employeeId)}"
+            >
+
+                <i class="bi bi-clock-history"></i>
+
+                ${
+                    workHours > 0
+                        ? workHours.toFixed(2) + " hrs"
+                        : "--"
+                }
+
+            </span>
+
+        </td>
+
+
+        <!-- DAY TYPE -->
+
+        <td>
+
+            <select
+                class="edit-select daytype-input"
+                data-employee-id="${escapeHtml(employeeId)}"
+            >
+
+                <option
+                    value="Full Day"
+                    ${dayType === "Full Day" ? "selected" : ""}
+                >
+                    Full Day
+                </option>
+
+                <option
+                    value="Half Day"
+                    ${dayType === "Half Day" ? "selected" : ""}
+                >
+                    Half Day
+                </option>
+
+                <option
+                    value="Leave"
+                    ${dayType === "Leave" ? "selected" : ""}
+                >
+                    Leave
+                </option>
+
+                <option
+                    value="Absent"
+                    ${dayType === "Absent" ? "selected" : ""}
+                >
+                    Absent
+                </option>
+
+            </select>
+
+        </td>
+
+
+        <!-- ACTION -->
+
+        <td>
+
+            <button
+                type="button"
+                class="btn btn-edit active"
+                onclick="toggleEdit('${escapeHtml(employeeId)}')"
+            >
+
+                <i class="bi bi-check2 me-1"></i>
+
+                Done
+
+            </button>
+
+        </td>
+
+    </tr>
+
+    `;
+
+}
+
+
+/* =========================================================
+   EDIT TOGGLE
+========================================================= */
+
+function toggleEdit(employeeId){
+
+    const id =
+        normalizeEmployeeId(employeeId);
+
+
+    const record =
+        attendanceRecords.find(
+            item =>
+                normalizeEmployeeId(
+                    item.employeeId
+                ) === id
+        );
+
+
+    if(!record){
+        return;
+    }
+
+
+    /*
+       If leaving edit mode,
+       collect latest values first.
+    */
+
+    if(record.editing === true){
+
+        collectEditedRow(id);
+
+        record.editing = false;
+
+    }
+    else{
+
+        record.editing = true;
+
+    }
+
+
+    renderAttendance(
+        searchInput.value
+    );
+
+
+    /*
+       After render attach automatic
+       work hour calculation.
+    */
+
+    attachTimeCalculators();
+
+}
+
+
+/* =========================================================
+   COLLECT EDITED ROW
+========================================================= */
+
+function collectEditedRow(employeeId){
+
+    const id =
+        normalizeEmployeeId(employeeId);
+
+
+    const record =
+        attendanceRecords.find(
+            item =>
+                normalizeEmployeeId(
+                    item.employeeId
+                ) === id
+        );
+
+
+    if(!record){
+        return;
+    }
+
+
+    const row =
+        document.querySelector(
+            `tr[data-employee-id="${CSS.escape(id)}"]`
+        );
+
+
+    if(!row){
+        return;
+    }
+
+
+    const checkInInput =
+        row.querySelector(
+            ".checkin-input"
+        );
+
+
+    const checkOutInput =
+        row.querySelector(
+            ".checkout-input"
+        );
+
+
+    const statusInput =
+        row.querySelector(
+            ".status-input"
+        );
+
+
+    const dayTypeInput =
+        row.querySelector(
+            ".daytype-input"
+        );
+
+
+    if(checkInInput){
+
+        record.checkInTime =
+            checkInInput.value;
+
+    }
+
+
+    if(checkOutInput){
+
+        record.checkOutTime =
+            checkOutInput.value;
+
+    }
+
+
+    if(statusInput){
+
+        record.status =
+            statusInput.value;
+
+    }
+
+
+    if(dayTypeInput){
+
+        record.dayType =
+            dayTypeInput.value;
+
+    }
+
+
+    record.workHours =
+        calculateWorkHours(
+            record.checkInTime,
+            record.checkOutTime
+        );
+
+}
+
+
+/* =========================================================
+   AUTOMATIC WORK HOURS
+========================================================= */
+
+function attachTimeCalculators(){
+
+    document
+        .querySelectorAll(
+            ".editing-row"
+        )
+        .forEach(
+            row => {
+
+                const checkIn =
+                    row.querySelector(
+                        ".checkin-input"
+                    );
+
+                const checkOut =
+                    row.querySelector(
+                        ".checkout-input"
+                    );
+
+                const hoursBox =
+                    row.querySelector(
+                        ".calculated-hours"
+                    );
+
+
+                if(
+                    !checkIn ||
+                    !checkOut ||
+                    !hoursBox
+                ){
+                    return;
+                }
+
+
+                function calculate(){
+
+                    const hours =
+                        calculateWorkHours(
+                            checkIn.value,
+                            checkOut.value
+                        );
+
+
+                    if(hours > 0){
+
+                        hoursBox.innerHTML = `
+
+                            <i class="bi bi-clock-history"></i>
+
+                            ${hours.toFixed(2)} hrs
+
+                        `;
+
+                    }
+                    else{
+
+                        hoursBox.innerHTML = `
+
+                            <i class="bi bi-clock-history"></i>
+
+                            --
+
+                        `;
+
+                    }
+
+
+                    /*
+                       Update JS record immediately.
+                    */
+
+                    const employeeId =
+                        row.dataset.employeeId;
+
+
+                    const record =
+                        attendanceRecords.find(
+                            item =>
+                                normalizeEmployeeId(
+                                    item.employeeId
+                                ) ===
+                                normalizeEmployeeId(
+                                    employeeId
+                                )
+                        );
+
+
+                    if(record){
+
+                        record.checkInTime =
+                            checkIn.value;
+
+                        record.checkOutTime =
+                            checkOut.value;
+
+                        record.workHours =
+                            hours;
+
+                    }
+
+                }
+
+
+                checkIn.addEventListener(
+                    "input",
+                    calculate
+                );
+
+
+                checkOut.addEventListener(
+                    "input",
+                    calculate
+                );
+
+
+                calculate();
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   SAVE ATTENDANCE
+========================================================= */
+
+async function saveAttendance(){
+
+    const selectedDate =
+        dateInput.value;
+
+
+    if(!selectedDate){
+
+        showError(
+            "Please select attendance date."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        currentLoadedDate !==
+        selectedDate
+    ){
+
+        showError(
+            "Please select the date and click View Attendance first."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        attendanceRecords.length === 0
+    ){
+
+        showError(
+            "No attendance data available for this date."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Before saving, collect
+       values from every editing row.
+    */
+
+    document
+        .querySelectorAll(
+            ".editing-row"
+        )
+        .forEach(
+            row => {
+
+                const employeeId =
+                    row.dataset.employeeId;
+
+                collectEditedRow(
+                    employeeId
+                );
+
+            }
+        );
+
+
+    /*
+       Recalculate ALL work hours
+       before sending to server.
+    */
+
+    attendanceRecords.forEach(
+        record => {
+
+            record.workHours =
+                calculateWorkHours(
+                    record.checkInTime,
+                    record.checkOutTime
+                );
+
+        }
+    );
+
+
+    const validData =
+        attendanceRecords
+        .filter(
+            record => {
+
+                return (
+
+                    normalizeEmployeeId(
+                        record.employeeId
+                    ) &&
+
+                    String(
+                        record.date
+                    ).substring(0,10) ===
+                    selectedDate
+
+                );
+
+            }
+        )
+        .map(
+            record => {
+
+                const status =
+                    [
+                        "Present",
+                        "Absent",
+                        "Leave"
+                    ].includes(
+                        record.status
+                    )
+                        ? record.status
+                        : "Present";
+
+
+                const checkIn =
+                    record.checkInTime || "";
+
+
+                const checkOut =
+                    record.checkOutTime || "";
+
+
+                /*
+                   AUTOMATIC WORK HOURS
+                */
+
+                const workHours =
+                    calculateWorkHours(
+                        checkIn,
+                        checkOut
+                    );
+
+
+                return {
+
+                    employeeId:
+                        normalizeEmployeeId(
+                            record.employeeId
+                        ),
+
+                    employeeName:
+                        String(
+                            record.employeeName ||
+                            "Unknown Employee"
+                        ).trim(),
+
+                    date:
+                        selectedDate,
+
+                    status:
+                        status,
+
+                    checkInTime:
+                        checkIn,
+
+                    checkOutTime:
+                        checkOut,
+
+                    workHours:
+                        workHours,
+
+                    dayType:
+                        record.dayType ||
+                        getDayType(status),
+
+                    photo:
+                        record.photo || ""
+
+                };
+
+            }
+        );
+
+
+    if(validData.length === 0){
+
+        showError(
+            "No valid attendance data found."
+        );
+
+        return;
+
+    }
+
+
+    console.table(
+        validData
+    );
+
+
+    try{
+
+        saveButton.disabled = true;
+
+
+        saveButton.innerHTML = `
+
+            <span
+                class="spinner-border
+                       spinner-border-sm
+                       me-2">
+            </span>
+
+            Saving...
+
+        `;
+
+
+        const response =
+            await fetch(
+                "/api/attendance/save",
+                {
+
+                    method:"POST",
+
+                    headers:{
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            attendance:
+                                validData
+
+                        })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "SAVE RESPONSE:",
+            result
+        );
+
+
+        if(
+            !response.ok ||
+            !result.success
+        ){
+
+            throw new Error(
+                result.message ||
+                "Attendance save failed."
+            );
+
+        }
+
+
+        showSuccess(
+
+            `Attendance updated successfully for
+             ${formatDisplayDate(selectedDate)}.
+
+             Saved:
+             ${result.saved ?? validData.length}`
+
+        );
+
+
+        /*
+           Reload latest database data.
+        */
+
+        await loadAttendance();
+
+    }
+    catch(error){
+
+        console.error(
+            "SAVE ERROR:",
+            error
+        );
+
+
+        showError(
+            error.message ||
+            "Attendance save failed."
+        );
+
+    }
+    finally{
+
+        saveButton.disabled = false;
+
+        saveButton.innerHTML = `
+
+            <i class="bi bi-cloud-check me-1"></i>
+
+            Save Attendance
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   RELOAD
+========================================================= */
+
+function clearAttendance(){
+
+    if(!dateInput.value){
+        return;
+    }
+
+    loadAttendance();
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        renderAttendance(
+            this.value
+        );
+
+        attachTimeCalculators();
+
+    }
+);
+
+
+/* =========================================================
+   DATE FORM
+========================================================= */
+
+dateForm.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+        loadAttendance();
+
+    }
+);
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+saveButton.addEventListener(
+    "click",
+    saveAttendance
+);
+
+
+/* =========================================================
+   RELOAD BUTTON
+========================================================= */
+
+clearButton.addEventListener(
+    "click",
+    clearAttendance
+);
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+function showSuccess(message){
+
+    document.getElementById(
+        "successMessage"
+    ).textContent =
+        message;
+
+
+    const modal =
+        new bootstrap.Modal(
+            document.getElementById(
+                "successModal"
+            )
+        );
+
+
+    modal.show();
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(message){
+
+    document.getElementById(
+        "errorMessage"
+    ).textContent =
+        message;
+
+
+    const modal =
+        new bootstrap.Modal(
+            document.getElementById(
+                "errorModal"
+            )
+        );
+
+
+    modal.show();
+
+}
+
+
+/* =========================================================
+   INITIAL DATE
+========================================================= */
+
+dateInput.value =
+    todayIndia();
+
+
+updateSelectedDate(
+    dateInput.value
+);
+
+
+updateStats();
+
+
+console.log(
+    "ERMS ATTENDANCE MANAGEMENT READY"
+);
+
+console.log(
+    "Default Date:",
+    dateInput.value
+);
+
+
+/*
+   Automatically load today's attendance.
+*/
+
+loadAttendance();
+
+</script>
+
+
+</body>
+
+</html>

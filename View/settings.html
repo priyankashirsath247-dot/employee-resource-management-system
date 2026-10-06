@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Settings | ELITE ERMS</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:#080b12;
+    color:#fff;
+    min-height:100vh;
+}
+
+
+/* MAIN */
+
+.settings-container{
+    max-width:850px;
+    margin:auto;
+    padding:18px 15px;
+}
+
+
+/* TOP */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+
+    padding:8px 13px;
+
+    background:#111827;
+    border:1px solid #27344a;
+    border-radius:8px;
+
+    color:#dbe7ff;
+    text-decoration:none;
+
+    font-size:12px;
+
+    transition:.2s;
+}
+
+.back-btn:hover{
+    background:#1b2639;
+    color:#fff;
+    border-color:#4285ff;
+}
+
+
+.page-title{
+    text-align:right;
+}
+
+.page-title h3{
+    font-size:19px;
+    font-weight:700;
+    margin:0;
+}
+
+.page-title small{
+    font-size:10px;
+    color:#7d899d;
+}
+
+
+/* CARD */
+
+.settings-card{
+    background:#111722;
+    border:1px solid #202b3d;
+    border-radius:15px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 15px 45px rgba(0,0,0,.35);
+}
+
+
+/* HEADER */
+
+.settings-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:13px 18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #151d2c,
+        #101725
+    );
+
+    border-bottom:1px solid #263249;
+}
+
+.settings-header h5{
+    margin:0;
+    font-size:14px;
+    font-weight:600;
+}
+
+.settings-header i{
+    color:#5b9cff;
+}
+
+
+/* BODY */
+
+.settings-body{
+    padding:16px;
+}
+
+
+/* SECTION */
+
+.section{
+    background:#0c111b;
+
+    border:1px solid #202a3b;
+
+    border-radius:11px;
+
+    padding:13px;
+
+    margin-bottom:11px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    color:#e7edfa;
+
+    font-size:12px;
+    font-weight:600;
+
+    margin-bottom:11px;
+}
+
+.section-title i{
+    color:#5795ff;
+    font-size:14px;
+}
+
+
+/* FORM */
+
+.form-label{
+    color:#9ba8bb;
+
+    font-size:10px;
+    font-weight:500;
+
+    margin-bottom:4px;
+}
+
+.form-control,
+.form-select{
+
+    height:35px;
+
+    padding:5px 9px;
+
+    border-radius:7px;
+
+    background:#141b28;
+
+    border:1px solid #29364b;
+
+    color:#fff;
+
+    font-size:11px;
+}
+
+.form-control::placeholder{
+    color:#566276;
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    background:#141b28;
+
+    color:#fff;
+
+    border-color:#4388ff;
+
+    box-shadow:
+    0 0 0 2px rgba(67,136,255,.10);
+}
+
+
+/* READ ONLY */
+
+.form-control:disabled,
+.form-select:disabled{
+
+    opacity:1;
+
+    background:#101621;
+
+    color:#9ca8ba;
+
+    border-color:#202b3c;
+
+    cursor:not-allowed;
+}
+
+
+/* EDIT BUTTON */
+
+.edit-btn{
+
+    width:100%;
+
+    height:37px;
+
+    border-radius:8px;
+
+    background:#151e2d;
+
+    color:#78aaff;
+
+    border:1px solid #30415c;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.edit-btn:hover{
+
+    background:#1d2a3e;
+
+    border-color:#4388ff;
+
+    color:#fff;
+}
+
+
+/* SAVE BUTTON */
+
+.save-btn{
+
+    width:100%;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #4f46e5
+    );
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.save-btn:hover{
+
+    transform:translateY(-1px);
+
+    box-shadow:
+    0 7px 20px rgba(37,99,235,.25);
+}
+
+
+/* CANCEL */
+
+.cancel-btn{
+
+    height:38px;
+
+    border-radius:8px;
+
+    background:#171d28;
+
+    border:1px solid #2c3748;
+
+    color:#aeb8c8;
+
+    font-size:11px;
+
+    font-weight:500;
+}
+
+.cancel-btn:hover{
+    background:#202938;
+    color:#fff;
+}
+
+
+/* PASSWORD */
+
+.password-wrapper{
+    position:relative;
+}
+
+.password-wrapper .form-control{
+    padding-right:38px;
+}
+
+.password-toggle{
+
+    position:absolute;
+
+    right:10px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    border:none;
+
+    background:none;
+
+    color:#718097;
+
+    cursor:pointer;
+
+    font-size:14px;
+}
+
+.password-toggle:hover{
+    color:#fff;
+}
+
+
+/* PASSWORD INFO */
+
+.password-info{
+
+    background:#111927;
+
+    border:1px solid #26344a;
+
+    border-radius:8px;
+
+    padding:9px;
+
+    margin-top:10px;
+
+    font-size:9px;
+
+    color:#7e8ba0;
+}
+
+
+/* ALERT */
+
+.alert-box{
+
+    padding:8px 10px;
+
+    border-radius:7px;
+
+    font-size:10px;
+
+    margin-top:10px;
+
+}
+
+.success{
+
+    background:rgba(25,135,84,.12);
+
+    border:1px solid rgba(25,135,84,.30);
+
+    color:#5ee69c;
+}
+
+.error{
+
+    background:rgba(220,53,69,.12);
+
+    border:1px solid rgba(220,53,69,.30);
+
+    color:#ff7582;
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .settings-container{
+        padding:12px 10px;
+    }
+
+    .settings-body{
+        padding:11px;
+    }
+
+    .settings-header{
+        padding:11px 13px;
+    }
+
+    .section{
+        padding:10px;
+    }
+
+    .page-title h3{
+        font-size:16px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="settings-container">
+
+
+<!-- TOP -->
+
+<div class="topbar">
+
+    <a href="admin-dashboard.html" class="back-btn">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Back
+
+    </a>
+
+
+    <div class="page-title">
+
+        <h3>
+
+            <i class="bi bi-gear-fill"></i>
+
+            Settings
+
+        </h3>
+
+        <small>
+            Manage your HRMS
+        </small>
+
+    </div>
+
+</div>
+
+
+
+<!-- MAIN CARD -->
+
+<div class="settings-card">
+
+
+    <!-- HEADER -->
+
+    <div class="settings-header">
+
+        <h5>
+
+            <i class="bi bi-sliders"></i>
+
+            System Settings
+
+        </h5>
+
+        <span
+        id="statusText"
+        style="font-size:9px;color:#63e6a0;">
+
+            <i class="bi bi-check-circle"></i>
+            Saved
+
+        </span>
+
+    </div>
+
+
+
+    <div class="settings-body">
+
+
+
+        <!-- COMPANY -->
+
+        <div class="section">
+
+            <div class="section-title">
+
+                <i class="bi bi-building"></i>
+
+                Company Details
+
+            </div>
+
+
+            <div class="row g-2">
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Company Name
+                    </label>
+
+                    <input
+                    type="text"
+                    id="companyName"
+                    class="form-control"
+                    placeholder="Company name"
+                    disabled>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Company Email
+                    </label>
+
+                    <input
+                    type="email"
+                    id="companyEmail"
+                    class="form-control"
+                    placeholder="company@email.com"
+                    disabled>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Phone Number
+                    </label>
+
+                    <input
+                    type="text"
+                    id="companyPhone"
+                    class="form-control"
+                    placeholder="+91"
+                    disabled>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Address
+                    </label>
+
+                    <input
+                    type="text"
+                    id="companyAddress"
+                    class="form-control"
+                    placeholder="Company address"
+                    disabled>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ADMIN -->
+
+        <div class="section">
+
+            <div class="section-title">
+
+                <i class="bi bi-person-circle"></i>
+
+                Admin Profile
+
+            </div>
+
+
+            <div class="row g-2">
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Admin Name
+                    </label>
+
+                    <input
+                    type="text"
+                    id="adminName"
+                    class="form-control"
+                    placeholder="Admin name"
+                    disabled>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Admin Email
+                    </label>
+
+                    <input
+                    type="email"
+                    id="adminEmail"
+                    class="form-control"
+                    placeholder="admin@email.com"
+                    disabled>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PREFERENCES -->
+
+        <div class="section">
+
+            <div class="section-title">
+
+                <i class="bi bi-palette-fill"></i>
+
+                Preferences
+
+            </div>
+
+
+            <div class="row g-2">
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Language
+                    </label>
+
+                    <select
+                    id="language"
+                    class="form-select"
+                    disabled>
+
+                        <option value="English">
+                            English
+                        </option>
+
+                        <option value="Hindi">
+                            Hindi
+                        </option>
+
+                        <option value="Marathi">
+                            Marathi
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Theme
+                    </label>
+
+                    <select
+                    id="theme"
+                    class="form-select"
+                    disabled>
+
+                        <option value="Dark">
+                            Dark
+                        </option>
+
+                        <option value="Light">
+                            Light
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="section">
+
+            <div class="section-title">
+
+                <i class="bi bi-bell-fill"></i>
+
+                Notifications
+
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+
+                <div>
+
+                    <div style="font-size:11px;">
+                        Email Notifications
+                    </div>
+
+                    <small style="font-size:9px;color:#68758a;">
+                        Receive system updates
+                    </small>
+
+                </div>
+
+
+                <input
+                type="checkbox"
+                class="form-check-input"
+                id="emailNotifications"
+                disabled>
+
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+
+                <div>
+
+                    <div style="font-size:11px;">
+                        Leave Notifications
+                    </div>
+
+                    <small style="font-size:9px;color:#68758a;">
+                        Leave request alerts
+                    </small>
+
+                </div>
+
+
+                <input
+                type="checkbox"
+                class="form-check-input"
+                id="leaveNotifications"
+                disabled>
+
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div style="font-size:11px;">
+                        Task Notifications
+                    </div>
+
+                    <small style="font-size:9px;color:#68758a;">
+                        Assigned task alerts
+                    </small>
+
+                </div>
+
+
+                <input
+                type="checkbox"
+                class="form-check-input"
+                id="taskNotifications"
+                disabled>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- EDIT BUTTON -->
+
+        <button
+        type="button"
+        id="editBtn"
+        class="edit-btn"
+        onclick="enableEdit()">
+
+            <i class="bi bi-pencil-square"></i>
+
+            &nbsp; Edit Settings
+
+        </button>
+
+
+
+        <!-- EDIT ACTIONS -->
+
+        <div
+        id="editActions"
+        class="d-none mt-2">
+
+            <div class="row g-2">
+
+                <div class="col-6">
+
+                    <button
+                    class="cancel-btn w-100"
+                    onclick="cancelEdit()">
+
+                        <i class="bi bi-x-lg"></i>
+                        Cancel
+
+                    </button>
+
+                </div>
+
+
+                <div class="col-6">
+
+                    <button
+                    class="save-btn"
+                    onclick="saveSettings()">
+
+                        <i class="bi bi-check2-circle"></i>
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PASSWORD -->
+
+        <div class="section mt-3">
+
+            <div class="section-title">
+
+                <i class="bi bi-shield-lock-fill"></i>
+
+                Change Password
+
+            </div>
+
+
+            <!-- CURRENT -->
+
+            <label class="form-label">
+                Current Password
+            </label>
+
+            <div class="password-wrapper mb-2">
+
+                <input
+                type="password"
+                id="currentPassword"
+                class="form-control"
+                placeholder="Enter current password">
+
+                <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword('currentPassword',this)">
+
+                    <i class="bi bi-eye"></i>
+
+                </button>
+
+            </div>
+
+
+
+            <!-- NEW -->
+
+            <label class="form-label">
+                New Password
+            </label>
+
+            <div class="password-wrapper mb-2">
+
+                <input
+                type="password"
+                id="newPassword"
+                class="form-control"
+                placeholder="Enter new password">
+
+                <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword('newPassword',this)">
+
+                    <i class="bi bi-eye"></i>
+
+                </button>
+
+            </div>
+
+
+
+            <!-- CONFIRM -->
+
+            <label class="form-label">
+                Confirm New Password
+            </label>
+
+            <div class="password-wrapper">
+
+                <input
+                type="password"
+                id="confirmPassword"
+                class="form-control"
+                placeholder="Confirm new password">
+
+                <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword('confirmPassword',this)">
+
+                    <i class="bi bi-eye"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="password-info">
+
+                <i class="bi bi-info-circle"></i>
+
+                Password should contain at least 6 characters.
+
+            </div>
+
+
+            <button
+            type="button"
+            class="save-btn mt-2"
+            onclick="changePassword()">
+
+                <i class="bi bi-key-fill"></i>
+
+                &nbsp; Change Password
+
+            </button>
+
+
+            <div
+            id="passwordMessage"
+            class="alert-box d-none">
+            </div>
+
+        </div>
+
+
+
+        <!-- GENERAL MESSAGE -->
+
+        <div
+        id="message"
+        class="alert-box d-none">
+        </div>
+
+
+    </div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const fields = [
+
+    "companyName",
+    "companyEmail",
+    "companyPhone",
+    "companyAddress",
+
+    "adminName",
+    "adminEmail",
+
+    "language",
+    "theme",
+
+    "emailNotifications",
+    "leaveNotifications",
+    "taskNotifications"
+
+];
+
+
+
+/* =====================================================
+   DEFAULT SETTINGS
+===================================================== */
+
+const defaultSettings = {
+
+    companyName:"",
+    companyEmail:"",
+    companyPhone:"",
+    companyAddress:"",
+
+    adminName:"",
+    adminEmail:"",
+
+    language:"English",
+    theme:"Dark",
+
+    emailNotifications:true,
+    leaveNotifications:true,
+    taskNotifications:true
+
+};
+
+
+
+/* =====================================================
+   LOAD SETTINGS
+===================================================== */
+
+function loadSettings(){
+
+    let saved =
+    localStorage.getItem("hrmsSettings");
+
+    let settings = defaultSettings;
+
+
+    if(saved){
+
+        try{
+
+            settings = {
+
+                ...defaultSettings,
+
+                ...JSON.parse(saved)
+
+            };
+
+        }catch(error){
+
+            console.log(
+                "Settings error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    document.getElementById("companyName").value =
+    settings.companyName || "";
+
+    document.getElementById("companyEmail").value =
+    settings.companyEmail || "";
+
+    document.getElementById("companyPhone").value =
+    settings.companyPhone || "";
+
+    document.getElementById("companyAddress").value =
+    settings.companyAddress || "";
+
+    document.getElementById("adminName").value =
+    settings.adminName || "";
+
+    document.getElementById("adminEmail").value =
+    settings.adminEmail || "";
+
+    document.getElementById("language").value =
+    settings.language || "English";
+
+    document.getElementById("theme").value =
+    settings.theme || "Dark";
+
+
+    document.getElementById("emailNotifications").checked =
+    settings.emailNotifications !== false;
+
+    document.getElementById("leaveNotifications").checked =
+    settings.leaveNotifications !== false;
+
+    document.getElementById("taskNotifications").checked =
+    settings.taskNotifications !== false;
+
+}
+
+
+
+/* =====================================================
+   ENABLE EDIT
+===================================================== */
+
+function enableEdit(){
+
+    fields.forEach(id => {
+
+        document.getElementById(id).disabled = false;
+
+    });
+
+
+    document.getElementById("editBtn")
+    .classList.add("d-none");
+
+
+    document.getElementById("editActions")
+    .classList.remove("d-none");
+
+}
+
+
+
+/* =====================================================
+   CANCEL EDIT
+===================================================== */
+
+function cancelEdit(){
+
+    loadSettings();
+
+
+    fields.forEach(id => {
+
+        document.getElementById(id).disabled = true;
+
+    });
+
+
+    document.getElementById("editBtn")
+    .classList.remove("d-none");
+
+
+    document.getElementById("editActions")
+    .classList.add("d-none");
+
+}
+
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+function saveSettings(){
+
+    const settings = {
+
+        companyName:
+        document.getElementById("companyName").value.trim(),
+
+        companyEmail:
+        document.getElementById("companyEmail").value.trim(),
+
+        companyPhone:
+        document.getElementById("companyPhone").value.trim(),
+
+        companyAddress:
+        document.getElementById("companyAddress").value.trim(),
+
+        adminName:
+        document.getElementById("adminName").value.trim(),
+
+        adminEmail:
+        document.getElementById("adminEmail").value.trim(),
+
+        language:
+        document.getElementById("language").value,
+
+        theme:
+        document.getElementById("theme").value,
+
+        emailNotifications:
+        document.getElementById("emailNotifications").checked,
+
+        leaveNotifications:
+        document.getElementById("leaveNotifications").checked,
+
+        taskNotifications:
+        document.getElementById("taskNotifications").checked
+
+    };
+
+
+    /* SAVE IMMEDIATELY */
+
+    localStorage.setItem(
+        "hrmsSettings",
+        JSON.stringify(settings)
+    );
+
+
+    /* DISABLE */
+
+    fields.forEach(id => {
+
+        document.getElementById(id).disabled = true;
+
+    });
+
+
+    document.getElementById("editBtn")
+    .classList.remove("d-none");
+
+
+    document.getElementById("editActions")
+    .classList.add("d-none");
+
+
+    /* STATUS */
+
+    document.getElementById("statusText").innerHTML =
+
+    `<i class="bi bi-check-circle"></i> Saved`;
+
+
+    showMessage(
+        "Settings saved successfully.",
+        "success"
+    );
+
+}
+
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(text,type){
+
+    const box =
+    document.getElementById("message");
+
+    box.className =
+    "alert-box " + type;
+
+    box.innerHTML =
+    `<i class="bi bi-check-circle-fill"></i>
+     &nbsp; ${text}`;
+
+    setTimeout(() => {
+
+        box.classList.add("d-none");
+
+    },3000);
+
+}
+
+
+
+/* =====================================================
+   PASSWORD SHOW / HIDE
+===================================================== */
+
+function togglePassword(id,button){
+
+    const input =
+    document.getElementById(id);
+
+    const icon =
+    button.querySelector("i");
+
+
+    if(input.type === "password"){
+
+        input.type = "text";
+
+        icon.className =
+        "bi bi-eye-slash";
+
+    }else{
+
+        input.type = "password";
+
+        icon.className =
+        "bi bi-eye";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   CHANGE PASSWORD
+===================================================== */
+
+function changePassword(){
+
+    const current =
+    document.getElementById("currentPassword").value;
+
+    const newPass =
+    document.getElementById("newPassword").value;
+
+    const confirm =
+    document.getElementById("confirmPassword").value;
+
+
+    const message =
+    document.getElementById("passwordMessage");
+
+
+    message.classList.remove("d-none");
+
+
+    /* EMPTY */
+
+    if(!current || !newPass || !confirm){
+
+        message.className =
+        "alert-box error";
+
+        message.innerHTML =
+        `<i class="bi bi-exclamation-circle"></i>
+        &nbsp; Please fill all password fields.`;
+
+        return;
+
+    }
+
+
+    /* GET OLD PASSWORD */
+
+    const savedPassword =
+    localStorage.getItem("adminPassword");
+
+
+    /* FIRST TIME */
+
+    if(savedPassword && current !== savedPassword){
+
+        message.className =
+        "alert-box error";
+
+        message.innerHTML =
+        `<i class="bi bi-x-circle"></i>
+        &nbsp; Current password is incorrect.`;
+
+        return;
+
+    }
+
+
+    /* LENGTH */
+
+    if(newPass.length < 6){
+
+        message.className =
+        "alert-box error";
+
+        message.innerHTML =
+        `<i class="bi bi-exclamation-circle"></i>
+        &nbsp; Password must contain at least 6 characters.`;
+
+        return;
+
+    }
+
+
+    /* MATCH */
+
+    if(newPass !== confirm){
+
+        message.className =
+        "alert-box error";
+
+        message.innerHTML =
+        `<i class="bi bi-x-circle"></i>
+        &nbsp; New passwords do not match.`;
+
+        return;
+
+    }
+
+
+    /* SAVE */
+
+    localStorage.setItem(
+        "adminPassword",
+        newPass
+    );
+
+
+    message.className =
+    "alert-box success";
+
+    message.innerHTML =
+    `<i class="bi bi-check-circle-fill"></i>
+    &nbsp; Password changed successfully.`;
+
+
+    /* CLEAR */
+
+    document.getElementById("currentPassword").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmPassword").value = "";
+
+}
+
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadSettings
+);
+
+</script>
+
+
+</body>
+
+</html>

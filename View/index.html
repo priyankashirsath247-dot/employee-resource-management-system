@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EMRS | Enterprise Management Resource System</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafc;
+    color: #111827;
+    overflow-x: hidden;
+}
+
+section {
+    scroll-margin-top: 70px;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+    height: 64px;
+    padding: 4px 0 !important;
+    background: rgba(255,255,255,0.96) !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    z-index: 1000;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 800;
+    color: #e6a400;
+}
+
+.navbar .nav-link {
+    position: relative;
+    color: #111827 !important;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 12px !important;
+    margin: 0 2px;
+    transition: 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #2563eb !important;
+    background: #eff6ff;
+    border-radius: 8px;
+}
+
+.navbar .nav-link.active {
+    color: #2563eb !important;
+}
+
+.navbar .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: 1px;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    background: #2563eb;
+    border-radius: 5px;
+}
+
+.sign-btn {
+    background: #f5b000;
+    border: none;
+    color: #111827;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.sign-btn:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+    min-height: 590px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 64px;
+}
+
+.hero-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.88),
+            rgba(0,0,0,.58),
+            rgba(0,0,0,.25)
+        );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 55px;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+}
+
+.hero-title span {
+    color: #f5b000;
+}
+
+.hero-text {
+    font-size: 18px;
+    color: #eeeeee;
+    max-width: 600px;
+    line-height: 1.65;
+}
+
+.hero-btn {
+    background: #f5b000;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.hero-btn:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.hero-contact {
+    border: 2px solid white;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.hero-contact:hover {
+    background: white;
+    color: #111827;
+}
+
+
+/* =====================================================
+   ENTERPRISE RESOURCE SECTION
+===================================================== */
+
+.enterprise-section {
+    background: #f8fafc;
+    padding: 45px 0 !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.enterprise-section::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(37,99,235,.07);
+    border-radius: 50%;
+    top: -150px;
+    left: -100px;
+    filter: blur(10px);
+}
+
+.enterprise-section::after {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    background: rgba(245,176,0,.06);
+    border-radius: 50%;
+    bottom: -150px;
+    right: -100px;
+    filter: blur(10px);
+}
+
+.enterprise-section .container-fluid {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* BADGE */
+
+.enterprise-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 9px 18px;
+
+    border-radius: 30px;
+
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    box-shadow: 0 5px 15px rgba(37,99,235,.06);
+}
+
+.enterprise-badge span {
+    color: #2563eb;
+    font-size: 14px;
+}
+
+
+/* TITLE */
+
+.enterprise-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+
+    color: #111827;
+
+    max-width: 650px;
+
+    margin-bottom: 20px;
+}
+
+.enterprise-title span {
+    color: #2563eb;
+}
+
+
+/* TEXT */
+
+.enterprise-text {
+    font-size: 17px;
+    color: #475569;
+
+    line-height: 1.7;
+
+    max-width: 650px;
+
+    margin-bottom: 0;
+}
+
+
+/* STATS */
+
+.enterprise-stat {
+    border: 1px solid #dbe1e8;
+
+    border-radius: 15px;
+
+    padding: 22px 25px;
+
+    background: rgba(255,255,255,.75);
+
+    transition: .3s ease;
+
+    height: 100%;
+}
+
+.enterprise-stat:hover {
+    transform: translateY(-5px);
+
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 15px 35px rgba(37,99,235,.10);
+}
+
+.enterprise-stat h3 {
+    font-size: 38px;
+
+    font-weight: 800;
+
+    color: #2563eb;
+
+    margin-bottom: 5px;
+}
+
+.enterprise-stat p {
+    font-size: 13px;
+
+    color: #64748b;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    margin: 0;
+}
+
+
+/* IMAGE */
+
+.enterprise-image-wrapper {
+    position: relative;
+    padding: 8px;
+}
+
+.enterprise-image-box {
+    position: relative;
+
+    background: white;
+
+    padding: 10px;
+
+    border-radius: 22px;
+
+    border: 1px solid #dbe1e8;
+
+    box-shadow:
+        0 25px 50px rgba(15,23,42,.12);
+
+    overflow: hidden;
+}
+
+.enterprise-image-box img {
+    width: 100%;
+
+    height: 380px;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+
+    display: block;
+
+    transition: .5s ease;
+}
+
+.enterprise-image-box:hover img {
+    transform: scale(1.025);
+}
+
+
+/* FLOATING PROGRESS CARD */
+
+.progress-card {
+    position: absolute;
+
+    left: -45px;
+    bottom: -35px;
+
+    width: 270px;
+
+    padding: 22px;
+
+    background: rgba(255,255,255,.97);
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 25px 50px rgba(15,23,42,.18);
+
+    z-index: 5;
+}
+
+.progress-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progress-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dcfce7;
+
+    color: #16a34a;
+
+    font-size: 22px;
+}
+
+.progress-card small {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+.progress-card h4 {
+    font-size: 21px;
+
+    font-weight: 800;
+
+    color: #111827;
+
+    margin: 3px 0 0;
+}
+
+.progress {
+    height: 9px;
+
+    background: #e5e7eb;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: #3b82f6;
+
+    border-radius: 20px;
+}
+
+.progress-label {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 8px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: #94a3b8;
+}
+
+
+/* =====================================================
+   SECTION TITLES
+===================================================== */
+
+.section-title {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.section-subtitle {
+    color: #6b7280;
+    max-width: 650px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   FEATURES
+===================================================== */
+
+#features {
+    background: #ffffff;
+}
+
+.features-section {
+    padding: 55px 0 !important;
+}
+
+.feature-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 17px;
+
+    padding: 24px;
+
+    height: 100%;
+
+    background: white;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,.05);
+
+    transition: .3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 18px 35px rgba(37,99,235,.12);
+}
+
+.feature-icon {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 24px;
+
+    margin-bottom: 17px;
+
+    transition: .3s;
+}
+
+.feature-card:hover .feature-icon {
+    background: #2563eb;
+    color: white;
+}
+
+.feature-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.feature-card p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+.stats-section {
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #0f172a
+        );
+
+    padding: 35px 0 !important;
+}
+
+.stat-box {
+    padding: 18px;
+}
+
+.stat-number {
+    font-size: 38px;
+
+    font-weight: 800;
+
+    color: #f5b000;
+}
+
+.stat-text {
+    color: #d1d5db;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+.about-section {
+    padding: 55px 0 !important;
+    background: #f8fafc;
+}
+
+.company-card {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow: 0 10px 28px rgba(0,0,0,.06);
+
+    border: 1px solid #e5e7eb;
+}
+
+.company-item {
+    border-bottom: 1px solid #eeeeee;
+
+    padding: 12px 0;
+}
+
+.company-item:last-child {
+    border-bottom: none;
+}
+
+.company-item p {
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   SMART MANAGEMENT
+===================================================== */
+
+.smart-section {
+    padding: 55px 0 !important;
+    background: white;
+}
+
+.dashboard-list .list-group-item {
+    background: transparent;
+
+    border: none;
+
+    color: #374151;
+
+    padding: 9px 0;
+
+    font-size: 15px;
+}
+
+.dashboard-preview-card {
+    border-radius: 20px;
+
+    padding: 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #020617
+        );
+
+    color: white;
+
+    box-shadow: 0 20px 45px rgba(0,0,0,.18);
+}
+
+
+/* =====================================================
+   RULES
+===================================================== */
+
+#rules {
+    background: #f8fafc;
+}
+
+.rules-section {
+    padding: 55px 0 !important;
+}
+
+.rule-card {
+    border: 1px solid #e5e7eb;
+
+    border-radius: 17px;
+
+    padding: 24px;
+
+    height: 100%;
+
+    background: white;
+
+    box-shadow: 0 5px 18px rgba(0,0,0,.05);
+
+    transition: .3s ease;
+}
+
+.rule-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #93c5fd;
+
+    box-shadow: 0 18px 32px rgba(37,99,235,.11);
+}
+
+.rule-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 23px;
+
+    margin-bottom: 16px;
+}
+
+.rule-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.rule-card p {
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   IMAGE SECTION
+===================================================== */
+
+.image-section {
+    background: white;
+
+    padding: 55px 0 !important;
+}
+
+.image-card {
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    height: 230px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.10);
+
+    transition: .35s ease;
+}
+
+.image-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow: 0 18px 35px rgba(37,99,235,.15);
+}
+
+.image-card img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: .5s ease;
+}
+
+.image-card:hover img {
+    transform: scale(1.07);
+}
+
+.image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.78),
+            transparent 65%
+        );
+
+    display: flex;
+
+    align-items: flex-end;
+
+    padding: 20px;
+}
+
+.image-overlay h4 {
+    color: white;
+
+    margin: 0;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.contact-section {
+    padding: 55px 0 !important;
+    background: #f8fafc;
+}
+
+.contact-box {
+    background: white;
+
+    padding: 27px;
+
+    border-radius: 18px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,.07);
+
+    border: 1px solid #e5e7eb;
+}
+
+.contact-box .form-control {
+    border-radius: 10px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+}
+
+.contact-box .form-control:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 .2rem rgba(37,99,235,.12);
+}
+
+.contact-info {
+    padding: 20px;
+
+    border-radius: 15px;
+
+    background: #fff8df;
+
+    border: 1px solid #ffe69c;
+}
+
+
+/* =====================================================
+   CTA
+===================================================== */
+
+.cta-section {
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #020617
+        );
+
+    border-radius: 22px;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,.16);
+
+    padding: 40px !important;
+}
+
+.cta-btn {
+    background: #f5b000;
+
+    border: none;
+
+    padding: 11px 25px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.cta-btn:hover {
+    background: #2563eb;
+    color: white;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+    background: #050505;
+
+    color: white;
+}
+
+.footer-title {
+    color: #f5b000;
+
+    font-weight: 800;
+}
+
+.footer a {
+    color: #aaa;
+
+    text-decoration: none;
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    transition: .3s;
+}
+
+.footer a:hover {
+    color: #3b82f6;
+}
+
+.social-icon {
+    width: 38px;
+    height: 38px;
+
+    display: inline-flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #222;
+
+    color: white !important;
+
+    margin-right: 7px;
+
+    transition: .3s;
+}
+
+.social-icon:hover {
+    background: #2563eb;
+
+    transform: translateY(-3px);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width: 991px) {
+
+    .navbar {
+        height: auto;
+
+        padding: 8px 0 !important;
+    }
+
+    .hero {
+        margin-top: 60px;
+    }
+
+    .hero-title {
+        font-size: 46px;
+    }
+
+    .enterprise-title {
+        font-size: 40px;
+    }
+
+    .enterprise-image-box img {
+        height: 330px;
+    }
+
+    .progress-card {
+        left: 20px;
+        bottom: -30px;
+    }
+}
+
+
+@media(max-width: 768px) {
+
+    .hero {
+        min-height: 570px;
+    }
+
+    .hero-title {
+        font-size: 38px;
+    }
+
+    .hero-text {
+        font-size: 15px;
+    }
+
+    .enterprise-section {
+        padding: 35px 0 !important;
+    }
+
+    .enterprise-title {
+        font-size: 34px;
+    }
+
+    .enterprise-text {
+        font-size: 15px;
+    }
+
+    .enterprise-image-box img {
+        height: 280px;
+    }
+
+    .progress-card {
+        position: relative;
+
+        left: auto;
+        bottom: auto;
+
+        width: 100%;
+
+        margin-top: 15px;
+    }
+
+    .section-title {
+        font-size: 30px;
+    }
+
+    .image-card {
+        height: 210px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar navbar-expand-lg fixed-top">
+
+    <div class="container-fluid px-4">
+
+        <a class="navbar-brand" href="#home">
+
+            <img
+                src="../img/img.jpg"
+                alt="EMRS Logo">
+
+            <span class="ms-2 logo-text">
+                EMRS
+            </span>
+
+        </a>
+
+
+        <div class="ms-auto d-flex align-items-center">
+
+            <a href="#home"
+               class="nav-link active">
+                Home
+            </a>
+
+            <a href="contact.html"
+               class="nav-link">
+                Contact Us
+            </a>
+
+            <a href="attendance.html"
+               class="nav-link">
+                Attendance
+            </a>
+
+            <a href="login.html"
+               class="btn sign-btn ms-2">
+                Sign In
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero" id="home">
+
+    <!-- SAME HERO IMAGE -->
+    <img
+        src="/img/PO.webp"
+        class="hero-bg"
+        alt="Enterprise Management">
+
+    <div class="hero-overlay"></div>
+
+
+    <div class="container hero-content">
+
+        <div class="row">
+
+            <div class="col-lg-8">
+               <h1 class="hero-title text-white">
+
+                    Manage Your
+
+                    <span>
+                        Enterprise
+                    </span>
+
+                    Smarter
+
+                </h1>
+
+
+                <p class="hero-text mt-4">
+
+                    EMRS Enterprise Management Resource System
+                    helps organizations manage employees,
+                    attendance, 
+
+                </p>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     ENTERPRISE RESOURCE MANAGEMENT
+     THIS IS DIRECTLY BELOW HERO
+===================================================== -->
+
+<section class="enterprise-section">
+
+    <div class="container-fluid px-4 px-lg-5">
+
+        <div class="row align-items-center g-4">
+
+
+            <!-- LEFT -->
+
+            <div class="col-lg-6">
+
+                <div class="enterprise-badge mb-3">
+
+                    <span>●</span>
+
+                    Enterprise Resource Management
+
+                </div>
+
+
+                <h2 class="enterprise-title">
+
+                    Manage Your Enterprise
+                    Resources with
+
+                    <span>
+                        Precision
+                    </span>
+
+                </h2>
+
+
+                <p class="enterprise-text">
+
+                    Streamline workforce tracking,
+                    asset allocation, employee management
+                    and analytics using one modern enterprise
+                    dashboard built for efficiency and growth.
+
+                </p>
+
+
+                <!-- STATS -->
+
+                <div class="row g-3 mt-3">
+
+                    <div class="col-md-6">
+
+                        <div class="enterprise-stat">
+
+                            <h3>
+                                98%
+                            </h3>
+
+                            <p>
+                                EFFICIENCY GAIN
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="enterprise-stat">
+
+                            <h3>
+                                2.4x
+                            </h3>
+
+                            <p>
+                                FASTER DEPLOYMENT
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RIGHT IMAGE -->
+
+            <div class="col-lg-6">
+
+                <div class="enterprise-image-wrapper">
+
+                    <div class="enterprise-image-box">
+
+                        <!-- IMAGE NOT CHANGED -->
+
+                        <img
+                            src="/img/like.jpg"
+                            alt="Enterprise Management">
+
+                    </div>
+
+
+                    <!-- FLOATING CARD -->
+
+                    <div class="progress-card">
+
+                        <div class="progress-top">
+
+                            <div class="progress-icon">
+
+                                <i class="bi bi-graph-up-arrow"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <small>
+                                    Monthly Progress
+                                </small>
+
+                                <h4>
+                                    +12.5%
+                                </h4>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress mt-3">
+
+                            <div
+                                class="progress-bar"
+                                style="width:75%">
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-label">
+
+                            <span>
+                                TARGET
+                            </span>
+
+                            <span>
+                                75% ACHIEVED
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FEATURES
+===================================================== -->
+
+<section
+    class="features-section"
+    id="features">
+
+    <div class="container">
+
+        <div class="text-center mb-4">
+
+            <span class="text-warning fw-bold">
+                OUR FEATURES
+            </span>
+
+            <h2 class="section-title mt-2">
+                Everything You Need in One System
+            </h2>
+
+            <p class="section-subtitle">
+                EMRS provides powerful tools for managing
+                your organization efficiently and professionally.
+            </p>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <h4>
+                        Employee Management
+                    </h4>
+
+                    <p class="text-muted">
+                        Manage employee profiles,
+                        departments and employee information
+                        from one place.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                    <h4>
+                        Smart Attendance
+                    </h4>
+
+                    <p class="text-muted">
+                        Track employee attendance,
+                        check-in records and daily work status.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <h4>
+                        Department Management
+                    </h4>
+
+                    <p class="text-muted">
+                        Organize employees and resources
+                        according to departments and roles.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+
+                    <h4>
+                        Reports & Analytics
+                    </h4>
+
+                    <p class="text-muted">
+                        Monitor employee performance
+                        and business operations with useful reports.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+
+                    <h4>
+                        Secure System
+                    </h4>
+
+                    <p class="text-muted">
+                        Protect employee information
+                        with secure access and controlled permissions.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-cpu-fill"></i>
+                    </div>
+
+                    <h4>
+                        Modern Technology
+                    </h4>
+
+                    <p class="text-muted">
+                        A modern platform designed
+                        for easy business management.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="stats-section">
+
+    <div class="container">
+
+        <div class="row text-center">
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        500+
+                    </div>
+
+                    <div class="stat-text">
+                        Employees Managed
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        98%
+                    </div>
+
+                    <div class="stat-text">
+                        Efficiency Gain
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        24/7
+                    </div>
+
+                    <div class="stat-text">
+                        System Access
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-box">
+
+                    <div class="stat-number">
+                        100%
+                    </div>
+
+                    <div class="stat-text">
+                        Secure Management
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section
+    class="about-section"
+    id="about">
+
+    <div class="container">
+
+        <div class="text-center mb-4">
+
+            <span class="text-warning fw-bold">
+                ABOUT EMRS
+            </span>
+
+            <h2 class="section-title mt-2">
+                Building Better Workplaces
+            </h2>
+
+            <p class="section-subtitle">
+                Smart technology for modern employee
+                and enterprise management.
+            </p>
+
+        </div>
+
+
+        <div class="row align-items-center g-4">
+
+
+            <div class="col-lg-6">
+
+                <h2 class="fw-bold mb-3">
+                    Manage Your Company Smarter
+                </h2>
+
+                <p class="text-muted">
+                    EMRS Enterprise Management Resource System
+                    is a modern platform designed to simplify
+                    employee management, attendance tracking
+                    and business operations.
+                </p>
+
+                <p class="text-muted">
+                    Our goal is to provide organizations with
+                    an easy, secure and efficient system where
+                    important company information can be managed
+                    from one place.
+                </p>
+
+
+                <div class="row g-3 mt-2">
+
+                    <div class="col-md-6">
+
+                        <div class="p-3 bg-white shadow-sm rounded-3">
+
+                            <h6>
+                                <i class="bi bi-check-circle-fill text-warning"></i>
+                                Easy Management
+                            </h6>
+
+                            <p class="text-muted mb-0 small">
+                                Manage everything from one dashboard.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="p-3 bg-white shadow-sm rounded-3">
+
+                            <h6>
+                                <i class="bi bi-check-circle-fill text-warning"></i>
+                                Secure Data
+                            </h6>
+
+                            <p class="text-muted mb-0 small">
+                                Employee information stays protected.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-6">
+
+                <div class="company-card">
+
+                    <h4 class="text-warning fw-bold mb-3">
+
+                        <i class="bi bi-building"></i>
+
+                        Company Information
+
+                    </h4>
+
+
+                    <div class="company-item">
+
+                        <strong>
+                            🏢 Company Name
+                        </strong>
+
+                        <p class="text-muted mb-0">
+                            EMRS Enterprise Management
+                        </p>
+
+                    </div>
+
+
+                    <div class="company-item">
+
+                        <strong>
+                            💼 Industry
+                        </strong>
+
+                        <p class="text-muted mb-0">
+                            Enterprise Resource Management
+                        </p>
+
+                    </div>
+
+
+                    <div class="company-item">
+
+                        <strong>
+                            ⚙ Services
+                        </strong>
+
+                        <p class="text-muted mb-0">
+                            Employee Management, Attendance,
+                            Resource Management and Analytics
+                        </p>
+
+                    </div>
+
+
+                    <div class="company-item">
+
+                        <strong>
+                            🎯 Our Mission
+                        </strong>
+
+                        <p class="text-muted mb-0">
+                            To simplify enterprise operations
+                            using modern technology.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SMART MANAGEMENT
+===================================================== -->
+
+<section class="smart-section">
+
+    <div class="container">
+
+        <div class="row align-items-center g-4">
+
+
+            <div class="col-lg-6">
+
+                <span class="text-warning fw-bold">
+                    SMART MANAGEMENT
+                </span>
+
+                <h2 class="section-title mt-2">
+                    Everything Under Your Control
+                </h2>
+
+                <p class="text-muted">
+                    EMRS gives administrators and employees
+                    a simple system for managing important
+                    work information.
+                </p>
+
+
+                <ul class="list-group list-group-flush dashboard-list mt-3">
+
+                    <li class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-warning me-2"></i>
+                        Employee Profiles
+                    </li>
+
+                    <li class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-warning me-2"></i>
+                        Daily Attendance Tracking
+                    </li>
+
+                    <li class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-warning me-2"></i>
+                        Department Management
+                    </li>
+
+                    <li class="list-group-item">
+                        <i class="bi bi-check-circle-fill text-warning me-2"></i>
+                        Secure Admin Access
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+                <div class="dashboard-preview-card">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h5 class="mb-0">
+                            EMRS Dashboard
+                        </h5>
+
+                        <i class="bi bi-grid-1x2-fill text-warning fs-3"></i>
+
+                    </div>
+
+                    <hr class="border-secondary">
+
+
+                    <div class="row g-3">
+
+                        <div class="col-6">
+
+                            <div class="bg-primary bg-opacity-25 p-3 rounded-3">
+
+                                <small class="text-light">
+                                    Employees
+                                </small>
+
+                                <h3 class="mb-0 mt-2">
+                                    500+
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-6">
+
+                            <div class="bg-success bg-opacity-25 p-3 rounded-3">
+
+                                <small class="text-light">
+                                    Attendance
+                                </small>
+
+                                <h3 class="mb-0 mt-2">
+                                    98%
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     RULES
+===================================================== -->
+
+<section
+    class="rules-section"
+    id="rules">
+
+    <div class="container">
+
+        <div class="text-center mb-4">
+
+            <span class="text-warning fw-bold">
+                WORKPLACE POLICY
+            </span>
+
+            <h2 class="section-title mt-2">
+                Employee Rules & Guidelines
+            </h2>
+
+            <p class="section-subtitle">
+                These guidelines help maintain a professional,
+                safe and productive workplace.
+            </p>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="rule-card">
+
+                    <div class="rule-icon">
+                        <i class="bi bi-clock-fill"></i>
+                    </div>
+
+                    <h4>
+                        Punctuality
+                    </h4>
+
+                    <p class="text-muted">
+                        Employees should report to work on time
+                        and maintain regular attendance.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="rule-card">
+
+                    <div class="rule-icon">
+                        <i class="bi bi-calendar-check-fill"></i>
+                    </div>
+
+                    <h4>
+                        Attendance
+                    </h4>
+
+                    <p class="text-muted">
+                        Employees should mark their attendance
+                        correctly during check-in.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="rule-card">
+
+                    <div class="rule-icon">
+                        <i class="bi bi-person-workspace"></i>
+                    </div>
+
+                    <h4>
+                        Professional Behaviour
+                    </h4>
+
+                    <p class="text-muted">
+                        Maintain respectful and professional
+                        behaviour with colleagues and management.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="rule-card">
+
+                    <div class="rule-icon">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+
+                    <h4>
+                        Data Privacy
+                    </h4>
+
+                    <p class="text-muted">
+                        Employee and company information
+                        should remain confidential and secure.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="rule-card">
+
+                    <div class="rule-icon">
+                        <i class="bi bi-file-earmark-text-fill"></i>
+                    </div>
+
+                    <h4>
+                        Leave Policy
+                    </h4>
+
+                    <p class="text-muted">
+                        Leave requests should be submitted
+                        through the official employee system.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="rule-card">
+
+                    <div class="rule-icon">
+                        <i class="bi bi-laptop-fill"></i>
+                    </div>
+
+                    <h4>
+                        Company Resources
+                    </h4>
+
+                    <p class="text-muted">
+                        Company systems and resources should
+                        be used responsibly for work purposes.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="alert alert-warning text-center mt-4 shadow-sm">
+
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+            <strong>
+                Important:
+            </strong>
+
+            All employees are expected to follow company
+            policies and maintain professional workplace standards.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WORKSPACE IMAGES
+===================================================== -->
+
+<section class="image-section">
+
+    <div class="container">
+
+        <div class="text-center mb-4">
+
+            <span class="text-warning fw-bold">
+                EMRS WORKSPACE
+            </span>
+
+            <h2 class="section-title mt-2">
+                Smart. Simple. Professional.
+            </h2>
+
+            <p class="section-subtitle">
+                Experience a modern approach to employee
+                and enterprise resource management.
+            </p>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-md-4">
+
+                <div class="image-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80"
+                        alt="Modern Office">
+
+                    <div class="image-overlay">
+
+                        <h4>
+                            Modern Workplace
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="image-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80"
+                        alt="Team Management">
+
+                    <div class="image-overlay">
+
+                        <h4>
+                            Team Management
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="image-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=900&q=80"
+                        alt="Business Analytics">
+
+                    <div class="image-overlay">
+
+                        <h4>
+                            Business Analytics
+                        </h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONTACT
+===================================================== -->
+
+<section
+    class="contact-section"
+    id="contact">
+
+    <div class="container">
+
+        <div class="row g-4 align-items-center">
+
+
+            <div class="col-lg-6">
+
+                <span class="text-warning fw-bold">
+                    CONTACT US
+                </span>
+
+                <h2 class="section-title mt-2">
+                    Let's Build a Better Workplace Together
+                </h2>
+
+                <p class="text-muted mt-3">
+                    Have questions about EMRS?
+                    Contact us and learn more about our
+                    Enterprise Management Resource System.
+                </p>
+
+
+                <div class="contact-info mt-3">
+
+                    <p>
+                        <i class="bi bi-envelope-fill me-2"></i>
+
+                        <strong>
+                            Email:
+                        </strong>
+
+                        support@emrs.com
+                    </p>
+
+
+                    <p>
+                        <i class="bi bi-telephone-fill me-2"></i>
+
+                        <strong>
+                            Phone:
+                        </strong>
+
+                        +91 98765 43210
+                    </p>
+
+
+                    <p class="mb-0">
+
+                        <i class="bi bi-geo-alt-fill me-2"></i>
+
+                        <strong>
+                            Location:
+                        </strong>
+
+                        India
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-6">
+
+                <div class="contact-box">
+
+                    <h4 class="fw-bold mb-3">
+                        Send Us a Message
+                    </h4>
+
+
+                    <form
+                        action="save_contact.php"
+                        method="POST">
+
+
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control mb-3"
+                            placeholder="Your Name"
+                            required>
+
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control mb-3"
+                            placeholder="Your Email"
+                            required>
+
+
+                        <input
+                            type="tel"
+                            name="mobile"
+                            class="form-control mb-3"
+                            placeholder="Mobile Number"
+                            required>
+
+
+                        <textarea
+                            name="message"
+                            class="form-control mb-3"
+                            rows="4"
+                            placeholder="Your Message"
+                            required></textarea>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning w-100 fw-bold py-2">
+
+                            Send Message
+
+                            <i class="bi bi-send-fill ms-2"></i>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="py-4">
+
+    <div class="container">
+
+        <div class="cta-section text-center text-white">
+
+            <h2 class="fw-bold">
+                Ready to Manage Your Enterprise Smarter?
+            </h2>
+
+            <p class="text-light mt-2 mb-0">
+                Start managing employees, attendance and
+                business resources with EMRS.
+            </p>
+
+
+            <a
+                href="login.html"
+                class="btn cta-btn mt-3">
+
+                Get Started
+
+                <i class="bi bi-arrow-right ms-2"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer pt-4">
+
+    <div class="container">
+
+        <div class="row g-4 pb-3">
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <h3 class="footer-title">
+                    EMRS
+                </h3>
+
+                <p class="text-secondary small">
+                    Enterprise Management Resource System
+                    helps organizations manage employees,
+                    attendance, resources and operations
+                    using modern technology.
+                </p>
+
+
+                <div class="mt-3">
+
+                    <a href="#"
+                       class="social-icon">
+
+                        <i class="bi bi-facebook"></i>
+
+                    </a>
+
+                    <a href="#"
+                       class="social-icon">
+
+                        <i class="bi bi-instagram"></i>
+
+                    </a>
+
+                    <a href="#"
+                       class="social-icon">
+
+                        <i class="bi bi-linkedin"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-2 col-md-6">
+
+                <h6 class="mb-3">
+                    Quick Links
+                </h6>
+
+                <a href="#home">
+                    Home
+                </a>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#about">
+                    About Us
+                </a>
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-6">
+
+                <h6 class="mb-3">
+                    Employee Portal
+                </h6>
+
+                <a href="login.html">
+                    Employee Login
+                </a>
+
+                <a href="#rules">
+                    Employee Rules
+                </a>
+
+                <a href="attendance.html">
+                    Attendance
+                </a>
+
+                <a href="#">
+                    Leave Request
+                </a>
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-6">
+
+                <h6 class="mb-3">
+                    Contact Information
+                </h6>
+
+                <p class="text-secondary small">
+                    <i class="bi bi-envelope-fill text-warning"></i>
+                    support@emrs.com
+                </p>
+
+                <p class="text-secondary small">
+                    <i class="bi bi-telephone-fill text-warning"></i>
+                    +91 98765 43210
+                </p>
+
+                <p class="text-secondary small">
+                    <i class="bi bi-geo-alt-fill text-warning"></i>
+                    India
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <hr class="border-secondary">
+
+
+        <div class="row text-center text-md-start py-3">
+
+            <div class="col-md-6 text-secondary small">
+
+                © 2026 EMRS Enterprise Management
+                Resource System. All Rights Reserved.
+
+            </div>
+
+
+            <div class="col-md-6 text-md-end mt-2 mt-md-0">
+
+                <a href="#"
+                   class="d-inline me-3">
+
+                    Privacy Policy
+
+                </a>
+
+                <a href="#"
+                   class="d-inline">
+
+                    Terms & Conditions
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- Bootstrap JS -->
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- =====================================================
+     NAVBAR ACTIVE LINK
+===================================================== -->
+
+<script>
+
+const sections = document.querySelectorAll("section[id]");
+
+const navLinks =
+    document.querySelectorAll(".navbar .nav-link");
+
+
+window.addEventListener("scroll", () => {
+
+    let current = "";
+
+    sections.forEach(section => {
+
+        const sectionTop =
+            section.offsetTop - 100;
+
+        if (window.scrollY >= sectionTop) {
+
+            current =
+                section.getAttribute("id");
+
+        }
+
+    });
+
+
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (
+            link.getAttribute("href")
+            === "#" + current
+        ) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+});
+
+</script>
+
+
+</body>
+</html>

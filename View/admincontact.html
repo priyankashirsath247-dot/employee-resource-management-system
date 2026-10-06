@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Contact Messages</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #020912;
+            color: #fff;
+            font-family: "Poppins", sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .table-custom {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg px-4">
+        <a class="navbar-brand fw-bold" href="#">Admin Panel</a>
+        <div class="ms-auto">
+            <a href="index.html" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <h2 class="mb-4">Contact Us Messages</h2>
+        <div class="table-responsive table-custom p-3">
+            <table class="table table-dark table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="contactTableBody">
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Loading messages...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- SCRIPT TO FETCH DATA -->
+    <script>
+        async function loadContacts() {
+            try {
+                const response = await fetch("/api/contacts");
+                const contacts = await response.json();
+
+                const tbody = document.getElementById("contactTableBody");
+                tbody.innerHTML = "";
+
+                if (contacts.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No messages found.</td></tr>`;
+                    return;
+                }
+
+                contacts.forEach(con => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${con.name}</td>
+                        <td>${con.email}</td>
+                        <td>${con.phone}</td>
+                        <td>${con.message}</td>
+                        <td>${new Date(con.date).toLocaleDateString()}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error("Error loading contacts:", err);
+                document.getElementById("contactTableBody").innerHTML = `<tr><td colspan="5" class="text-center text-danger">Failed to load messages.</td></tr>`;
+            }
+        }
+
+        // Page load hote hi function call hoga
+        loadContacts();
+    </script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

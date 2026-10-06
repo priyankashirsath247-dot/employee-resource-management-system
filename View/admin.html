@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Admin List</title>
+
+<!-- Bootstrap CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+body {
+    background: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+.page-box {
+    background: #fff;
+    border-radius: 4px;
+    overflow: auto;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+}
+.page-header {
+    background: #2f80ed;
+    color: #fff;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+.table thead {
+    background: #f1f1f1;
+}
+.btn-export {
+    background: #f4b400;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+.btn-export:hover {
+    background: #db9c00;
+    color: #fff;
+}
+.btn-view {
+    background: purple;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+.btn-view:hover {
+    background: darkmagenta;
+    color: #fff;
+}
+input.form-control {
+    border-radius: 25px;
+    padding-left: 15px;
+    transition: box-shadow 0.3s ease;
+}
+input.form-control:focus {
+    box-shadow: 0 0 8px rgba(47, 128, 237, 0.7);
+    border-color: #2f80ed;
+}
+.pagination button {
+    min-width: 40px;
+}
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid mt-3">
+
+    <!-- Breadcrumb -->
+    <nav class="mb-2" aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 mb-1">
+            <li class="breadcrumb-item text-muted">Home</li>
+            <li class="breadcrumb-item text-muted">Admin</li>
+            <li class="breadcrumb-item active fw-bold" aria-current="page">Admin List</li>
+        </ol>
+    </nav>
+
+    <!-- Add Admin Button -->
+    <a href="add-admin.html" class="btn btn-success my-2">+ Add New Admin</a>
+
+    <div class="page-box">
+
+        <!-- Header -->
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <span>⚙ Admin List</span>
+            <button id="exportBtn" class="btn btn-export btn-sm" title="Export table to CSV">Export</button>
+        </div>
+
+        <!-- Search -->
+        <div class="p-3">
+            <div class="row mb-2">
+                <div class="col-md-4 ms-auto">
+                    <input id="searchInput" type="text" class="form-control" placeholder="Search Admins..." aria-label="Search Admins" />
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table id="adminTable" class="table table-bordered align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Admin</td>
+                            <td>admin@example.com</td>
+                            <td>
+                                <button class="btn btn-view btn-sm">View/Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>John Doe</td>
+                            <td>john.doe@example.com</td>
+                            <td>
+                                <button class="btn btn-view btn-sm">View/Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Jane Smith</td>
+                            <td>jane.smith@example.com</td>
+                            <td>
+                                <button class="btn btn-view btn-sm">View/Edit</button>
+                            </td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <span id="entriesInfo">Showing 1 to 3 of 3 entries</span>
+                <div class="pagination">
+                    <button class="btn btn-light btn-sm" disabled>First</button>
+                    <button class="btn btn-light btn-sm" disabled>‹</button>
+                    <button class="btn btn-secondary btn-sm" disabled>1</button>
+                    <button class="btn btn-light btn-sm" disabled>›</button>
+                    <button class="btn btn-light btn-sm" disabled>Last</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // Export Table to CSV
+    function downloadCSV(csv, filename) {
+        const csvFile = new Blob([csv], { type: "text/csv" });
+        const downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    function exportTableToCSV(filename) {
+        const csv = [];
+        const rows = document.querySelectorAll("#adminTable tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = [], cols = rows[i].querySelectorAll("td, th");
+
+            for (let j = 0; j < cols.length - 1; j++) { // skip last column (Action)
+                let data = cols[j].innerText.trim();
+                // Escape double quotes by doubling them
+                data = data.replace(/"/g, '""');
+                // Wrap data that contains commas or quotes in double quotes
+                if (data.indexOf(",") > -1 || data.indexOf('"') > -1) {
+                    data = `"${data}"`;
+                }
+                row.push(data);
+            }
+            csv.push(row.join(","));
+        }
+        downloadCSV(csv.join("\n"), filename);
+        alert('Exported data to "' + filename + '"');
+    }
+
+    // Search Table Filter
+    document.getElementById("searchInput").addEventListener("input", function () {
+        const filter = this.value.toLowerCase();
+        const table = document.getElementById("adminTable");
+        const tr = table.tBodies[0].rows;
+
+        let visibleCount = 0;
+
+        for (let i = 0; i < tr.length; i++) {
+            const row = tr[i];
+            const cellsText = row.textContent.toLowerCase();
+            if (cellsText.indexOf(filter) > -1) {
+                row.style.display = "";
+                visibleCount++;
+            } else {
+                row.style.display = "none";
+            }
+        }
+
+        // Update entries info
+        const entriesInfo = document.getElementById("entriesInfo");
+        if (filter === "") {
+            entriesInfo.textContent = `Showing 1 to ${visibleCount} of ${visibleCount} entries`;
+        } else {
+            entriesInfo.textContent = `Showing 1 to ${visibleCount} matching entries`;
+        }
+    });
+
+    // Export Button Event
+    document.getElementById("exportBtn").addEventListener("click", function () {
+        exportTableToCSV("admin_list.csv");
+    });
+</script>
+
+</body>
+</html>

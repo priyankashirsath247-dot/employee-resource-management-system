@@ -1,0 +1,3320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Attendance | Elite ERMS</title>
+
+
+    <!-- BOOTSTRAP -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- BOOTSTRAP ICONS -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+
+    <!-- FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                'Plus Jakarta Sans',
+                sans-serif;
+
+            color: #e5e7eb;
+
+            /*
+               SCREENSHOT SARKHA GREY BACKGROUND
+            */
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #666b74 0%,
+                    #555b65 50%,
+                    #464c57 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           SCROLLBAR
+        ====================================================== */
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #3f454f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 20px;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ====================================================== */
+
+        .top-navbar {
+
+            height: 64px;
+
+            background:
+                rgba(10, 15, 28, .96) !important;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.08);
+
+            box-shadow:
+                0 8px 25px
+                rgba(0,0,0,.18);
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            text-decoration: none;
+        }
+
+
+        .brand-logo {
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #0ea5e9
+                );
+
+            font-size: 17px;
+        }
+
+
+        .brand-name {
+
+            color: white;
+
+            font-size: 13px;
+
+            line-height: 1.1;
+
+            font-weight: 800;
+        }
+
+
+        .brand-subtitle {
+
+            margin-top: 2px;
+
+            color: #94a3b8;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            letter-spacing: .7px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-btn {
+
+            height: 34px;
+
+            padding: 5px 12px;
+
+            border-radius: 9px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        .page-container {
+
+            width: 100%;
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding:
+                22px 16px 40px;
+        }
+
+
+        /* =====================================================
+           HERO
+        ====================================================== */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 24px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #202846,
+                    #191d3a
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+
+            box-shadow:
+                0 15px 35px
+                rgba(15,23,42,.25);
+        }
+
+
+        .hero-content {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .hero-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .hero-icon {
+
+            width: 54px;
+            height: 54px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-size: 23px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(99,102,241,.3);
+        }
+
+
+        .live-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-bottom: 5px;
+
+            padding:
+                4px 9px;
+
+            border-radius: 999px;
+
+            color: #67e8f9;
+
+            background:
+                rgba(34,211,238,.08);
+
+            border:
+                1px solid
+                rgba(34,211,238,.18);
+
+            font-size: 7px;
+
+            font-weight: 800;
+
+            letter-spacing: .5px;
+        }
+
+
+        .live-dot {
+
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: #22d3ee;
+
+            box-shadow:
+                0 0 8px
+                rgba(34,211,238,.8);
+        }
+
+
+        .hero h1 {
+
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 26px;
+
+            font-weight: 800;
+
+            letter-spacing: -.8px;
+        }
+
+
+        .hero h1 span {
+
+            color: #a5b4fc;
+        }
+
+
+        .hero-description {
+
+            margin:
+                5px 0 0;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           EMPLOYEE PILL
+        ====================================================== */
+
+        .employee-pill {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                8px 11px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,.05);
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
+        }
+
+
+        .employee-avatar {
+
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .employee-pill-name {
+
+            color: white;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+
+        .employee-pill-id {
+
+            margin-top: 2px;
+
+            color: #64748b;
+
+            font-size: 7px;
+        }
+
+
+        /* =====================================================
+           FILTER CARD
+        ====================================================== */
+
+        .filter-card {
+
+            margin-top: 15px;
+
+            padding: 17px;
+
+            border-radius: 17px;
+
+            background:
+                #111a2d;
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+
+            box-shadow:
+                0 12px 30px
+                rgba(15,23,42,.22);
+        }
+
+
+        .section-title {
+
+            color: #e5e7eb;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .section-subtitle {
+
+            margin-top: 3px;
+
+            color: #64748b;
+
+            font-size: 7px;
+        }
+
+
+        .filter-label {
+
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: #94a3b8;
+
+            font-size: 7px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .5px;
+        }
+
+
+        /* =====================================================
+           DATE INPUT
+        ====================================================== */
+
+        .form-control {
+
+            height: 40px !important;
+
+            border-radius: 9px !important;
+
+            background:
+                #080f1e
+                !important;
+
+            border:
+                1px solid
+                #26324a
+                !important;
+
+            color:
+                #e2e8f0
+                !important;
+
+            font-size:
+                9px
+                !important;
+
+            box-shadow:
+                none
+                !important;
+        }
+
+
+        .form-control:focus {
+
+            border-color:
+                #6366f1
+                !important;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(99,102,241,.12)
+                !important;
+        }
+
+
+        .form-control::-webkit-calendar-picker-indicator {
+
+            filter: invert(1);
+
+            opacity: .7;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+
+        .view-btn {
+
+            height: 40px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #2563eb
+                );
+
+            color: white;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 20px
+                rgba(37,99,235,.25);
+
+            transition: .2s ease;
+        }
+
+
+        .view-btn:hover {
+
+            color: white;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .today-btn {
+
+            height: 40px;
+
+            border-radius: 9px;
+
+            border-color:
+                #22d3ee;
+
+            color:
+                #22d3ee;
+
+            font-size: 8px;
+
+            font-weight: 800;
+        }
+
+
+        .today-btn:hover {
+
+            color: white;
+
+            background:
+                rgba(34,211,238,.08);
+        }
+
+
+        /* =====================================================
+           DATE INFO
+        ====================================================== */
+
+        .date-info {
+
+            margin-top: 11px;
+
+            padding:
+                9px 11px;
+
+            border-radius: 9px;
+
+            background:
+                #151f36;
+
+            border:
+                1px solid
+                #253354;
+
+            color:
+                #94a3b8;
+
+            font-size: 8px;
+        }
+
+
+        .date-info strong {
+
+            color: #60a5fa;
+        }
+
+
+        /* =====================================================
+           RECORD CARD
+        ====================================================== */
+
+        .record-card {
+
+            margin-top: 15px;
+
+            overflow: hidden;
+
+            border-radius: 17px;
+
+            background:
+                #111a2d;
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+
+            box-shadow:
+                0 15px 35px
+                rgba(15,23,42,.25);
+        }
+
+
+        .record-header {
+
+            padding:
+                14px 16px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.06);
+        }
+
+
+        .record-title {
+
+            color: #f1f5f9;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .record-description {
+
+            margin-top: 3px;
+
+            color: #64748b;
+
+            font-size: 7px;
+        }
+
+
+        /* =====================================================
+           ADMIN BADGE
+        ====================================================== */
+
+        .admin-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                5px 9px;
+
+            border-radius: 999px;
+
+            color: #4ade80;
+
+            background:
+                rgba(34,197,94,.08);
+
+            border:
+                1px solid
+                rgba(34,197,94,.14);
+
+            font-size: 7px;
+
+            font-weight: 800;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        .table {
+
+            margin: 0 !important;
+
+            color:
+                #cbd5e1
+                !important;
+        }
+
+
+        .table thead th {
+
+            padding:
+                10px 11px
+                !important;
+
+            background:
+                #0b1324
+                !important;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.06)
+                !important;
+
+            color:
+                #a5a6a8
+                !important;
+
+            font-size:
+                13px
+                !important;
+
+            font-weight:
+                800
+                !important;
+
+            text-transform:
+                uppercase;
+
+            white-space:
+                nowrap;
+        }
+
+
+        .table tbody td {
+
+            padding:
+                12px 11px
+                !important;
+
+            background:
+                transparent
+                !important;
+
+            border-color:
+                rgba(255,255,255,.05)
+                !important;
+
+            color:
+                #cbd5e1
+                !important;
+
+            font-size:
+                12px
+                !important;
+
+            vertical-align:
+                middle;
+        }
+
+
+        .table tbody tr:hover {
+
+            background:
+                rgba(243, 243, 255, 0.04)
+                !important;
+        }
+
+
+        /* =====================================================
+           EMPLOYEE CELL
+        ====================================================== */
+
+        .employee-cell {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .small-avatar {
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .employee-name {
+
+            color:
+                #f8fafc;
+
+            font-size:
+                14px;
+
+            font-weight:
+                800;
+        }
+
+
+        .employee-id {
+
+            margin-top: 2px;
+
+            color:
+                #64748b;
+
+            font-size:
+                8px;
+        }
+
+
+        /* =====================================================
+           DATE BADGE
+        ====================================================== */
+
+        .date-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                5px 8px;
+
+            border-radius:
+                999px;
+
+            color:
+                #93c5fd;
+
+            background:
+                rgba(59,130,246,.09);
+
+            border:
+                1px solid
+                rgba(59,130,246,.12);
+
+            font-size:
+                12px;
+
+            font-weight:
+                800;
+
+            white-space:
+                nowrap;
+        }
+
+
+        /* =====================================================
+           TIME
+        ====================================================== */
+
+        .time-box {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                5px 8px;
+
+            border-radius:
+                7px;
+
+            font-weight:
+                700;
+
+            white-space:
+                nowrap;
+        }
+
+
+        .time-in {
+
+            color:
+                #4ade80;
+
+            background:
+                rgba(34,197,94,.07);
+        }
+
+
+        .time-out {
+
+            color:
+                #fbbf24;
+
+            background:
+                rgba(245,158,11,.07);
+        }
+
+
+        .hours-value {
+
+            color:
+                #22d3ee;
+
+            font-weight:
+                800;
+
+            white-space:
+                nowrap;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ====================================================== */
+
+        .status-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 4px;
+
+            padding:
+                4px 7px;
+
+            border-radius:
+                999px;
+
+            font-size:
+                12px;
+
+            font-weight:
+                800;
+
+            white-space:
+                nowrap;
+        }
+
+
+        .status-present {
+
+            color:
+                #4ade80;
+
+            background:
+                rgba(34,197,94,.09);
+
+            border:
+                1px solid
+                rgba(34,197,94,.14);
+        }
+
+
+        .status-absent {
+
+            color:
+                #f87171;
+
+            background:
+                rgba(239,68,68,.09);
+
+            border:
+                1px solid
+                rgba(239,68,68,.14);
+        }
+
+
+        .status-leave {
+
+            color:
+                #fbbf24;
+
+            background:
+                rgba(245,158,11,.09);
+
+            border:
+                1px solid
+                rgba(245,158,11,.14);
+        }
+
+
+        /* =====================================================
+           DAY TYPE
+        ====================================================== */
+
+        .day-badge {
+
+            display: inline-flex;
+
+            padding:
+                4px 7px;
+
+            border-radius:
+                7px;
+
+            color:
+                #a5b4fc;
+
+            background:
+                rgba(99,102,241,.08);
+
+            border:
+                1px solid
+                rgba(99,102,241,.12);
+
+            font-size:
+                12px;
+
+            font-weight:
+                800;
+
+            white-space:
+                nowrap;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ====================================================== */
+
+        .empty-state {
+
+            padding:
+                45px 15px;
+
+            text-align:
+                center;
+        }
+
+
+        .empty-icon {
+
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin:
+                0 auto 11px;
+
+            border-radius:
+                13px;
+
+            color:
+                #818cf8;
+
+            background:
+                rgba(99,102,241,.09);
+
+            border:
+                1px solid
+                rgba(99,102,241,.12);
+
+            font-size:
+                20px;
+        }
+
+
+        .empty-state h5 {
+
+            margin:
+                0 0 5px;
+
+            color:
+                #e2e8f0;
+
+            font-size:
+                18px;
+
+            font-weight:
+                800;
+        }
+
+
+        .empty-state p {
+
+            max-width:
+                450px;
+
+            margin:
+                auto;
+
+            color:
+                #64748b;
+
+            font-size:
+                8px;
+
+            line-height:
+                1.6;
+        }
+
+
+        /* =====================================================
+           LOADER
+        ====================================================== */
+
+        .loader {
+
+            width: 28px;
+            height: 28px;
+
+            margin:
+                0 auto 11px;
+
+            border:
+                3px solid
+                #253047;
+
+            border-top-color:
+                #6366f1;
+
+            border-radius:
+                50%;
+
+            animation:
+                spin .8s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+        }
+
+
+        /* =====================================================
+           SECURITY NOTE
+        ====================================================== */
+
+        .security-note {
+
+            margin-top:
+                12px;
+
+            padding:
+                9px 11px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                7px;
+
+            border-radius:
+                9px;
+
+            color:
+                #94a3b8;
+
+            background:
+                rgba(15,23,42,.55);
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+
+            font-size:
+                7px;
+        }
+
+
+        .security-note i {
+
+            color:
+                #22c55e;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 768px) {
+
+            .top-navbar {
+                height: 58px;
+            }
+
+
+            .page-container {
+
+                padding:
+                    12px 9px 30px;
+            }
+
+
+            .hero {
+
+                padding:
+                    15px;
+            }
+
+
+            .hero-content {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+
+            .hero-left {
+
+                width:
+                    100%;
+            }
+
+
+            .hero h1 {
+
+                font-size:
+                    20px;
+            }
+
+
+            .employee-pill {
+
+                width:
+                    100%;
+            }
+
+
+            .filter-card {
+
+                padding:
+                    11px;
+            }
+
+
+            .record-header {
+
+                padding:
+                    11px;
+            }
+
+
+            .brand-subtitle {
+
+                display:
+                    none;
+            }
+
+
+            .nav-btn span {
+
+                display:
+                    none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar navbar-dark top-navbar">
+
+    <div class="container-fluid px-3 px-md-4">
+
+
+        <a
+            href="employee-dashboard.html"
+            class="brand">
+
+            <div class="brand-logo">
+
+                <i class="bi bi-buildings"></i>
+
+            </div>
+
+
+            <div>
+
+                <div class="brand-name">
+                    Elite ERMS
+                </div>
+
+                <div class="brand-subtitle">
+                    Employee Resource Management
+                </div>
+
+            </div>
+
+        </a>
+
+
+        <div class="d-flex align-items-center gap-2">
+
+
+            <a
+                href="employee-dashboard.html"
+                class="btn btn-outline-info nav-btn">
+
+                <i class="bi bi-grid"></i>
+
+                <span class="ms-1">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <button
+                type="button"
+                onclick="logout()"
+                class="btn btn-outline-danger nav-btn">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                <span class="ms-1">
+                    Logout
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="page-container">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+
+            <div class="hero-left">
+
+
+                <div class="hero-icon">
+
+                    <i class="bi bi-calendar2-check"></i>
+
+                </div>
+
+
+                <div>
+
+
+                    <div class="live-badge">
+
+                        <span class="live-dot"></span>
+
+                        PERSONAL ATTENDANCE
+
+                    </div>
+
+
+                    <h1>
+
+                        My
+                        <span>Attendance</span>
+
+                    </h1>
+
+
+                    <p class="hero-description">
+
+                        View attendance records saved by your
+                        administrator.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EMPLOYEE -->
+
+            <div class="employee-pill">
+
+                <div
+                    id="employeeAvatar"
+                    class="employee-avatar">
+
+                    E
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        id="employeeName"
+                        class="employee-pill-name">
+
+                        Employee
+
+                    </div>
+
+
+                    <div
+                        id="employeeId"
+                        class="employee-pill-id">
+
+                        Employee ID
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         FILTER
+    ================================================== -->
+
+    <section class="filter-card">
+
+
+        <div class="row g-3 align-items-end">
+
+
+            <!-- TITLE -->
+
+            <div class="col-lg-4">
+
+                <div class="section-title">
+
+                    <i
+                        class="bi bi-funnel text-info me-2">
+                    </i>
+
+                    Attendance Filter
+
+                </div>
+
+
+                <div class="section-subtitle">
+
+                    Select any date to check your attendance.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DATE -->
+
+            <div class="col-lg-3 col-md-5">
+
+                <label
+                    for="attendanceDate"
+                    class="filter-label">
+
+                    <i
+                        class="bi bi-calendar3 me-1">
+                    </i>
+
+                    Select Date
+
+                </label>
+
+
+                <input
+                    type="date"
+                    id="attendanceDate"
+                    class="form-control">
+
+            </div>
+
+
+
+            <!-- VIEW -->
+
+            <div class="col-lg-2 col-md-3">
+
+                <button
+                    type="button"
+                    onclick="loadAttendance()"
+                    class="btn view-btn w-100">
+
+                    <i
+                        class="bi bi-search me-1">
+                    </i>
+
+                    View
+
+                </button>
+
+            </div>
+
+
+
+            <!-- TODAY -->
+
+            <div class="col-lg-3 col-md-4">
+
+                <button
+                    type="button"
+                    onclick="setTodayAndLoad()"
+                    class="btn btn-outline-info today-btn w-100">
+
+                    <i
+                        class="bi bi-calendar-day me-1">
+                    </i>
+
+                    Today
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- INFO -->
+
+        <div
+            id="dateInfo"
+            class="date-info">
+
+            <i
+                class="bi bi-info-circle me-1">
+            </i>
+
+            Select a date to view your Admin-saved attendance.
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         ATTENDANCE RECORD
+    ================================================== -->
+
+    <section class="record-card">
+
+
+        <!-- HEADER -->
+
+        <div
+            class="
+                record-header
+                d-flex
+                align-items-center
+                justify-content-between
+                gap-3
+                flex-wrap
+            ">
+
+
+            <div>
+
+
+                <div class="record-title">
+
+                    <i
+                        class="bi bi-person-check text-info me-2">
+                    </i>
+
+                    My Attendance Record
+
+                </div>
+
+
+                <div
+                    id="recordDescription"
+                    class="record-description">
+
+                    Choose a date to view your attendance.
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="d-flex align-items-center gap-2">
+
+
+                <span class="admin-badge">
+
+                    <i
+                        class="bi bi-shield-check">
+                    </i>
+
+                    Admin Saved
+
+                </span>
+
+
+                <button
+                    type="button"
+                    onclick="loadAttendance()"
+                    class="btn btn-sm btn-outline-info"
+                    style="
+                        height:28px;
+                        padding:4px 9px;
+                        border-radius:8px;
+                        font-size:8px;
+                    ">
+
+                    <i
+                        class="bi bi-arrow-clockwise">
+                    </i>
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div class="table-responsive">
+
+
+            <table class="table align-middle">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Employee
+                        </th>
+
+                        <th>
+                            Check In
+                        </th>
+
+                        <th>
+                            Check Out
+                        </th>
+
+                        <th>
+                            Work Hours
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Day Type
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="attendanceTableBody">
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+
+                                    <i
+                                        class="bi bi-calendar-event">
+                                    </i>
+
+                                </div>
+
+
+                                <h5>
+                                    Select Attendance Date
+                                </h5>
+
+
+                                <p>
+
+                                    Select a date above.
+                                    Attendance will appear
+                                    only if Admin has saved
+                                    your record.
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+
+            </table>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         SECURITY NOTE
+    ================================================== -->
+
+    <div class="security-note">
+
+        <i
+            class="bi bi-shield-lock-fill">
+        </i>
+
+
+        <span>
+
+            You can only view attendance associated with
+            your logged-in Employee ID. Attendance is
+            displayed after it is saved by Admin.
+
+        </span>
+
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let employee = null;
+
+let employeeId = "";
+
+
+/* =====================================================
+   SAFE JSON
+===================================================== */
+
+function safeJsonParse(value) {
+
+    try {
+
+        return JSON.parse(value);
+
+    }
+
+    catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================================
+   GET LOGGED EMPLOYEE
+===================================================== */
+
+function getLoggedInEmployee() {
+
+    const possibleKeys = [
+
+        "erms_user",
+        "employeeData",
+        "loggedInEmployee"
+
+    ];
+
+
+    for (
+        const key of possibleKeys
+    ) {
+
+        const raw =
+            localStorage.getItem(key);
+
+
+        if (!raw) {
+            continue;
+        }
+
+
+        const data =
+            safeJsonParse(raw);
+
+
+        if (
+            data &&
+            typeof data === "object"
+        ) {
+
+            return data;
+
+        }
+
+    }
+
+
+    const storedEmployeeId =
+        localStorage.getItem("employeeId");
+
+
+    const storedName =
+        localStorage.getItem("employeeName");
+
+
+    if (storedEmployeeId) {
+
+        return {
+
+            employeeId:
+                storedEmployeeId,
+
+            name:
+                storedName ||
+                "Employee"
+
+        };
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================================
+   INITIALIZE EMPLOYEE
+===================================================== */
+
+async function initializeEmployee() {
+
+    employee =
+        getLoggedInEmployee();
+
+
+    if (!employee) {
+
+        window.location.href =
+            "employeeLogin.html";
+
+        return false;
+
+    }
+
+
+    employeeId =
+        String(
+            employee.employeeId ||
+            employee.empId ||
+            localStorage.getItem("employeeId") ||
+            ""
+        ).trim();
+
+
+    if (!employeeId) {
+
+        alert(
+            "Employee ID not found. Please login again."
+        );
+
+        logout();
+
+        return false;
+
+    }
+
+
+    updateEmployeeHeader();
+
+
+    /*
+       Refresh employee details
+       from database.
+    */
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/employees",
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+            return true;
+        }
+
+
+        const result =
+            await response.json();
+
+
+        let employees = [];
+
+
+        if (Array.isArray(result)) {
+
+            employees = result;
+
+        }
+
+        else if (
+            Array.isArray(result.employees)
+        ) {
+
+            employees =
+                result.employees;
+
+        }
+
+
+        const latestEmployee =
+            employees.find(
+                emp =>
+                    String(
+                        emp.employeeId || ""
+                    )
+                    .trim()
+                    .toLowerCase()
+                    ===
+                    employeeId
+                    .toLowerCase()
+            );
+
+
+        if (latestEmployee) {
+
+            employee = {
+
+                ...employee,
+
+                ...latestEmployee,
+
+                employeeId:
+                    latestEmployee.employeeId
+
+            };
+
+
+            employeeId =
+                String(
+                    latestEmployee.employeeId
+                ).trim();
+
+
+            localStorage.setItem(
+                "employeeId",
+                employeeId
+            );
+
+
+            localStorage.setItem(
+                "employeeName",
+                employee.name || ""
+            );
+
+
+            localStorage.setItem(
+                "employeeData",
+                JSON.stringify(employee)
+            );
+
+
+            localStorage.setItem(
+                "loggedInEmployee",
+                JSON.stringify(employee)
+            );
+
+
+            localStorage.setItem(
+                "erms_user",
+                JSON.stringify(employee)
+            );
+
+
+            updateEmployeeHeader();
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Employee refresh failed:",
+            error
+        );
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+function updateEmployeeHeader() {
+
+    const name =
+        employee?.name ||
+        "Employee";
+
+
+    const id =
+        employeeId ||
+        "—";
+
+
+    document.getElementById(
+        "employeeName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "employeeId"
+    ).textContent =
+        "ID: " + id;
+
+
+    document.getElementById(
+        "employeeAvatar"
+    ).textContent =
+        getInitials(name);
+
+}
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        const initialized =
+            await initializeEmployee();
+
+
+        if (!initialized) {
+            return;
+        }
+
+
+        const dateInput =
+            document.getElementById(
+                "attendanceDate"
+            );
+
+
+        if (dateInput) {
+
+            dateInput.value =
+                getTodayDate();
+
+        }
+
+
+        await loadAttendance();
+
+    }
+);
+
+
+/* =====================================================
+   INDIA TODAY
+===================================================== */
+
+function getTodayDate() {
+
+    const parts =
+        new Intl.DateTimeFormat(
+            "en-CA",
+            {
+                timeZone:
+                    "Asia/Kolkata",
+
+                year:
+                    "numeric",
+
+                month:
+                    "2-digit",
+
+                day:
+                    "2-digit"
+            }
+        )
+        .formatToParts(
+            new Date()
+        );
+
+
+    let year = "";
+    let month = "";
+    let day = "";
+
+
+    parts.forEach(
+        part => {
+
+            if (
+                part.type === "year"
+            ) {
+
+                year =
+                    part.value;
+
+            }
+
+
+            if (
+                part.type === "month"
+            ) {
+
+                month =
+                    part.value;
+
+            }
+
+
+            if (
+                part.type === "day"
+            ) {
+
+                day =
+                    part.value;
+
+            }
+
+        }
+    );
+
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+/* =====================================================
+   TODAY BUTTON
+===================================================== */
+
+function setTodayAndLoad() {
+
+    const input =
+        document.getElementById(
+            "attendanceDate"
+        );
+
+
+    input.value =
+        getTodayDate();
+
+
+    loadAttendance();
+
+}
+
+
+/* =====================================================
+   LOAD ATTENDANCE
+===================================================== */
+
+async function loadAttendance() {
+
+    if (!employeeId) {
+
+        employee =
+            getLoggedInEmployee();
+
+
+        employeeId =
+            String(
+                employee?.employeeId ||
+                employee?.empId ||
+                ""
+            ).trim();
+
+    }
+
+
+    if (!employeeId) {
+
+        logout();
+
+        return;
+
+    }
+
+
+    const dateInput =
+        document.getElementById(
+            "attendanceDate"
+        );
+
+
+    const selectedDate =
+        dateInput.value;
+
+
+    if (!selectedDate) {
+
+        alert(
+            "Please select a date."
+        );
+
+        return;
+
+    }
+
+
+    showLoading();
+
+
+    try {
+
+        /*
+           Employee-specific API
+        */
+
+        const response =
+            await fetch(
+                `/api/attendance/${encodeURIComponent(employeeId)}`,
+                {
+                    method: "GET",
+
+                    cache: "no-store",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Employee Attendance:",
+            result
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Unable to load attendance."
+            );
+
+        }
+
+
+        let records = [];
+
+
+        if (Array.isArray(result)) {
+
+            records =
+                result;
+
+        }
+
+        else if (
+            Array.isArray(
+                result.attendance
+            )
+        ) {
+
+            records =
+                result.attendance;
+
+        }
+
+
+        /*
+           EXACT EMPLOYEE FILTER
+        */
+
+        records =
+            records.filter(
+                record => {
+
+                    const id =
+                        String(
+                            record.employeeId ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    return (
+                        id ===
+                        employeeId
+                        .trim()
+                        .toLowerCase()
+                    );
+
+                }
+            );
+
+
+        /*
+           EXACT DATE FILTER
+
+           Example:
+
+           15-09-2026
+           -> 2026-09-15
+
+           16-09-2026
+           -> 2026-09-16
+        */
+
+        const selectedRecord =
+            records.find(
+                record => {
+
+                    const recordDate =
+                        String(
+                            record.date ||
+                            ""
+                        )
+                        .split("T")[0]
+                        .trim();
+
+
+                    return (
+                        recordDate ===
+                        selectedDate
+                    );
+
+                }
+            );
+
+
+        /*
+           RECORD FOUND
+        */
+
+        if (selectedRecord) {
+
+            showAttendance(
+                selectedRecord
+            );
+
+        }
+
+        else {
+
+            showNoAttendance(
+                selectedDate
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Attendance Error:",
+            error
+        );
+
+
+        showError(
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+function showLoading() {
+
+    const tbody =
+        document.getElementById(
+            "attendanceTableBody"
+        );
+
+
+    tbody.innerHTML = `
+
+        <tr>
+
+            <td colspan="7">
+
+                <div class="empty-state">
+
+                    <div class="loader"></div>
+
+                    <h5>
+                        Loading Attendance
+                    </h5>
+
+                    <p>
+                        Checking your Admin-saved attendance...
+                    </p>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    const date =
+        document.getElementById(
+            "attendanceDate"
+        ).value;
+
+
+    document.getElementById(
+        "dateInfo"
+    ).innerHTML = `
+
+        <i class="bi bi-arrow-repeat me-1"></i>
+
+        Loading attendance for
+
+        <strong>
+            ${formatDate(date)}
+        </strong>
+
+    `;
+
+}
+
+
+/* =====================================================
+   SHOW ATTENDANCE
+===================================================== */
+
+function showAttendance(record) {
+
+    const tbody =
+        document.getElementById(
+            "attendanceTableBody"
+        );
+
+
+    const name =
+        employee?.name ||
+        record.employeeName ||
+        "Employee";
+
+
+    const id =
+        employeeId ||
+        record.employeeId ||
+        "—";
+
+
+    const status =
+        String(
+            record.status ||
+            "Present"
+        );
+
+
+    const dayType =
+        String(
+            record.dayType ||
+            "Full Day"
+        );
+
+
+    const checkIn =
+        record.checkInTime ||
+        "--";
+
+
+    const checkOut =
+        record.checkOutTime ||
+        "--";
+
+
+    const workHours =
+        formatWorkHours(
+            record.workHours
+        );
+
+
+    let statusClass =
+        "status-present";
+
+
+    let statusIcon =
+        "bi-check-circle-fill";
+
+
+    if (
+        status.toLowerCase() ===
+        "absent"
+    ) {
+
+        statusClass =
+            "status-absent";
+
+        statusIcon =
+            "bi-x-circle-fill";
+
+    }
+
+
+    else if (
+        status.toLowerCase() ===
+        "leave"
+    ) {
+
+        statusClass =
+            "status-leave";
+
+        statusIcon =
+            "bi-calendar-heart-fill";
+
+    }
+
+
+    tbody.innerHTML = `
+
+        <tr>
+
+
+            <!-- DATE -->
+
+            <td>
+
+                <span class="date-badge">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    ${escapeHtml(
+                        formatDate(
+                            record.date
+                        )
+                    )}
+
+                </span>
+
+            </td>
+
+
+
+            <!-- EMPLOYEE -->
+
+            <td>
+
+                <div class="employee-cell">
+
+                    <div class="small-avatar">
+
+                        ${escapeHtml(
+                            getInitials(name)
+                        )}
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="employee-name">
+
+                            ${escapeHtml(name)}
+
+                        </div>
+
+
+                        <div class="employee-id">
+
+                            ID:
+                            ${escapeHtml(id)}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </td>
+
+
+
+            <!-- CHECK IN -->
+
+            <td>
+
+                <span class="time-box time-in">
+
+                    <i
+                        class="bi bi-box-arrow-in-right">
+                    </i>
+
+                    ${escapeHtml(checkIn)}
+
+                </span>
+
+            </td>
+
+
+
+            <!-- CHECK OUT -->
+
+            <td>
+
+                <span class="time-box time-out">
+
+                    <i
+                        class="bi bi-box-arrow-right">
+                    </i>
+
+                    ${escapeHtml(checkOut)}
+
+                </span>
+
+            </td>
+
+
+
+            <!-- WORK HOURS -->
+
+            <td>
+
+                <span class="hours-value">
+
+                    ${escapeHtml(workHours)}
+
+                </span>
+
+            </td>
+
+
+
+            <!-- STATUS -->
+
+            <td>
+
+                <span
+                    class="
+                        status-badge
+                        ${statusClass}
+                    ">
+
+                    <i
+                        class="
+                            bi
+                            ${statusIcon}
+                        ">
+                    </i>
+
+                    ${escapeHtml(status)}
+
+                </span>
+
+            </td>
+
+
+
+            <!-- DAY TYPE -->
+
+            <td>
+
+                <span class="day-badge">
+
+                    ${escapeHtml(dayType)}
+
+                </span>
+
+            </td>
+
+
+        </tr>
+
+    `;
+
+
+    /*
+       DATE INFO
+    */
+
+    document.getElementById(
+        "dateInfo"
+    ).innerHTML = `
+
+        <i
+            class="bi bi-check-circle-fill me-1">
+        </i>
+
+        Attendance found for
+
+        <strong>
+            ${formatDate(record.date)}
+        </strong>
+
+        • Saved by Admin
+
+    `;
+
+
+    /*
+       RECORD DESCRIPTION
+    */
+
+    document.getElementById(
+        "recordDescription"
+    ).textContent =
+        "This attendance record was saved by Admin and belongs to your Employee ID.";
+
+}
+
+
+/* =====================================================
+   NO ATTENDANCE
+===================================================== */
+
+function showNoAttendance(date) {
+
+    const tbody =
+        document.getElementById(
+            "attendanceTableBody"
+        );
+
+
+    tbody.innerHTML = `
+
+        <tr>
+
+            <td colspan="7">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i
+                            class="bi bi-calendar-x">
+                        </i>
+
+                    </div>
+
+
+                    <h5>
+                        No Attendance Available
+                    </h5>
+
+
+                    <p>
+
+                        Admin has not saved attendance
+                        for you on
+
+                        <strong>
+                            ${formatDate(date)}
+                        </strong>.
+
+                        <br>
+
+                        Your attendance will appear here
+                        after Admin saves it.
+
+                    </p>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    document.getElementById(
+        "dateInfo"
+    ).innerHTML = `
+
+        <i
+            class="bi bi-info-circle me-1">
+        </i>
+
+        No Admin-saved attendance found for
+
+        <strong>
+            ${formatDate(date)}
+        </strong>
+
+    `;
+
+
+    document.getElementById(
+        "recordDescription"
+    ).textContent =
+        "No attendance record has been saved by Admin for this date.";
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(message) {
+
+    const tbody =
+        document.getElementById(
+            "attendanceTableBody"
+        );
+
+
+    tbody.innerHTML = `
+
+        <tr>
+
+            <td colspan="7">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i
+                            class="bi bi-exclamation-triangle">
+                        </i>
+
+                    </div>
+
+
+                    <h5>
+                        Unable to Load Attendance
+                    </h5>
+
+
+                    <p>
+
+                        ${escapeHtml(
+                            message ||
+                            "Something went wrong."
+                        )}
+
+                    </p>
+
+
+                    <button
+                        onclick="loadAttendance()"
+                        class="btn view-btn mt-3 px-4">
+
+                        <i
+                            class="bi bi-arrow-clockwise me-1">
+                        </i>
+
+                        Try Again
+
+                    </button>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `;
+
+}
+
+
+/* =====================================================
+   DATE CHANGE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const dateInput =
+            document.getElementById(
+                "attendanceDate"
+            );
+
+
+        if (!dateInput) {
+            return;
+        }
+
+
+        dateInput.addEventListener(
+            "change",
+            function() {
+
+                loadAttendance();
+
+            }
+        );
+
+
+        dateInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    loadAttendance();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "—";
+    }
+
+
+    const clean =
+        String(dateString)
+        .split("T")[0]
+        .trim();
+
+
+    const parts =
+        clean.split("-");
+
+
+    if (
+        parts.length !== 3
+    ) {
+
+        return clean;
+
+    }
+
+
+    const year =
+        parts[0];
+
+
+    const month =
+        Number(parts[1]);
+
+
+    const day =
+        Number(parts[2]);
+
+
+    const months = [
+
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+
+    ];
+
+
+    if (
+        month < 1 ||
+        month > 12
+    ) {
+
+        return clean;
+
+    }
+
+
+    return `${day} ${months[month - 1]} ${year}`;
+
+}
+
+
+/* =====================================================
+   WORK HOURS
+===================================================== */
+
+function formatWorkHours(hours) {
+
+    if (
+        hours === undefined ||
+        hours === null ||
+        hours === ""
+    ) {
+
+        return "0.00 hrs";
+
+    }
+
+
+    const value =
+        Number(hours);
+
+
+    if (
+        Number.isNaN(value)
+    ) {
+
+        return "0.00 hrs";
+
+    }
+
+
+    return value.toFixed(2) +
+        " hrs";
+
+}
+
+
+/* =====================================================
+   INITIALS
+===================================================== */
+
+function getInitials(name) {
+
+    const clean =
+        String(name || "")
+        .trim();
+
+
+    if (!clean) {
+        return "E";
+    }
+
+
+    const words =
+        clean.split(/\s+/);
+
+
+    if (
+        words.length === 1
+    ) {
+
+        return words[0]
+            .substring(0, 2)
+            .toUpperCase();
+
+    }
+
+
+    return (
+        words[0].charAt(0) +
+        words[1].charAt(0)
+    ).toUpperCase();
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "employeeId"
+    );
+
+    localStorage.removeItem(
+        "employeeName"
+    );
+
+    localStorage.removeItem(
+        "employeeData"
+    );
+
+    localStorage.removeItem(
+        "loggedInEmployee"
+    );
+
+    localStorage.removeItem(
+        "erms_user"
+    );
+
+    localStorage.removeItem(
+        "erms_role"
+    );
+
+
+    window.location.href =
+        "employeeLogin.html";
+
+}
+
+</script>
+
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

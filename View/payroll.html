@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>ERMS | Payroll Management</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+/* ================= GLOBAL ================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f4f6fb;
+    color:#20243a;
+    overflow-x:hidden;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    width:100%;
+    min-height:100vh;
+    padding:20px;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    background:#fff;
+    border-radius:15px;
+    padding:13px 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+
+    margin-bottom:18px;
+}
+
+.topbar-title{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.topbar-icon{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    color:#fff;
+    font-size:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1d2671,
+            #c33764
+        );
+
+    box-shadow:
+        0 5px 15px
+        rgba(195,55,100,.22);
+}
+
+.topbar-title h5{
+    margin:0;
+
+    font-size:17px;
+    font-weight:700;
+
+    color:#1d2671;
+}
+
+.topbar-title small{
+    font-size:10px;
+    color:#8a91a3;
+}
+
+.admin-badge{
+    display:flex;
+    align-items:center;
+    gap:5px;
+
+    background:
+        linear-gradient(
+            45deg,
+            #1d2671,
+            #c33764
+        );
+
+    color:white;
+
+    padding:7px 13px;
+
+    border-radius:20px;
+
+    font-size:11px;
+    font-weight:600;
+}
+
+/* ================= PRINT BUTTON ================= */
+
+.btn-print{
+    border:0;
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            45deg,
+            #1d2671,
+            #c33764
+        );
+
+    color:#fff;
+
+    font-size:11px;
+    font-weight:600;
+
+    padding:8px 13px;
+
+    transition:.2s;
+}
+
+.btn-print:hover{
+    color:#fff;
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 5px 14px
+        rgba(195,55,100,.25);
+}
+
+/* ================= PAGE HEADER ================= */
+
+.page-header{
+    margin-bottom:17px;
+}
+
+.page-header h2{
+    font-size:23px;
+    font-weight:700;
+    color:#20243a;
+    margin-bottom:3px;
+}
+
+.page-header p{
+    font-size:12px;
+    margin:0;
+}
+
+/* ================= CARDS ================= */
+
+.card{
+    border:none;
+    border-radius:15px;
+
+    box-shadow:
+        0 7px 22px
+        rgba(0,0,0,.07);
+
+    overflow:hidden;
+}
+
+.card-header{
+    border:0;
+    padding:13px 16px;
+
+    font-size:14px;
+    font-weight:600;
+}
+
+.card-body{
+    padding:17px;
+}
+
+/* ================= FORM ================= */
+
+.form-label{
+    font-size:12px;
+    font-weight:600;
+
+    margin-bottom:5px;
+}
+
+.form-label i{
+    margin-right:3px;
+    color:#c33764;
+}
+
+.form-control,
+.form-select{
+
+    border-radius:9px;
+
+    padding:9px 11px;
+
+    font-size:12px;
+
+    border:1px solid #e0e3eb;
+
+    transition:.2s;
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#c33764;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(195,55,100,.10);
+}
+
+/* ================= HELPER TEXT ================= */
+
+.helper-text{
+    display:block;
+
+    font-size:9px;
+
+    color:#9298a8;
+
+    margin-top:5px;
+}
+
+/* ================= NET PAY ================= */
+
+#netPay{
+    background:#f0fff5;
+    color:#198754;
+
+    font-size:14px;
+    font-weight:700;
+
+    border-color:#c9ecd7;
+}
+
+/* ================= BUTTON ================= */
+
+.btn-custom{
+
+    border:0;
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            45deg,
+            #ff512f,
+            #c33764
+        );
+
+    color:#fff;
+
+    font-size:12px;
+    font-weight:600;
+
+    padding:10px 14px;
+
+    transition:.25s;
+}
+
+.btn-custom:hover{
+
+    color:#fff;
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 6px 15px
+        rgba(195,55,100,.30);
+}
+
+/* ================= TABLE ================= */
+
+.table{
+    margin:0;
+    font-size:11px;
+}
+
+.table thead th{
+
+    background:#1d2671;
+    color:#fff;
+
+    border:0;
+
+    padding:11px 10px;
+
+    font-size:10px;
+
+    white-space:nowrap;
+}
+
+.table tbody td{
+
+    padding:10px;
+
+    vertical-align:middle;
+
+    white-space:nowrap;
+}
+
+.table tbody tr{
+
+    border-bottom:
+        1px solid #edf0f5;
+
+    transition:.2s;
+}
+
+.table tbody tr:hover{
+
+    background:#faf7fb;
+}
+
+/* ================= BADGES ================= */
+
+.emp-id-badge{
+
+    background:#eef2ff;
+    color:#3949ab;
+
+    padding:5px 8px;
+
+    border-radius:7px;
+
+    font-size:10px;
+    font-weight:600;
+}
+
+.net-badge{
+
+    background:#e9f9ef;
+    color:#198754;
+
+    font-weight:700;
+
+    padding:5px 8px;
+
+    border-radius:7px;
+}
+
+/* ================= EMPTY ================= */
+
+.empty-box{
+
+    padding:35px 10px;
+
+    text-align:center;
+
+    color:#8a91a3;
+}
+
+.empty-box i{
+
+    font-size:35px;
+
+    display:block;
+
+    margin-bottom:8px;
+}
+
+.empty-box span{
+
+    font-size:12px;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+
+    text-align:center;
+
+    padding:25px;
+
+    color:#777;
+
+    font-size:12px;
+}
+
+/* ================= ACTION BUTTON ================= */
+
+.action-btn{
+
+    width:30px;
+    height:30px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:7px;
+
+    border:0;
+}
+
+/* ================= ROW PRINT BUTTON ================= */
+
+/* Existing project colours only */
+
+.print-row-btn{
+    background:
+        linear-gradient(
+            45deg,
+            #1d2671,
+            #c33764
+        );
+
+    color:#fff;
+}
+
+.print-row-btn:hover{
+    color:#fff;
+
+    transform:translateY(-1px);
+
+    box-shadow:
+        0 4px 10px
+        rgba(195,55,100,.20);
+}
+
+/* ================= SINGLE ROW PRINT HIDE ================= */
+
+.print-hide-row{
+    display:none !important;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:992px){
+
+    .main{
+        padding:14px;
+    }
+
+    .page-header h2{
+        font-size:20px;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .topbar{
+        padding:11px 13px;
+    }
+
+    .topbar-icon{
+
+        width:37px;
+        height:37px;
+
+        font-size:17px;
+
+    }
+
+    .topbar-title h5{
+        font-size:14px;
+    }
+
+    .topbar-title small{
+        font-size:8px;
+    }
+
+    .admin-badge{
+        padding:6px 9px;
+        font-size:9px;
+    }
+
+    .card-body{
+        padding:13px;
+    }
+
+}
+
+/* ================= PRINT ================= */
+
+@media print{
+
+    @page{
+        size:A4 landscape;
+        margin:10mm;
+    }
+
+    body{
+        background:#fff !important;
+    }
+
+    /* Hide Payroll Form */
+
+    .col-lg-4{
+        display:none !important;
+    }
+
+    /* Hide buttons and admin badge */
+
+    .no-print,
+    .admin-badge,
+    .action-btn,
+    th:last-child,
+    td:last-child{
+        display:none !important;
+    }
+
+    /* Hide non-selected row during single print */
+
+    .print-hide-row{
+        display:none !important;
+    }
+
+    .main{
+        padding:0 !important;
+    }
+
+    .topbar{
+        margin-bottom:12px !important;
+        box-shadow:none !important;
+        border:1px solid #ddd;
+    }
+
+    .page-header{
+        margin-bottom:12px !important;
+    }
+
+    .page-header h2{
+        font-size:20px !important;
+    }
+
+    .page-header p{
+        font-size:10px !important;
+    }
+
+    /* Full width Payroll Records */
+
+    .col-lg-8{
+        width:100% !important;
+        max-width:100% !important;
+        flex:0 0 100% !important;
+    }
+
+    .card{
+        box-shadow:none !important;
+        border:1px solid #ddd !important;
+    }
+
+    .card-header{
+        background:#1d2671 !important;
+        color:#fff !important;
+
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+    .table{
+        width:100% !important;
+        font-size:9px !important;
+    }
+
+    .table thead th{
+
+        background:#1d2671 !important;
+        color:#fff !important;
+
+        font-size:9px !important;
+
+        padding:7px !important;
+
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+    .table tbody td{
+
+        font-size:9px !important;
+
+        padding:7px !important;
+    }
+
+    .emp-id-badge{
+
+        background:#eef2ff !important;
+        color:#3949ab !important;
+
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+    .net-badge{
+
+        background:#e9f9ef !important;
+        color:#198754 !important;
+
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+}
+
+/* ================= SINGLE PAYROLL PRINT ================= */
+
+@media print{
+
+    .single-print-mode .page-header p{
+        display:none !important;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<div class="main">
+
+
+    <!-- =================================================
+         TOPBAR
+    ================================================== -->
+
+    <div class="topbar">
+
+        <div class="topbar-title">
+
+            <div class="topbar-icon">
+
+                <i class="bi bi-cash-stack"></i>
+
+            </div>
+
+            <div>
+
+                <h5>
+                    Payroll Management
+                </h5>
+
+                <small>
+                    Employee Salary & Payroll
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRINT + ADMIN -->
+
+        <div class="d-flex align-items-center gap-2">
+
+            <button
+                type="button"
+                class="btn-print no-print"
+                onclick="printPayroll()">
+
+                <i class="bi bi-printer-fill me-1"></i>
+
+                Print Payroll
+
+            </button>
+
+
+            <span class="admin-badge">
+
+                <i class="bi bi-shield-check"></i>
+
+                Admin
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
+
+    <div class="page-header">
+
+        <h2>
+            Payroll Management
+        </h2>
+
+        <p class="text-muted">
+            Generate and manage employee salary records easily.
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MAIN ROW
+    ================================================== -->
+
+    <div class="row g-3">
+
+
+        <!-- =================================================
+             PAYROLL FORM
+        ================================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="card">
+
+
+                <div class="card-header bg-dark text-white">
+
+                    <i class="bi bi-wallet2 me-1"></i>
+
+                    Generate Payroll
+
+                </div>
+
+
+
+                <div class="card-body">
+
+
+                    <form id="payrollForm">
+
+
+                        <!-- EMPLOYEE -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                <i class="bi bi-person-fill"></i>
+
+                                Select Employee
+
+                            </label>
+
+
+                            <select
+                                id="employeeSelect"
+                                class="form-select"
+                                required>
+
+                                <option value="">
+                                    Loading Employees...
+                                </option>
+
+                            </select>
+
+
+                            <span class="helper-text">
+
+                                Employees registered by Admin
+                                will appear here.
+
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- BASIC SALARY -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                <i class="bi bi-currency-rupee"></i>
+
+                                Basic Salary
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="basicSalary"
+                                class="form-control"
+                                placeholder="Enter basic salary"
+                                min="0"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- ALLOWANCES -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                <i class="bi bi-plus-circle"></i>
+
+                                Allowances
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="allowances"
+                                class="form-control"
+                                placeholder="Enter allowances"
+                                min="0"
+                                value="0"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- DEDUCTIONS -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                <i class="bi bi-dash-circle"></i>
+
+                                Deductions
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="deductions"
+                                class="form-control"
+                                placeholder="Enter deductions"
+                                min="0"
+                                value="0"
+                                required>
+
+                        </div>
+
+
+
+                        <!-- NET PAY -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                <i class="bi bi-calculator-fill"></i>
+
+                                Net Pay
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="netPay"
+                                class="form-control"
+                                placeholder="₹ 0"
+                                readonly>
+
+                        </div>
+
+
+
+                        <!-- SAVE BUTTON -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-custom w-100">
+
+                            <i class="bi bi-save me-1"></i>
+
+                            Save Payroll
+
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAYROLL TABLE
+        ================================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="card">
+
+
+                <div class="card-header bg-dark text-white
+                            d-flex
+                            justify-content-between
+                            align-items-center">
+
+
+                    <span>
+
+                        <i class="bi bi-receipt me-1"></i>
+
+                        Payroll Records
+
+                    </span>
+
+
+                    <span
+                        class="badge bg-light text-dark"
+                        id="recordCount">
+
+                        0 Records
+
+                    </span>
+
+
+                </div>
+
+
+
+                <div class="card-body p-0">
+
+
+                    <div class="table-responsive">
+
+
+                        <table
+                            class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>#</th>
+
+                                    <th>Emp ID</th>
+
+                                    <th>Name</th>
+
+                                    <th>Department</th>
+
+                                    <th>Designation</th>
+
+                                    <th>Basic</th>
+
+                                    <th>Allowances</th>
+
+                                    <th>Deductions</th>
+
+                                    <th>Net Pay</th>
+
+                                    <th>Action</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="payrollTable">
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+let employees = [];
+
+let payrolls =
+    JSON.parse(
+        localStorage.getItem("payrolls")
+    ) || [];
+
+let editingIndex = -1;
+
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+
+/* =====================================================
+   GET EMPLOYEE ID
+===================================================== */
+
+function getEmployeeId(emp){
+
+    return (
+
+        emp.employeeId ||
+
+        emp.empId ||
+
+        emp.employeeID ||
+
+        emp.id ||
+
+        emp._id ||
+
+        ""
+
+    );
+
+}
+
+
+
+/* =====================================================
+   GET EMPLOYEE NAME
+===================================================== */
+
+function getEmployeeName(emp){
+
+    return (
+
+        emp.name ||
+
+        emp.employeeName ||
+
+        emp.fullName ||
+
+        "Employee"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   GET DEPARTMENT
+===================================================== */
+
+function getDepartment(emp){
+
+    return (
+
+        emp.department ||
+
+        emp.dept ||
+
+        "—"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   GET DESIGNATION
+===================================================== */
+
+function getDesignation(emp){
+
+    return (
+
+        emp.designation ||
+
+        emp.position ||
+
+        emp.role ||
+
+        "—"
+
+    );
+
+}
+
+
+
+/* =====================================================
+   GET SALARY
+===================================================== */
+
+function getEmployeeSalary(emp){
+
+    return (
+
+        emp.salary ||
+
+        emp.basicSalary ||
+
+        emp.basic_salary ||
+
+        0
+
+    );
+
+}
+
+
+
+/* =====================================================
+   LOAD EMPLOYEES FROM MONGODB
+===================================================== */
+
+async function loadEmployees(){
+
+    const select =
+        document.getElementById(
+            "employeeSelect"
+        );
+
+
+    try{
+
+        select.innerHTML = `
+
+            <option value="">
+
+                Loading Employees...
+
+            </option>
+
+        `;
+
+
+        const response =
+            await fetch(
+                "/api/employees"
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Employee API Error: " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Employee API Response:",
+            data
+        );
+
+
+        if(Array.isArray(data)){
+
+            employees = data;
+
+        }
+
+        else if(
+            Array.isArray(
+                data.employees
+            )
+        ){
+
+            employees =
+                data.employees;
+
+        }
+
+        else if(
+            Array.isArray(
+                data.data
+            )
+        ){
+
+            employees =
+                data.data;
+
+        }
+
+        else{
+
+            employees = [];
+
+        }
+
+
+        populateEmployeeDropdown();
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Employee loading error:",
+            error
+        );
+
+
+        select.innerHTML = `
+
+            <option value="">
+
+                Unable to load employees
+
+            </option>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   POPULATE EMPLOYEE DROPDOWN
+===================================================== */
+
+function populateEmployeeDropdown(){
+
+    const select =
+        document.getElementById(
+            "employeeSelect"
+        );
+
+
+    select.innerHTML = `
+
+        <option value="">
+
+            Select Employee
+
+        </option>
+
+    `;
+
+
+    if(
+        !employees ||
+        employees.length === 0
+    ){
+
+        select.innerHTML = `
+
+            <option value="">
+
+                No Employees Found
+
+            </option>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    employees.forEach(
+        (emp,index)=>{
+
+            const employeeId =
+                getEmployeeId(emp);
+
+
+            const employeeName =
+                getEmployeeName(emp);
+
+
+            select.innerHTML += `
+
+                <option value="${index}">
+
+                    ${escapeHtml(
+                        employeeName
+                    )}
+
+                    ${
+                        employeeId
+
+                        ? `(${escapeHtml(
+                            String(employeeId)
+                        )})`
+
+                        : ""
+                    }
+
+                </option>
+
+            `;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   EMPLOYEE SELECT EVENT
+===================================================== */
+
+document
+    .getElementById(
+        "employeeSelect"
+    )
+    .addEventListener(
+        "change",
+        function(){
+
+            const selectedIndex =
+                this.value;
+
+
+            if(
+                selectedIndex === ""
+            ){
+
+                document
+                    .getElementById(
+                        "basicSalary"
+                    )
+                    .value = "";
+
+                calculateNetPay();
+
+                return;
+
+            }
+
+
+            const emp =
+                employees[
+                    Number(
+                        selectedIndex
+                    )
+                ];
+
+
+            if(!emp) return;
+
+
+            const salary =
+                getEmployeeSalary(emp);
+
+
+            document
+                .getElementById(
+                    "basicSalary"
+                )
+                .value =
+                    salary || "";
+
+
+            calculateNetPay();
+
+        }
+    );
+
+
+
+/* =====================================================
+   CALCULATE NET PAY
+===================================================== */
+
+function calculateNetPay(){
+
+    const basicSalary =
+        parseFloat(
+
+            document
+                .getElementById(
+                    "basicSalary"
+                )
+                .value
+
+        ) || 0;
+
+
+    const allowances =
+        parseFloat(
+
+            document
+                .getElementById(
+                    "allowances"
+                )
+                .value
+
+        ) || 0;
+
+
+    const deductions =
+        parseFloat(
+
+            document
+                .getElementById(
+                    "deductions"
+                )
+                .value
+
+        ) || 0;
+
+
+    const netPay =
+
+        basicSalary +
+
+        allowances -
+
+        deductions;
+
+
+    document
+        .getElementById(
+            "netPay"
+        )
+        .value =
+
+            netPay >= 0
+            ? netPay
+            : 0;
+
+}
+
+
+
+/* =====================================================
+   INPUT EVENTS
+===================================================== */
+
+document
+    .getElementById(
+        "basicSalary"
+    )
+    .addEventListener(
+        "input",
+        calculateNetPay
+    );
+
+
+document
+    .getElementById(
+        "allowances"
+    )
+    .addEventListener(
+        "input",
+        calculateNetPay
+    );
+
+
+document
+    .getElementById(
+        "deductions"
+    )
+    .addEventListener(
+        "input",
+        calculateNetPay
+    );
+
+
+
+/* =====================================================
+   DISPLAY PAYROLL
+===================================================== */
+
+function displayPayrolls(){
+
+    const table =
+        document.getElementById(
+            "payrollTable"
+        );
+
+
+    const count =
+        document.getElementById(
+            "recordCount"
+        );
+
+
+    table.innerHTML = "";
+
+
+    count.textContent =
+        `${payrolls.length} Records`;
+
+
+
+    if(
+        payrolls.length === 0
+    ){
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="10">
+
+                    <div class="empty-box">
+
+                        <i class="bi bi-inbox"></i>
+
+                        <span>
+                            No Payroll Records Found
+                        </span>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    payrolls.forEach(
+        (pay,index)=>{
+
+            table.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="emp-id-badge">
+
+                            ${escapeHtml(
+                                pay.empId
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <strong>
+
+                            ${escapeHtml(
+                                pay.name
+                            )}
+
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHtml(
+                            pay.department
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${escapeHtml(
+                            pay.designation
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ₹ ${Number(
+                            pay.basicSalary
+                        ).toLocaleString(
+                            "en-IN"
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ₹ ${Number(
+                            pay.allowances
+                        ).toLocaleString(
+                            "en-IN"
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ₹ ${Number(
+                            pay.deductions
+                        ).toLocaleString(
+                            "en-IN"
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="net-badge">
+
+                            ₹ ${Number(
+                                pay.netPay
+                            ).toLocaleString(
+                                "en-IN"
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="d-flex gap-1">
+
+                            <!-- EDIT -->
+
+                            <button
+                                class="btn btn-sm btn-warning action-btn"
+                                onclick="editPayroll(${index})"
+                                title="Edit">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                            </button>
+
+
+                            <!-- DELETE -->
+
+                            <button
+                                class="btn btn-sm btn-danger action-btn"
+                                onclick="deletePayroll(${index})"
+                                title="Delete">
+
+                                <i class="bi bi-trash"></i>
+
+                            </button>
+
+
+                            <!-- PRINT -->
+
+                            <button
+                                class="btn action-btn print-row-btn"
+                                onclick="printSinglePayroll(${index})"
+                                title="Print">
+
+                                <i class="bi bi-printer-fill"></i>
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   SAVE / UPDATE PAYROLL
+===================================================== */
+
+document
+    .getElementById(
+        "payrollForm"
+    )
+    .addEventListener(
+        "submit",
+        function(e){
+
+            e.preventDefault();
+
+
+            const selectedIndex =
+                document
+                    .getElementById(
+                        "employeeSelect"
+                    )
+                    .value;
+
+
+            if(
+                selectedIndex === ""
+            ){
+
+                alert(
+                    "Please select an employee!"
+                );
+
+                return;
+
+            }
+
+
+            const emp =
+                employees[
+                    Number(
+                        selectedIndex
+                    )
+                ];
+
+
+            if(!emp){
+
+                alert(
+                    "Employee not found!"
+                );
+
+                return;
+
+            }
+
+
+            const empId =
+                getEmployeeId(emp);
+
+
+            const name =
+                getEmployeeName(emp);
+
+
+            const department =
+                getDepartment(emp);
+
+
+            const designation =
+                getDesignation(emp);
+
+
+            if(!empId){
+
+                alert(
+                    "Employee ID not found!"
+                );
+
+                return;
+
+            }
+
+
+            const basicSalary =
+                parseFloat(
+
+                    document
+                        .getElementById(
+                            "basicSalary"
+                        )
+                        .value
+
+                ) || 0;
+
+
+            const allowances =
+                parseFloat(
+
+                    document
+                        .getElementById(
+                            "allowances"
+                        )
+                        .value
+
+                ) || 0;
+
+
+            const deductions =
+                parseFloat(
+
+                    document
+                        .getElementById(
+                            "deductions"
+                        )
+                        .value
+
+                ) || 0;
+
+
+            const netPay =
+
+                basicSalary +
+
+                allowances -
+
+                deductions;
+
+
+
+            const payroll = {
+
+                empId:
+                    String(empId),
+
+                name:
+                    String(name),
+
+                department:
+                    String(department),
+
+                designation:
+                    String(designation),
+
+                basicSalary,
+
+                allowances,
+
+                deductions,
+
+                netPay
+
+            };
+
+
+
+            /* SAVE */
+
+            if(
+                editingIndex === -1
+            ){
+
+                payrolls.push(
+                    payroll
+                );
+
+
+                alert(
+                    "Payroll Saved Successfully! ✅"
+                );
+
+            }
+
+
+            /* UPDATE */
+
+            else{
+
+                payrolls[
+                    editingIndex
+                ] = payroll;
+
+
+                alert(
+                    "Payroll Updated Successfully! ✏️"
+                );
+
+            }
+
+
+
+            localStorage.setItem(
+
+                "payrolls",
+
+                JSON.stringify(
+                    payrolls
+                )
+
+            );
+
+
+            displayPayrolls();
+
+            resetPayrollForm();
+
+        }
+    );
+
+
+
+/* =====================================================
+   EDIT PAYROLL
+===================================================== */
+
+function editPayroll(index){
+
+    const pay =
+        payrolls[index];
+
+
+    if(!pay) return;
+
+
+    editingIndex =
+        index;
+
+
+    const employeeIndex =
+        employees.findIndex(
+
+            emp =>
+
+                String(
+                    getEmployeeId(emp)
+                ) ===
+
+                String(
+                    pay.empId
+                )
+
+        );
+
+
+    if(
+        employeeIndex !== -1
+    ){
+
+        document
+            .getElementById(
+                "employeeSelect"
+            )
+            .value =
+                employeeIndex;
+
+    }
+
+
+    document
+        .getElementById(
+            "basicSalary"
+        )
+        .value =
+            pay.basicSalary;
+
+
+    document
+        .getElementById(
+            "allowances"
+        )
+        .value =
+            pay.allowances;
+
+
+    document
+        .getElementById(
+            "deductions"
+        )
+        .value =
+            pay.deductions;
+
+
+    calculateNetPay();
+
+
+
+    const btn =
+        document.querySelector(
+            "#payrollForm button[type='submit']"
+        );
+
+
+    btn.innerHTML = `
+
+        <i class="bi bi-pencil-square me-1"></i>
+
+        Update Payroll
+
+    `;
+
+
+    btn.classList.remove(
+        "btn-custom"
+    );
+
+
+    btn.classList.add(
+        "btn-warning"
+    );
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+
+/* =====================================================
+   DELETE PAYROLL
+===================================================== */
+
+function deletePayroll(index){
+
+    const pay =
+        payrolls[index];
+
+
+    if(!pay) return;
+
+
+    if(
+
+        confirm(
+
+            `Delete payroll record for
+             ${pay.name}
+             (${pay.empId})?`
+
+        )
+
+    ){
+
+        payrolls.splice(
+            index,
+            1
+        );
+
+
+        localStorage.setItem(
+
+            "payrolls",
+
+            JSON.stringify(
+                payrolls
+            )
+
+        );
+
+
+        displayPayrolls();
+
+
+        if(
+            editingIndex === index
+        ){
+
+            resetPayrollForm();
+
+        }
+
+
+        alert(
+            "Payroll Deleted Successfully! 🗑️"
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   RESET FORM
+===================================================== */
+
+function resetPayrollForm(){
+
+    editingIndex =
+        -1;
+
+
+    document
+        .getElementById(
+            "payrollForm"
+        )
+        .reset();
+
+
+    document
+        .getElementById(
+            "allowances"
+        )
+        .value = 0;
+
+
+    document
+        .getElementById(
+            "deductions"
+        )
+        .value = 0;
+
+
+    document
+        .getElementById(
+            "netPay"
+        )
+        .value = "";
+
+
+    const btn =
+        document.querySelector(
+            "#payrollForm button[type='submit']"
+        );
+
+
+    btn.innerHTML = `
+
+        <i class="bi bi-save me-1"></i>
+
+        Save Payroll
+
+    `;
+
+
+    btn.classList.remove(
+        "btn-warning"
+    );
+
+
+    btn.classList.add(
+        "btn-custom"
+    );
+
+}
+
+
+
+/* =====================================================
+   PRINT ALL PAYROLL
+===================================================== */
+
+function printPayroll(){
+
+    if(payrolls.length === 0){
+
+        alert(
+            "No Payroll Records Available To Print!"
+        );
+
+        return;
+
+    }
+
+    window.print();
+
+}
+
+
+
+/* =====================================================
+   PRINT SINGLE EMPLOYEE PAYROLL
+===================================================== */
+
+function printSinglePayroll(index){
+
+    const selectedPayroll =
+        payrolls[index];
+
+
+    if(!selectedPayroll){
+
+        alert(
+            "Payroll record not found!"
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Hide every row except
+       selected employee row.
+    */
+
+    const rows =
+        document.querySelectorAll(
+            "#payrollTable > tr"
+        );
+
+
+    rows.forEach(
+        (row,rowIndex)=>{
+
+            if(rowIndex !== index){
+
+                row.classList.add(
+                    "print-hide-row"
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+       Add single print mode
+    */
+
+    document.body.classList.add(
+        "single-print-mode"
+    );
+
+
+    /*
+       Open browser print
+    */
+
+    window.print();
+
+
+    /*
+       Restore all rows
+       after print preview.
+    */
+
+    setTimeout(
+        ()=>{
+
+            rows.forEach(
+                row=>{
+
+                    row.classList.remove(
+                        "print-hide-row"
+                    );
+
+                }
+            );
+
+
+            document.body.classList.remove(
+                "single-print-mode"
+            );
+
+        },
+        1000
+    );
+
+}
+
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+loadEmployees();
+
+displayPayrolls();
+
+
+</script>
+
+</body>
+
+</html>

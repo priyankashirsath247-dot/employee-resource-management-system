@@ -1,0 +1,3131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Elite ERMS - Admin Dashboard</title>
+
+<!-- Bootstrap -->
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+rel="stylesheet">
+
+<!-- Google Font -->
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#f4f6f9;
+    font-family:'Inter',sans-serif;
+    color:#20242b;
+    overflow-x:hidden;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:70px;
+
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #2563eb
+    );
+
+    z-index:1050;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.15);
+}
+
+.navbar-brand{
+    width:250px;
+    color:white!important;
+    font-weight:800;
+    font-size:20px;
+    padding-left:12px;
+}
+
+.navbar-brand span{
+    color:#dbeafe;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-box{
+    max-width:480px;
+    width:100%;
+}
+
+.search-box input{
+    height:38px;
+    border:none;
+    border-radius:22px;
+    padding-left:18px;
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,.08);
+}
+
+.search-box button{
+    border-radius:20px;
+    padding:5px 18px;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+    width:250px;
+    height:calc(100vh - 70px);
+
+    position:fixed;
+    top:70px;
+    left:0;
+
+    background:#151515;
+
+    padding:20px 15px;
+
+    overflow-y:auto;
+
+    z-index:1040;
+
+    transition:.3s;
+}
+
+.brand-box{
+    padding:8px 12px 18px;
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:800;
+}
+
+.brand-box span{
+    color:#6366f1;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    color:#d7d7d7;
+
+    padding:11px 13px;
+
+    text-decoration:none;
+
+    border-radius:9px;
+
+    margin-bottom:5px;
+
+    font-size:14px;
+
+    transition:.25s;
+}
+
+.sidebar a i{
+    width:22px;
+    text-align:center;
+    font-size:15px;
+}
+
+.sidebar a:hover{
+    background:#292929;
+    color:#fff;
+    transform:translateX(3px);
+}
+
+.sidebar a.active{
+    background:#4f46e5;
+    color:#fff;
+
+    box-shadow:
+        0 5px 15px rgba(79,70,229,.25);
+}
+
+
+/* =========================================================
+   NOTIFICATION BUTTON
+========================================================= */
+
+.notification-btn{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.notification-btn:hover{
+    background:rgba(255,255,255,.22);
+    transform:translateY(-2px);
+}
+
+.notification-btn i{
+    font-size:18px;
+}
+
+.notification-count{
+    position:absolute;
+
+    top:-5px;
+    right:-5px;
+
+    min-width:21px;
+    height:21px;
+
+    padding:0 5px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    color:white;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:2px solid #4f46e5;
+
+    animation:pulseBadge 1.5s infinite;
+}
+
+.notification-count.hidden{
+    display:none!important;
+}
+
+@keyframes pulseBadge{
+
+    0%{
+        box-shadow:0 0 0 0 rgba(239,68,68,.5);
+    }
+
+    70%{
+        box-shadow:0 0 0 7px rgba(239,68,68,0);
+    }
+
+    100%{
+        box-shadow:0 0 0 0 rgba(239,68,68,0);
+    }
+
+}
+
+
+/* =========================================================
+   PROFILE PHOTO
+========================================================= */
+
+.profile-photo{
+    width:48px;
+    height:48px;
+
+    min-width:48px;
+    min-height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+    object-position:center;
+
+    display:block;
+
+    border:2px solid rgba(255,255,255,.95);
+
+    background:#e5e7eb;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.25);
+
+    image-rendering:auto;
+
+    transition:.25s;
+}
+
+.profile-photo:hover{
+    transform:scale(1.05);
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.3);
+}
+
+.admin-profile-name{
+    color:white;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    max-width:120px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+
+/* =========================================================
+   PROFILE DROPDOWN
+========================================================= */
+
+.dropdown-menu{
+    margin-top:10px!important;
+    border-radius:12px!important;
+    overflow:hidden;
+}
+
+.dropdown-item{
+    font-size:13px;
+    padding:10px 15px;
+}
+
+.dropdown-item:hover{
+    background:#eef2ff;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-content{
+    margin-left:250px;
+
+    margin-top:70px;
+
+    padding:25px;
+
+    min-height:calc(100vh - 70px);
+}
+
+.page-title{
+    font-size:24px;
+    font-weight:800;
+    margin-bottom:4px;
+}
+
+.page-subtitle{
+    color:#777;
+    font-size:13px;
+    margin-bottom:22px;
+}
+
+
+/* =========================================================
+   SLIDER
+========================================================= */
+
+.carousel{
+    border-radius:18px;
+    overflow:hidden;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.08);
+}
+
+.carousel-item{
+    height:260px;
+
+    border-radius:18px;
+
+    color:white;
+}
+
+.slide1{
+    background:
+        linear-gradient(
+            135deg,
+            #667eea,
+            #764ba2
+        );
+}
+
+.slide2{
+    background:
+        linear-gradient(
+            135deg,
+            #43cea2,
+            #185a9d
+        );
+}
+
+.slide3{
+    background:
+        linear-gradient(
+            135deg,
+            #ff512f,
+            #dd2476
+        );
+}
+
+.carousel-caption{
+    bottom:50px;
+}
+
+.carousel-caption h2{
+    font-size:30px;
+    font-weight:800;
+}
+
+.carousel-caption p{
+    font-size:14px;
+    opacity:.9;
+}
+
+
+/* =========================================================
+   STAT CARDS
+========================================================= */
+
+.stat-card{
+    background:white;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    min-height:145px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.06);
+
+    transition:.25s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.stat-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.10);
+}
+
+.stat-icon{
+    width:48px;
+    height:48px;
+
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:19px;
+
+    margin-bottom:12px;
+}
+
+.icon-blue{
+    background:#eef2ff;
+    color:#4f46e5;
+}
+
+.icon-green{
+    background:#ecfdf5;
+    color:#059669;
+}
+
+.icon-orange{
+    background:#fff7ed;
+    color:#ea580c;
+}
+
+.icon-red{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+.icon-purple{
+    background:#faf5ff;
+    color:#9333ea;
+}
+
+.icon-cyan{
+    background:#ecfeff;
+    color:#0891b2;
+}
+
+.stat-number{
+    font-size:27px;
+
+    font-weight:800;
+
+    margin:0;
+}
+
+.stat-title{
+    color:#777;
+
+    font-size:12px;
+
+    margin-top:4px;
+
+    font-weight:500;
+}
+
+
+/* =========================================================
+   NOTIFICATION MODAL
+========================================================= */
+
+.notification-modal .modal-content{
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.notification-header{
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #2563eb
+        );
+
+    color:white;
+
+    padding:18px 20px;
+}
+
+.notification-header h5{
+    margin:0;
+    font-weight:800;
+}
+
+.notification-item{
+    border:1px solid #eee;
+
+    border-radius:12px;
+
+    padding:14px;
+
+    margin-bottom:10px;
+
+    background:#fff;
+
+    transition:.2s;
+}
+
+.notification-item:hover{
+    border-color:#c7d2fe;
+    background:#f8faff;
+}
+
+.notification-icon{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#eef2ff;
+
+    color:#4f46e5;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.notification-name{
+    font-weight:700;
+    font-size:14px;
+}
+
+.notification-info{
+    font-size:12px;
+    color:#777;
+}
+
+.notification-reason{
+    margin-top:7px;
+
+    background:#f8f9fa;
+
+    padding:8px 10px;
+
+    border-radius:7px;
+
+    font-size:12px;
+}
+
+.pending-badge{
+    background:#fff3cd;
+
+    color:#856404;
+
+    font-size:10px;
+
+    padding:4px 8px;
+
+    border-radius:20px;
+
+    font-weight:700;
+}
+
+.empty-notification{
+    text-align:center;
+
+    padding:45px 15px;
+
+    color:#999;
+}
+
+.empty-notification i{
+    font-size:42px;
+
+    margin-bottom:12px;
+
+    color:#cbd5e1;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.leave-toast{
+    position:fixed;
+
+    right:20px;
+
+    bottom:20px;
+
+    z-index:3000;
+
+    min-width:310px;
+
+    max-width:400px;
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:14px 16px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.18);
+
+    display:none;
+
+    border-left:4px solid #4f46e5;
+}
+
+.leave-toast.show{
+    display:block;
+
+    animation:toastIn .3s ease;
+}
+
+@keyframes toastIn{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   API STATUS
+========================================================= */
+
+.api-status{
+    position:fixed;
+
+    bottom:12px;
+    left:265px;
+
+    font-size:10px;
+
+    color:#888;
+
+    background:rgba(255,255,255,.9);
+
+    padding:5px 9px;
+
+    border-radius:5px;
+
+    z-index:1500;
+}
+
+.api-status.online{
+    color:#059669;
+}
+
+.api-status.offline{
+    color:#dc2626;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:992px){
+
+    .sidebar{
+        transform:translateX(-100%);
+    }
+
+    .sidebar.show{
+        transform:translateX(0);
+    }
+
+    .navbar-brand{
+        width:auto;
+    }
+
+    .main-content{
+        margin-left:0;
+    }
+
+    .search-box{
+        max-width:280px;
+    }
+
+    .api-status{
+        left:15px;
+    }
+
+}
+
+
+@media(max-width:576px){
+
+    .main-content{
+        padding:15px;
+    }
+
+    .search-box{
+        display:none;
+    }
+
+    .carousel-item{
+        height:220px;
+    }
+
+    .carousel-caption h2{
+        font-size:22px;
+    }
+
+    .admin-profile-name{
+        display:none;
+    }
+
+    .profile-photo{
+        width:44px;
+        height:44px;
+
+        min-width:44px;
+        min-height:44px;
+    }
+
+    .leave-toast{
+        left:15px;
+        right:15px;
+        min-width:auto;
+    }
+
+}
+
+
+/* =========================================================
+   SEND NOTIFICATION
+========================================================= */
+.send-notification-modal .modal-content{border:none;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.20);}
+.send-notification-header{background:linear-gradient(135deg,#4f46e5,#2563eb);color:white;padding:22px 24px;}
+.send-notification-header h5{margin:0;font-weight:800;}
+.send-notification-header small{opacity:.85;}
+.notification-form-label{font-size:13px;font-weight:700;margin-bottom:7px;color:#374151;}
+.notification-form-control{border:1px solid #e5e7eb;border-radius:10px;padding:11px 13px;font-size:13px;}
+.notification-form-control:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12);}
+.notification-type-box{border:1px solid #e5e7eb;border-radius:10px;padding:11px 13px;background:white;font-size:13px;}
+.send-notification-btn{border:none;border-radius:10px;padding:11px 22px;font-weight:700;background:linear-gradient(135deg,#4f46e5,#2563eb);color:white;transition:.2s;}
+.send-notification-btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(79,70,229,.25);}
+.send-notification-btn:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+.notification-success-box{display:none;background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;border-radius:10px;padding:10px 13px;font-size:13px;font-weight:600;}
+.notification-error-box{display:none;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:10px;padding:10px 13px;font-size:13px;font-weight:600;}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-dark">
+
+<div class="container-fluid px-3">
+
+
+<div class="d-flex align-items-center">
+
+<button
+class="btn btn-sm text-white d-lg-none me-2"
+onclick="toggleSidebar()">
+
+<i class="fa fa-bars"></i>
+
+</button>
+
+
+<div class="navbar-brand">
+
+Elite <span>ERMS</span>
+
+</div>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="search-box d-none d-md-flex">
+
+<div class="input-group">
+
+<input
+type="search"
+class="form-control"
+id="searchInput"
+placeholder="Search employee...">
+
+<button
+class="btn btn-light"
+type="button"
+onclick="searchEmployee()">
+
+<i class="fa fa-search"></i>
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- RIGHT -->
+
+<div class="d-flex align-items-center gap-3">
+
+
+<!-- NOTIFICATION -->
+
+<button
+class="notification-btn"
+onclick="showNotifications()"
+title="Leave Notifications">
+
+<i class="fa fa-bell"></i>
+
+<span
+id="notificationCount"
+class="notification-count hidden">
+
+0
+
+</span>
+
+</button>
+
+
+<!-- PROFILE -->
+
+<div class="dropdown">
+
+<a
+href="#"
+class="d-flex align-items-center text-decoration-none"
+data-bs-toggle="dropdown"
+aria-expanded="false">
+
+
+<img
+id="dashboardProfileImage"
+src="https://i.pravatar.cc/200?img=12"
+alt="Admin Profile"
+class="profile-photo">
+
+
+<span
+id="navbarAdminName"
+class="admin-profile-name ms-2">
+
+Admin
+
+</span>
+
+
+<i
+class="fa fa-chevron-down text-white ms-2"
+style="font-size:10px;">
+
+</i>
+
+</a>
+
+
+<ul class="dropdown-menu dropdown-menu-end shadow border-0">
+
+<li>
+
+<a
+class="dropdown-item"
+href="myprofile.html">
+
+<i class="fa fa-user me-2"></i>
+
+My Profile
+
+</a>
+
+</li>
+
+
+<li>
+
+<a
+class="dropdown-item"
+href="settings.html">
+
+<i class="fa fa-gear me-2"></i>
+
+Settings
+
+</a>
+
+</li>
+
+
+<li>
+
+<hr class="dropdown-divider">
+
+</li>
+
+
+<li>
+
+<a
+class="dropdown-item text-danger"
+href="#"
+onclick="logoutAdmin();return false;">
+
+<i class="fa fa-power-off me-2"></i>
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<div
+class="sidebar"
+id="sidebar">
+
+
+<div class="brand-box">
+
+<i class="fa fa-layer-group me-2"></i>
+
+Admin <span>Panel</span>
+
+</div>
+
+
+<a
+href="admin-dashboard.html"
+class="active">
+
+<i class="fa fa-home"></i>
+
+Dashboard
+
+</a>
+
+
+<a href="attendancesave.html">
+
+<i class="fa fa-calendar-check"></i>
+
+Attendance
+
+</a>
+
+
+<a href="payroll.html">
+
+<i class="fa fa-sack-dollar"></i>
+
+Payroll
+
+</a>
+
+
+<a href="leave.html">
+
+<i class="fa fa-calendar-days"></i>
+
+Leave Requests
+
+<span
+id="sidebarLeaveCount"
+class="badge bg-danger ms-auto d-none">
+
+0
+
+</span>
+
+</a>
+
+
+<a href="addemployee.html">
+
+<i class="fa fa-user-plus"></i>
+
+Add Employee
+
+</a>
+
+
+<a href="report.html">
+
+<i class="fa fa-chart-line"></i>
+
+Reports
+
+</a>
+
+
+<a href="tasks.html">
+
+<i class="fa fa-envelope"></i>
+
+Tasks
+
+</a>
+
+
+<a href="settings.html">
+
+<i class="fa fa-gear"></i>
+
+Settings
+
+</a>
+
+
+<a
+href="#"
+class="text-danger"
+onclick="logoutAdmin();return false;">
+
+<i class="fa fa-power-off"></i>
+
+Logout
+
+</a>
+
+</div>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="main-content">
+
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+<div>
+<div class="page-title">Dashboard Overview</div>
+<div class="page-subtitle mb-0">Manage your employees, attendance, payroll and leave requests.</div>
+</div>
+
+<button class="btn btn-primary px-4 py-2" onclick="openSendNotificationModal()" style="border-radius:12px;font-weight:700;">
+<i class="fa fa-paper-plane me-2"></i>Send Notification
+</button>
+
+</div>
+
+<!-- =====================================================
+     SLIDER
+====================================================== -->
+
+
+
+<div
+id="dashboardSlider"
+class="carousel slide mb-4"
+data-bs-ride="carousel"
+data-bs-interval="4000">
+
+
+<div class="carousel-inner">
+
+
+<div class="carousel-item active slide1">
+
+<div class="carousel-caption">
+
+<h2>
+
+Welcome,
+
+<span id="adminNameDisplay">
+
+Admin
+
+</span>
+
+👋
+
+</h2>
+
+
+<p>
+
+Manage Employees Efficiently
+
+</p>
+
+</div>
+
+</div>
+
+
+<div class="carousel-item slide2">
+
+<div class="carousel-caption">
+
+<h2>
+
+Attendance & Payroll
+
+</h2>
+
+<p>
+
+Track employee records in one place.
+
+</p>
+
+</div>
+
+</div>
+
+
+<div class="carousel-item slide3">
+
+<div class="carousel-caption">
+
+<h2>
+
+Leave Management
+
+</h2>
+
+<p>
+
+Get notified whenever an employee submits a leave request.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button
+class="carousel-control-prev"
+type="button"
+data-bs-target="#dashboardSlider"
+data-bs-slide="prev">
+
+<span class="carousel-control-prev-icon"></span>
+
+</button>
+
+
+<button
+class="carousel-control-next"
+type="button"
+data-bs-target="#dashboardSlider"
+data-bs-slide="next">
+
+<span class="carousel-control-next-icon"></span>
+
+</button>
+
+</div>
+
+
+
+<!-- =====================================================
+     STATISTICS
+====================================================== -->
+
+<div class="row g-3 mb-4">
+
+
+<div class="col-xl-3 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-icon icon-blue">
+
+<i class="fa fa-users"></i>
+
+</div>
+
+<p
+class="stat-number"
+id="totalEmployees">
+
+0
+
+</p>
+
+<div class="stat-title">
+
+Total Employees
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-xl-3 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-icon icon-green">
+
+<i class="fa fa-user-check"></i>
+
+</div>
+
+<p
+class="stat-number"
+id="presentEmployees">
+
+0
+
+</p>
+
+<div class="stat-title">
+
+Present Today
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-xl-3 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-icon icon-red">
+
+<i class="fa fa-user-xmark"></i>
+
+</div>
+
+<p
+class="stat-number"
+id="absentEmployees">
+
+0
+
+</p>
+
+<div class="stat-title">
+
+Absent Today
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-xl-3 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-icon icon-orange">
+
+<i class="fa fa-calendar-xmark"></i>
+
+</div>
+
+<p
+class="stat-number"
+id="todayLeaves">
+
+0
+
+</p>
+
+<div class="stat-title">
+
+On Leave Today
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-xl-4 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-icon icon-purple">
+
+<i class="fa fa-sitemap"></i>
+
+</div>
+
+<p
+class="stat-number"
+id="departmentCount">
+
+0
+
+</p>
+
+<div class="stat-title">
+
+Departments
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-xl-4 col-md-6">
+
+<div
+class="stat-card"
+style="cursor:pointer;"
+onclick="showNotifications()">
+
+<div class="stat-icon icon-orange">
+
+<i class="fa fa-bell"></i>
+
+</div>
+
+<p
+class="stat-number"
+id="pendingLeaveCount">
+
+0
+
+</p>
+
+<div class="stat-title">
+
+Pending Leave Requests
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-xl-4 col-md-12">
+
+<div class="stat-card">
+
+<div class="stat-icon icon-cyan">
+
+<i class="fa fa-chart-pie"></i>
+
+</div>
+
+<p
+class="stat-number"
+id="attendanceRate">
+
+0%
+
+</p>
+
+<div class="stat-title">
+
+Today's Attendance Rate
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     SEND NOTIFICATION MODAL
+========================================================= -->
+<div class="modal fade send-notification-modal" id="sendNotificationModal" tabindex="-1" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="send-notification-header">
+<div class="d-flex justify-content-between align-items-center">
+<div>
+<h5><i class="fa fa-paper-plane me-2"></i>Send Notification</h5>
+<small>Send a notification to employees</small>
+</div>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+</div>
+<div class="modal-body p-4">
+<div id="notificationSuccess" class="notification-success-box mb-3"><i class="fa fa-circle-check me-2"></i>Notification sent successfully!</div>
+<div id="notificationError" class="notification-error-box mb-3"><i class="fa fa-circle-exclamation me-2"></i><span id="notificationErrorText">Something went wrong.</span></div>
+<div class="mb-3">
+<label class="notification-form-label"><i class="fa fa-users me-1"></i>Send To</label>
+<select id="notificationRecipient" class="form-select notification-form-control" onchange="toggleEmployeeIdField()">
+<option value="all">All Employees</option>
+<option value="employee">Specific Employee</option>
+</select>
+</div>
+<div class="mb-3" id="specificEmployeeBox" style="display:none;">
+<label class="notification-form-label"><i class="fa fa-id-card me-1"></i>Employee ID</label>
+<input type="text" id="notificationEmployeeId" class="form-control notification-form-control" placeholder="Enter Employee ID">
+</div>
+<div class="mb-3">
+<label class="notification-form-label"><i class="fa fa-tag me-1"></i>Notification Type</label>
+<select id="notificationType" class="form-select notification-type-box">
+<option value="announcement">📢 Announcement</option>
+<option value="task">📋 Task</option>
+<option value="leave">📅 Leave</option>
+<option value="attendance">🕒 Attendance</option>
+<option value="payroll">💰 Payroll</option>
+<option value="general">🔔 General</option>
+</select>
+</div>
+<div class="mb-3">
+<label class="notification-form-label"><i class="fa fa-heading me-1"></i>Notification Title</label>
+<input type="text" id="notificationTitle" class="form-control notification-form-control" placeholder="Example: Important Announcement">
+</div>
+<div class="mb-3">
+<label class="notification-form-label"><i class="fa fa-message me-1"></i>Message</label>
+<textarea id="notificationMessage" class="form-control notification-form-control" rows="4" placeholder="Write notification message..."></textarea>
+</div>
+</div>
+<div class="modal-footer px-4 pb-4 pt-0">
+<button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+<button type="button" class="send-notification-btn" id="sendNotificationBtn" onclick="sendAdminNotification()"><i class="fa fa-paper-plane me-2"></i>Send Notification</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- =========================================================
+     NOTIFICATION MODAL
+========================================================= -->
+
+<div
+class="modal fade notification-modal"
+id="notificationModal"
+tabindex="-1">
+
+<div class="modal-dialog modal-dialog-centered modal-lg">
+
+<div class="modal-content">
+
+
+<div class="notification-header">
+
+<div class="d-flex justify-content-between align-items-center">
+
+<div>
+
+<h5>
+
+<i class="fa fa-bell me-2"></i>
+
+Leave Notifications
+
+</h5>
+
+<small>
+
+Pending employee leave requests
+
+</small>
+
+</div>
+
+
+<button
+type="button"
+class="btn-close btn-close-white"
+data-bs-dismiss="modal">
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<div class="modal-body">
+
+<div id="notificationList">
+
+<div class="empty-notification">
+
+<i class="fa fa-spinner fa-spin"></i>
+
+<p>
+
+Loading notifications...
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="modal-footer">
+
+<button
+type="button"
+class="btn btn-secondary btn-sm"
+data-bs-dismiss="modal">
+
+Close
+
+</button>
+
+
+<a
+href="leave.html"
+class="btn btn-primary btn-sm">
+
+<i class="fa fa-calendar-check me-1"></i>
+
+Manage Leave Requests
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+id="leaveToast"
+class="leave-toast">
+
+<div class="d-flex align-items-start">
+
+<div class="me-3 text-primary">
+
+<i class="fa fa-bell fa-lg"></i>
+
+</div>
+
+
+<div>
+
+<strong>
+
+New Leave Request
+
+</strong>
+
+
+<div
+id="toastMessage"
+class="small text-muted mt-1">
+
+New leave request received.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- API STATUS -->
+
+<div
+id="apiStatus"
+class="api-status">
+
+Checking server...
+
+</div>
+
+
+
+<!-- BOOTSTRAP -->
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<script>
+
+/* =========================================================
+   API
+========================================================= */
+
+const API_BASE = "http://localhost:3000";
+
+let pendingLeaveRequests = [];
+
+let previousLeaveIds = new Set();
+
+let notificationModal = null;
+let sendNotificationModal = null;
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   SEND NOTIFICATION
+========================================================= */
+function openSendNotificationModal(){
+    const el=document.getElementById("sendNotificationModal");
+    if(!el)return;
+    if(!sendNotificationModal)sendNotificationModal=new bootstrap.Modal(el);
+    clearNotificationForm();
+    sendNotificationModal.show();
+}
+
+function toggleEmployeeIdField(){
+    const recipient=document.getElementById("notificationRecipient");
+    const box=document.getElementById("specificEmployeeBox");
+    if(recipient&&box)box.style.display=recipient.value==="employee"?"block":"none";
+}
+
+function clearNotificationForm(){
+    const ids=["notificationTitle","notificationMessage","notificationEmployeeId"];
+    ids.forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});
+    const r=document.getElementById("notificationRecipient");
+    const t=document.getElementById("notificationType");
+    if(r)r.value="all";
+    if(t)t.value="announcement";
+    const ok=document.getElementById("notificationSuccess");
+    const er=document.getElementById("notificationError");
+    if(ok)ok.style.display="none";
+    if(er)er.style.display="none";
+    toggleEmployeeIdField();
+}
+
+async function sendAdminNotification(){
+    const recipient=document.getElementById("notificationRecipient");
+    const employeeId=document.getElementById("notificationEmployeeId");
+    const type=document.getElementById("notificationType");
+    const title=document.getElementById("notificationTitle");
+    const message=document.getElementById("notificationMessage");
+    const button=document.getElementById("sendNotificationBtn");
+    const success=document.getElementById("notificationSuccess");
+    const error=document.getElementById("notificationError");
+    const errorText=document.getElementById("notificationErrorText");
+    const titleValue=title?title.value.trim():"";
+    const messageValue=message?message.value.trim():"";
+    if(!titleValue){showNotificationError("Please enter notification title.");title?.focus();return;}
+    if(!messageValue){showNotificationError("Please enter notification message.");message?.focus();return;}
+    let selected="all";
+    if(recipient&&recipient.value==="employee"){
+        selected=employeeId?employeeId.value.trim():"";
+        if(!selected){showNotificationError("Please enter Employee ID.");employeeId?.focus();return;}
+    }
+    if(button){button.disabled=true;button.innerHTML='<i class="fa fa-spinner fa-spin me-2"></i>Sending...';}
+    if(success)success.style.display="none";
+    if(error)error.style.display="none";
+    try{
+        const response=await fetch(`${API_BASE}/api/notifications/send`,{
+            method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+            body:JSON.stringify({title:titleValue,message:messageValue,type:type?type.value:"general",employeeId:selected,createdBy:"Admin"})
+        });
+        const data=await response.json().catch(()=>({}));
+        if(!response.ok||!data.success)throw new Error(data.message||"Notification could not be sent.");
+        if(success){success.style.display="block";success.innerHTML='<i class="fa fa-circle-check me-2"></i>'+escapeHtml(data.message||"Notification sent successfully!");}
+        if(title)title.value="";if(message)message.value="";if(employeeId)employeeId.value="";
+        setTimeout(()=>{if(sendNotificationModal)sendNotificationModal.hide();},1200);
+    }catch(err){
+        console.error("SEND NOTIFICATION ERROR:",err);
+        showNotificationError(err.message||"Server error. Please try again.");
+    }finally{
+        if(button){button.disabled=false;button.innerHTML='<i class="fa fa-paper-plane me-2"></i>Send Notification';}
+    }
+}
+
+function showNotificationError(message){
+    const box=document.getElementById("notificationError");
+    const text=document.getElementById("notificationErrorText");
+    if(text)text.innerText=message;
+    if(box)box.style.display="block";
+}
+
+
+/* =========================================================
+   INDIA DATE
+========================================================= */
+
+function getIndiaDate(){
+
+    return new Intl.DateTimeFormat(
+        "en-CA",
+        {
+            timeZone:"Asia/Kolkata"
+        }
+    ).format(new Date());
+
+}
+
+
+/* =========================================================
+   ⭐ ADMIN PROFILE
+   NAME + PHOTO
+========================================================= */
+
+function loadAdminProfile(){
+
+    try{
+
+        const image =
+            document.getElementById(
+                "dashboardProfileImage"
+            );
+
+        const navbarName =
+            document.getElementById(
+                "navbarAdminName"
+            );
+
+        const welcomeName =
+            document.getElementById(
+                "adminNameDisplay"
+            );
+
+
+        const defaultPhoto =
+            "https://i.pravatar.cc/200?img=12";
+
+
+        /* =============================================
+           DEFAULT IMAGE
+        ============================================= */
+
+        if(image){
+
+            image.src = defaultPhoto;
+
+        }
+
+
+        /* =============================================
+           LOAD PHOTO
+           My Profile saves as adminPhoto
+        ============================================= */
+
+        const savedPhoto =
+            localStorage.getItem(
+                "adminPhoto"
+            );
+
+
+        if(
+            savedPhoto &&
+            savedPhoto.trim() !== ""
+        ){
+
+            if(image){
+
+                image.src = savedPhoto;
+
+            }
+
+        }
+
+
+        /* =============================================
+           LOAD NAME
+           My Profile saves as adminProfile
+        ============================================= */
+
+        let adminName = "Admin";
+
+
+        const profileData =
+            localStorage.getItem(
+                "adminProfile"
+            );
+
+
+        if(profileData){
+
+            try{
+
+                const profile =
+                    JSON.parse(
+                        profileData
+                    );
+
+
+                if(
+                    profile.fullName &&
+                    profile.fullName.trim() !== ""
+                ){
+
+                    adminName =
+                        profile.fullName.trim();
+
+                }
+
+            }
+            catch(error){
+
+                console.error(
+                    "adminProfile JSON error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* =============================================
+           FALLBACK adminName
+        ============================================= */
+
+        if(adminName === "Admin"){
+
+            const savedName =
+                localStorage.getItem(
+                    "adminName"
+                );
+
+
+            if(
+                savedName &&
+                savedName.trim() !== ""
+            ){
+
+                adminName =
+                    savedName.trim();
+
+            }
+
+        }
+
+
+        /* =============================================
+           FALLBACK hrmsSettings
+        ============================================= */
+
+        if(adminName === "Admin"){
+
+            const settingsData =
+                localStorage.getItem(
+                    "hrmsSettings"
+                );
+
+
+            if(settingsData){
+
+                try{
+
+                    const settings =
+                        JSON.parse(
+                            settingsData
+                        );
+
+
+                    if(
+                        settings.adminName &&
+                        settings.adminName.trim() !== ""
+                    ){
+
+                        adminName =
+                            settings.adminName.trim();
+
+                    }
+
+                }
+                catch(error){
+
+                    console.error(
+                        "Settings JSON error:",
+                        error
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        /* =============================================
+           FALLBACK adminData
+        ============================================= */
+
+        if(adminName === "Admin"){
+
+            const adminData =
+                localStorage.getItem(
+                    "adminData"
+                );
+
+
+            if(adminData){
+
+                try{
+
+                    const admin =
+                        JSON.parse(
+                            adminData
+                        );
+
+
+                    adminName =
+                        admin.name ||
+                        admin.adminName ||
+                        "Admin";
+
+                }
+                catch(error){
+
+                    console.error(
+                        "adminData JSON error:",
+                        error
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        /* =============================================
+           UPDATE NAME
+        ============================================= */
+
+        if(welcomeName){
+
+            welcomeName.innerText =
+                adminName;
+
+        }
+
+
+        if(navbarName){
+
+            navbarName.innerText =
+                adminName;
+
+        }
+
+
+        /* =============================================
+           IMAGE ERROR
+        ============================================= */
+
+        if(image){
+
+            image.onerror =
+                function(){
+
+                    this.onerror = null;
+
+                    this.src =
+                        defaultPhoto;
+
+                };
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Admin profile loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
+
+async function loadDashboardStats(){
+
+    try{
+
+        const employeeResponse =
+            await fetch(
+                `${API_BASE}/api/employees?t=${Date.now()}`,
+                {
+                    cache:"no-store"
+                }
+            );
+
+
+        if(!employeeResponse.ok){
+
+            throw new Error(
+                "Employee API failed"
+            );
+
+        }
+
+
+        const employeeData =
+            await employeeResponse.json();
+
+
+        const employees =
+            Array.isArray(employeeData)
+            ? employeeData
+            : (
+                employeeData.employees ||
+                employeeData.data ||
+                []
+            );
+
+
+        document.getElementById(
+            "totalEmployees"
+        ).innerText =
+            employees.length;
+
+
+        /* DEPARTMENTS */
+
+        const departments =
+            new Set(
+                employees
+                    .map(
+                        e =>
+                            String(
+                                e.department || ""
+                            ).trim()
+                    )
+                    .filter(Boolean)
+            );
+
+
+        document.getElementById(
+            "departmentCount"
+        ).innerText =
+            departments.size;
+
+
+        /* ATTENDANCE */
+
+        const today =
+            getIndiaDate();
+
+
+        const attendanceResponse =
+            await fetch(
+                `${API_BASE}/api/attendance?date=${today}&t=${Date.now()}`,
+                {
+                    cache:"no-store"
+                }
+            );
+
+
+        if(!attendanceResponse.ok){
+
+            throw new Error(
+                "Attendance API failed"
+            );
+
+        }
+
+
+        const attendanceData =
+            await attendanceResponse.json();
+
+
+        const attendance =
+            Array.isArray(attendanceData)
+            ? attendanceData
+            : (
+                attendanceData.attendance ||
+                attendanceData.data ||
+                []
+            );
+
+
+        const present =
+            attendance.filter(
+                r =>
+                    String(
+                        r.status || ""
+                    )
+                    .toLowerCase() ===
+                    "present"
+            ).length;
+
+
+        const absent =
+            attendance.filter(
+                r =>
+                    String(
+                        r.status || ""
+                    )
+                    .toLowerCase() ===
+                    "absent"
+            ).length;
+
+
+        const leave =
+            attendance.filter(
+                r =>
+                    String(
+                        r.status || ""
+                    )
+                    .toLowerCase() ===
+                    "leave"
+            ).length;
+
+
+        document.getElementById(
+            "presentEmployees"
+        ).innerText =
+            present;
+
+
+        document.getElementById(
+            "absentEmployees"
+        ).innerText =
+            absent;
+
+
+        document.getElementById(
+            "todayLeaves"
+        ).innerText =
+            leave;
+
+
+        const rate =
+            employees.length > 0
+            ? Math.round(
+                (
+                    present /
+                    employees.length
+                ) * 100
+            )
+            : 0;
+
+
+        document.getElementById(
+            "attendanceRate"
+        ).innerText =
+            `${rate}%`;
+
+
+        /* API ONLINE */
+
+        const apiStatus =
+            document.getElementById(
+                "apiStatus"
+            );
+
+
+        if(apiStatus){
+
+            apiStatus.innerText =
+                "● Server Online";
+
+            apiStatus.className =
+                "api-status online";
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Dashboard stats error:",
+            error
+        );
+
+
+        const apiStatus =
+            document.getElementById(
+                "apiStatus"
+            );
+
+
+        if(apiStatus){
+
+            apiStatus.innerText =
+                "● Server Offline";
+
+            apiStatus.className =
+                "api-status offline";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD LEAVE NOTIFICATIONS
+========================================================= */
+
+async function loadLeaveNotifications(
+    showToast = true
+){
+
+    try{
+
+        console.log(
+            "🔔 Loading leave requests..."
+        );
+
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/leave?t=${Date.now()}`,
+                {
+                    method:"GET",
+                    cache:"no-store",
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        console.log(
+            "Leave API status:",
+            response.status
+        );
+
+
+        if(!response.ok){
+
+            const errorText =
+                await response.text();
+
+
+            console.error(
+                "Leave API error:",
+                errorText
+            );
+
+
+            throw new Error(
+                "GET /api/leave failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "ALL LEAVE DATA:",
+            data
+        );
+
+
+        let allLeaves = [];
+
+
+        if(Array.isArray(data)){
+
+            allLeaves = data;
+
+        }
+        else if(
+            Array.isArray(data.leaves)
+        ){
+
+            allLeaves =
+                data.leaves;
+
+        }
+        else if(
+            Array.isArray(data.data)
+        ){
+
+            allLeaves =
+                data.data;
+
+        }
+
+
+        console.log(
+            "Total leaves:",
+            allLeaves.length
+        );
+
+
+        /* ONLY PENDING */
+
+        pendingLeaveRequests =
+            allLeaves.filter(
+                leave => {
+
+                    const status =
+                        String(
+                            leave.status ||
+                            "Pending"
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    return status ===
+                        "pending";
+
+                }
+            );
+
+
+        console.log(
+            "🟡 PENDING LEAVES:",
+            pendingLeaveRequests
+        );
+
+
+        /* COUNT */
+
+        updateNotificationBadge(
+            pendingLeaveRequests.length
+        );
+
+
+        /* NEW LEAVE */
+
+        const currentIds =
+            new Set();
+
+
+        pendingLeaveRequests.forEach(
+            leave => {
+
+                const id =
+                    String(
+                        leave._id ||
+                        (
+                            leave.empId +
+                            "_" +
+                            leave.leaveDate +
+                            "_" +
+                            leave.leaveType
+                        )
+                    );
+
+
+                currentIds.add(id);
+
+
+                if(
+                    showToast &&
+                    previousLeaveIds.size > 0 &&
+                    !previousLeaveIds.has(id)
+                ){
+
+                    showLeaveToast(
+                        leave
+                    );
+
+                }
+
+            }
+        );
+
+
+        previousLeaveIds =
+            currentIds;
+
+
+        /* REFRESH MODAL */
+
+        const modal =
+            document.getElementById(
+                "notificationModal"
+            );
+
+
+        if(
+            modal &&
+            modal.classList.contains("show")
+        ){
+
+            renderNotifications();
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "❌ LEAVE NOTIFICATION ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE NOTIFICATION BADGE
+========================================================= */
+
+function updateNotificationBadge(count){
+
+    const badge =
+        document.getElementById(
+            "notificationCount"
+        );
+
+
+    const sidebarBadge =
+        document.getElementById(
+            "sidebarLeaveCount"
+        );
+
+
+    const pendingStat =
+        document.getElementById(
+            "pendingLeaveCount"
+        );
+
+
+    /* TOP */
+
+    if(badge){
+
+        badge.innerText =
+            count > 99
+            ? "99+"
+            : count;
+
+
+        if(count > 0){
+
+            badge.classList.remove(
+                "hidden"
+            );
+
+        }
+        else{
+
+            badge.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+
+
+    /* SIDEBAR */
+
+    if(sidebarBadge){
+
+        sidebarBadge.innerText =
+            count > 99
+            ? "99+"
+            : count;
+
+
+        if(count > 0){
+
+            sidebarBadge.classList.remove(
+                "d-none"
+            );
+
+        }
+        else{
+
+            sidebarBadge.classList.add(
+                "d-none"
+            );
+
+        }
+
+    }
+
+
+    /* CARD */
+
+    if(pendingStat){
+
+        pendingStat.innerText =
+            count;
+
+    }
+
+}
+
+
+/* =========================================================
+   SHOW NOTIFICATIONS
+========================================================= */
+
+async function showNotifications(){
+
+    await loadLeaveNotifications(
+        false
+    );
+
+
+    renderNotifications();
+
+
+    if(notificationModal){
+
+        notificationModal.show();
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER NOTIFICATIONS
+========================================================= */
+
+function renderNotifications(){
+
+    const container =
+        document.getElementById(
+            "notificationList"
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    if(
+        pendingLeaveRequests.length === 0
+    ){
+
+        container.innerHTML = `
+
+            <div class="empty-notification">
+
+                <i class="fa fa-bell-slash"></i>
+
+                <h6 class="fw-bold">
+
+                    No Pending Leave Requests
+
+                </h6>
+
+                <p class="small mb-0">
+
+                    There are currently no pending leave requests.
+
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        pendingLeaveRequests
+        .map(
+            leave => {
+
+                const employeeName =
+                    leave.name ||
+                    "Employee";
+
+
+                const employeeId =
+                    leave.empId ||
+                    "";
+
+
+                const leaveDate =
+                    leave.leaveDate ||
+                    "-";
+
+
+                const leaveType =
+                    leave.leaveType ||
+                    "Leave";
+
+
+                const reason =
+                    leave.reason ||
+                    "No reason provided";
+
+
+                return `
+
+                    <div class="notification-item">
+
+                        <div class="d-flex">
+
+                            <div
+                                class="notification-icon flex-shrink-0 me-3">
+
+                                <i class="fa fa-calendar-days"></i>
+
+                            </div>
+
+
+                            <div class="flex-grow-1">
+
+                                <div
+                                    class="d-flex justify-content-between align-items-start">
+
+                                    <div>
+
+                                        <div class="notification-name">
+
+                                            ${escapeHtml(
+                                                employeeName
+                                            )}
+
+                                        </div>
+
+
+                                        <div class="notification-info">
+
+                                            Employee ID:
+
+                                            ${escapeHtml(
+                                                employeeId
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <span class="pending-badge">
+
+                                        Pending
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="notification-info mt-2">
+
+                                    <i class="fa fa-tag me-1"></i>
+
+                                    <strong>
+
+                                        ${escapeHtml(
+                                            leaveType
+                                        )}
+
+                                    </strong>
+
+
+                                    &nbsp;&nbsp;
+
+
+                                    <i class="fa fa-calendar me-1"></i>
+
+                                    ${escapeHtml(
+                                        leaveDate
+                                    )}
+
+                                </div>
+
+
+                                <div class="notification-reason">
+
+                                    <strong>
+
+                                        Reason:
+
+                                    </strong>
+
+                                    ${escapeHtml(
+                                        reason
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showLeaveToast(leave){
+
+    if(!leave){
+
+        return;
+
+    }
+
+
+    const name =
+        leave.name ||
+        "Employee";
+
+
+    const type =
+        leave.leaveType ||
+        "Leave";
+
+
+    const message =
+        document.getElementById(
+            "toastMessage"
+        );
+
+
+    if(message){
+
+        message.innerText =
+            `${name} submitted a new ${type} request.`;
+
+    }
+
+
+    const toast =
+        document.getElementById(
+            "leaveToast"
+        );
+
+
+    if(!toast){
+
+        return;
+
+    }
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function(){
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        5000
+    );
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchEmployee(){
+
+    const input =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    if(!input){
+
+        return;
+
+    }
+
+
+    const value =
+        input.value.trim();
+
+
+    if(!value){
+
+        alert(
+            "Please enter employee name or ID."
+        );
+
+        return;
+
+    }
+
+
+    window.location.href =
+        `addemployee.html?search=${encodeURIComponent(value)}`;
+
+}
+
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+if(searchInput){
+
+    searchInput.addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key === "Enter"
+            ){
+
+                event.preventDefault();
+
+                searchEmployee();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList
+        .toggle("show");
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logoutAdmin(){
+
+    localStorage.removeItem(
+        "adminData"
+    );
+
+    localStorage.removeItem(
+        "adminName"
+    );
+
+    localStorage.removeItem(
+        "erms_role"
+    );
+
+    localStorage.removeItem(
+        "erms_user"
+    );
+
+    /*
+       IMPORTANT:
+       adminProfile आणि adminPhoto
+       remove केलेले नाहीत.
+       त्यामुळे logout/login नंतर profile
+       पुन्हा दिसेल.
+    */
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function(){
+
+        console.log(
+            "🚀 ADMIN DASHBOARD STARTED"
+        );
+
+
+        /* =============================================
+           MODAL
+        ============================================= */
+
+        const modalElement =
+            document.getElementById(
+                "notificationModal"
+            );
+
+
+        if(modalElement){
+
+            notificationModal =
+                new bootstrap.Modal(
+                    modalElement
+                );
+
+        }
+
+        const sendModalElement = document.getElementById("sendNotificationModal");
+        if(sendModalElement){
+            sendNotificationModal = new bootstrap.Modal(sendModalElement);
+        }
+
+
+        /* =============================================
+           ⭐ ADMIN NAME + PHOTO
+        ============================================= */
+
+        loadAdminProfile();
+
+
+        /* =============================================
+           STATS
+        ============================================= */
+
+        await loadDashboardStats();
+
+
+        /* =============================================
+           LEAVE
+        ============================================= */
+
+        await loadLeaveNotifications(
+            false
+        );
+
+
+        /* =============================================
+           CHECK EVERY 5 SECONDS
+        ============================================= */
+
+        setInterval(
+            async function(){
+
+                await loadLeaveNotifications(
+                    true
+                );
+
+            },
+            5000
+        );
+
+
+        /* =============================================
+           STATS EVERY 30 SECONDS
+        ============================================= */
+
+        setInterval(
+            async function(){
+
+                await loadDashboardStats();
+
+                /*
+                   Profile photo/name पुन्हा check
+                   करतो, त्यामुळे My Profile मधून
+                   change केल्यावर dashboard update होईल.
+                */
+
+                loadAdminProfile();
+
+            },
+            30000
+        );
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

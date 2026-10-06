@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RMS Report Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<!-- Chart JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+    background:#f4f6f9;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* HEADER */
+.header{
+    background:linear-gradient(135deg,#4f46e5,#0909f0);
+    color:#fff;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* CARDS */
+.stat-card{
+    border-radius:16px;
+    padding:20px;
+    color:#fff;
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+.blue{background:linear-gradient(45deg,#2196f3,#64b5f6);}
+.green{background:linear-gradient(45deg,#2e7d32,#66bb6a);}
+.orange{background:linear-gradient(45deg,#ff9800,#ffb74d);}
+.red{background:linear-gradient(45deg,#d32f2f,#ef5350);}
+
+.card{
+    border:none;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* SMALL CHARTS */
+.chart-sm{
+    height:220px;
+}
+.pie-wrapper{
+    max-width:260px;
+    margin:auto;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h4><i class="fa fa-chart-pie"></i> Resource Management System – Reports</h4>
+    <span>Report Date: <b>2025</b></span>
+</div>
+
+<div class="container-fluid p-4">
+
+<!-- SUMMARY CARDS -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3"><div class="stat-card blue"><h6>Total Resources</h6><h2>320</h2></div></div>
+    <div class="col-md-3"><div class="stat-card green"><h6>Allocated</h6><h2>185</h2></div></div>
+    <div class="col-md-3"><div class="stat-card orange"><h6>Available</h6><h2>135</h2></div></div>
+    <div class="col-md-3"><div class="stat-card red"><h6>Under Maintenance</h6><h2>12</h2></div></div>
+</div>
+
+<!-- CHARTS -->
+<div class="row g-4 mb-4">
+    <div class="col-md-7">
+        <div class="card p-3">
+            <h6 class="mb-2">Monthly Resource Usage</h6>
+            <div class="chart-sm">
+                <canvas id="usageChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card p-3 text-center">
+            <h6 class="mb-2">Resource Status</h6>
+            <div class="pie-wrapper chart-sm">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TABLE -->
+<div class="card p-3">
+    <h5 class="mb-3">Department Wise Resource Report</h5>
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Department</th>
+                <th>Total</th>
+                <th>Allocated</th>
+                <th>Available</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>IT</td><td>120</td><td>90</td><td>30</td><td><span class="badge bg-success">Good</span></td></tr>
+            <tr><td>HR</td><td>60</td><td>35</td><td>25</td><td><span class="badge bg-warning">Average</span></td></tr>
+            <tr><td>Finance</td><td>50</td><td>40</td><td>10</td><td><span class="badge bg-danger">Low</span></td></tr>
+            <tr><td>Operations</td><td>90</td><td>20</td><td>70</td><td><span class="badge bg-success">Excellent</span></td></tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+<script>
+new Chart(usageChart,{
+    type:'bar',
+    data:{
+        labels:['Jan','Feb','Mar','Apr','May','Jun'],
+        datasets:[{
+            label:'Used',
+            data:[45,60,55,70,80,90],
+            backgroundColor:'#4f46e5'
+        }]
+    },
+    options:{
+        maintainAspectRatio:false,
+        plugins:{legend:{display:false}}
+    }
+});
+
+new Chart(statusChart,{
+    type:'doughnut',
+    data:{
+        labels:['Allocated','Available','Maintenance'],
+        datasets:[{
+            data:[185,135,12],
+            backgroundColor:['#2e7d32','#ff9800','#d32f2f']
+        }]
+    },
+    options:{
+        maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom'}}
+    }
+});
+</script>
+
+</body>
+</html>

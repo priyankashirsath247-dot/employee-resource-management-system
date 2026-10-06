@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Task Management | Elite ERMS</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:"Segoe UI",sans-serif;
+    background:#08070d;
+    color:#fff;
+}
+
+/* ================= NAVBAR ================= */
+
+.topbar{
+    height:62px;
+    padding:0 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(15,13,25,.92);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:700;
+    background:linear-gradient(90deg,#a855f7,#ec4899);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.admin{
+    font-size:13px;
+    color:#bbb;
+}
+
+.admin i{
+    color:#d946ef;
+    font-size:20px;
+    margin-right:7px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    padding:28px 35px;
+}
+
+.heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.heading h2{
+    font-size:26px;
+    margin:0;
+    font-weight:700;
+}
+
+.heading p{
+    color:#77738a;
+    font-size:13px;
+    margin:5px 0 0;
+}
+
+.btn-create{
+    border:0;
+    padding:10px 17px;
+    border-radius:9px;
+    color:white;
+    font-size:13px;
+    font-weight:600;
+    background:linear-gradient(135deg,#8b5cf6,#ec4899);
+    box-shadow:0 8px 22px rgba(168,85,247,.22);
+    transition:.2s;
+}
+
+.btn-create:hover{
+    transform:translateY(-1px);
+}
+
+/* ================= STATS ================= */
+
+.stat{
+    background:#11101a;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:13px;
+    padding:16px;
+    height:88px;
+}
+
+.stat-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#7c3aed,#db2777);
+    font-size:17px;
+}
+
+.stat-number{
+    font-size:21px;
+    font-weight:700;
+    line-height:1;
+}
+
+.stat-label{
+    font-size:11px;
+    color:#77738a;
+    margin-top:5px;
+}
+
+/* ================= TABLE ================= */
+
+.table-box{
+    margin-top:24px;
+    background:#11101a;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.table-head{
+    padding:15px 18px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+    display:flex;
+    gap:10px;
+}
+
+.table-head input,
+.table-head select{
+    background:#0b0a11;
+    border:1px solid #272432;
+    color:#ddd;
+    border-radius:8px;
+    padding:8px 11px;
+    font-size:12px;
+}
+
+.table-head input{
+    width:250px;
+}
+
+.table-head select{
+    width:145px;
+}
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th{
+    color:#77738a;
+    font-size:10px;
+    text-transform:uppercase;
+    padding:12px 18px;
+    background:#0d0c14;
+    white-space:nowrap;
+}
+
+td{
+    padding:13px 18px;
+    border-top:1px solid rgba(255,255,255,.05);
+    font-size:12px;
+    color:#d5d2df;
+    vertical-align:middle;
+}
+
+tbody tr{
+    transition:.2s;
+}
+
+tbody tr:hover{
+    background:rgba(168,85,247,.035);
+}
+
+.task-title{
+    font-weight:600;
+    color:white;
+}
+
+.employee-name{
+    color:#c084fc;
+    font-weight:600;
+}
+
+/* ================= BADGES ================= */
+
+.badge-custom{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    display:inline-block;
+}
+
+.priority-high{
+    background:rgba(239,68,68,.13);
+    color:#fb7185;
+}
+
+.priority-medium{
+    background:rgba(234,179,8,.13);
+    color:#facc15;
+}
+
+.priority-low{
+    background:rgba(34,197,94,.13);
+    color:#4ade80;
+}
+
+.status{
+    background:rgba(168,85,247,.13);
+    color:#c084fc;
+}
+
+/* ================= COMMENT BUTTON ================= */
+
+.comment-btn{
+    border:1px solid rgba(168,85,247,.35);
+    background:rgba(168,85,247,.08);
+    color:#c084fc;
+    border-radius:7px;
+    padding:6px 10px;
+    font-size:11px;
+    font-weight:600;
+    transition:.2s;
+    white-space:nowrap;
+}
+
+.comment-btn:hover{
+    background:linear-gradient(135deg,#8b5cf6,#ec4899);
+    border-color:transparent;
+    color:white;
+    transform:translateY(-1px);
+}
+
+.comment-count{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    margin-left:4px;
+    border-radius:20px;
+    background:#ec4899;
+    color:#fff;
+    font-size:9px;
+}
+
+/* ================= MODAL ================= */
+
+.modal-content{
+    background:#12111b;
+    border:1px solid rgba(168,85,247,.35);
+    border-radius:14px;
+    color:white;
+    box-shadow:0 20px 70px rgba(0,0,0,.7);
+}
+
+.modal-header{
+    padding:15px 20px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.modal-title{
+    font-size:17px;
+    font-weight:700;
+}
+
+.modal-body{
+    padding:18px 20px;
+}
+
+.form-label{
+    font-size:11px;
+    color:#bdb9ca;
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+.form-control,
+.form-select{
+    height:42px;
+    background:#0b0a12 !important;
+    border:1px solid #292532 !important;
+    color:#eee !important;
+    border-radius:8px;
+    font-size:12px;
+}
+
+textarea.form-control{
+    height:78px;
+    resize:none;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#a855f7 !important;
+    box-shadow:0 0 0 2px rgba(168,85,247,.12) !important;
+}
+
+.form-select option{
+    background:#12111b;
+    color:white;
+}
+
+.save-btn{
+    width:100%;
+    height:42px;
+    border:0;
+    border-radius:8px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
+    background:linear-gradient(135deg,#8b5cf6,#ec4899);
+}
+
+.employee-info{
+    margin-top:5px;
+    font-size:10px;
+    color:#a78bfa;
+}
+
+.empty{
+    text-align:center;
+    padding:35px !important;
+    color:#666276;
+}
+
+/* ================= COMMENTS MODAL ================= */
+
+.comments-modal .modal-dialog{
+    max-width:650px;
+}
+
+.comment-task-info{
+    background:#0b0a12;
+    border:1px solid #282433;
+    border-radius:10px;
+    padding:12px 14px;
+    margin-bottom:15px;
+}
+
+.comment-task-title{
+    font-size:14px;
+    font-weight:700;
+    color:#fff;
+}
+
+.comment-task-meta{
+    margin-top:4px;
+    font-size:10px;
+    color:#8f899e;
+}
+
+.comments-list{
+    max-height:420px;
+    overflow-y:auto;
+    padding-right:4px;
+}
+
+.comment-item{
+    background:#0d0c14;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:11px;
+    padding:13px;
+    margin-bottom:10px;
+}
+
+.comment-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.comment-user{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.comment-avatar{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#8b5cf6,#ec4899);
+    color:white;
+    font-size:13px;
+}
+
+.comment-name{
+    font-size:12px;
+    font-weight:700;
+    color:#ddd;
+}
+
+.comment-date{
+    font-size:9px;
+    color:#77738a;
+}
+
+.comment-text{
+    margin-top:10px;
+    padding-left:41px;
+    color:#c9c5d2;
+    font-size:12px;
+    line-height:1.6;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.no-comments{
+    text-align:center;
+    padding:45px 20px;
+    color:#716b7e;
+}
+
+.no-comments i{
+    display:block;
+    font-size:35px;
+    margin-bottom:10px;
+    color:#8b5cf6;
+}
+
+.loading-comments{
+    text-align:center;
+    padding:40px;
+    color:#817b8e;
+}
+
+.spinner-border{
+    width:22px;
+    height:22px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:700px){
+
+    .main{
+        padding:20px 15px;
+    }
+
+    .heading{
+        align-items:flex-start;
+        gap:10px;
+        flex-direction:column;
+    }
+
+    .heading h2{
+        font-size:21px;
+    }
+
+    .btn-create{
+        width:100%;
+    }
+
+    .table-head{
+        flex-wrap:wrap;
+    }
+
+    .table-head input{
+        width:100%;
+    }
+
+    .table-head select{
+        flex:1;
+        width:auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="topbar">
+
+    <div class="logo">
+        <i class="bi bi-grid-1x2-fill"></i>
+        ELITE ERMS
+    </div>
+
+    <div class="admin">
+        <i class="bi bi-person-circle"></i>
+        Admin
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+    <div class="heading">
+
+        <div>
+            <h2>Task Management</h2>
+            <p>Create, assign and monitor employee tasks</p>
+        </div>
+
+        <button
+            class="btn-create"
+            data-bs-toggle="modal"
+            data-bs-target="#taskModal"
+            onclick="loadEmployees()">
+
+            <i class="bi bi-plus-lg"></i>
+            Assign Task
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= STATS ================= -->
+
+    <div class="row g-3">
+
+        <div class="col-md-3 col-6">
+            <div class="stat d-flex align-items-center">
+
+                <div class="stat-icon">
+                    <i class="bi bi-list-task"></i>
+                </div>
+
+                <div class="ms-2">
+                    <div class="stat-number" id="totalTasks">0</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-6">
+            <div class="stat d-flex align-items-center">
+
+                <div class="stat-icon">
+                    <i class="bi bi-send"></i>
+                </div>
+
+                <div class="ms-2">
+                    <div class="stat-number" id="assignedTasks">0</div>
+                    <div class="stat-label">Assigned</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-6">
+            <div class="stat d-flex align-items-center">
+
+                <div class="stat-icon">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+
+                <div class="ms-2">
+                    <div class="stat-number" id="progressTasks">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-6">
+            <div class="stat d-flex align-items-center">
+
+                <div class="stat-icon">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+
+                <div class="ms-2">
+                    <div class="stat-number" id="completedTasks">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= TABLE ================= -->
+
+    <div class="table-box">
+
+        <div class="table-head">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search task or employee..."
+                oninput="filterTasks()">
+
+            <select id="statusFilter" onchange="filterTasks()">
+
+                <option value="">All Status</option>
+                <option value="Assigned">Assigned</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+
+            </select>
+
+            <select id="priorityFilter" onchange="filterTasks()">
+
+                <option value="">All Priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Task</th>
+                        <th>Employee</th>
+                        <th>Priority</th>
+                        <th>Start</th>
+                        <th>Due</th>
+                        <th>Status</th>
+                        <th>Comments</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="taskTable">
+
+                    <tr>
+                        <td colspan="7" class="empty">
+                            Loading tasks...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- ASSIGN TASK MODAL -->
+<!-- ===================================================== -->
+
+<div
+    class="modal fade"
+    id="taskModal"
+    tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i
+                        class="bi bi-plus-circle me-2"
+                        style="color:#c084fc">
+                    </i>
+
+                    Assign New Task
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <form id="taskForm">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Task Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="taskTitle"
+                            class="form-control"
+                            placeholder="Enter task title"
+                            required>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            class="form-control"
+                            placeholder="Enter task description"
+                            required></textarea>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            <i class="bi bi-person"></i>
+                            Assign Employee
+
+                        </label>
+
+                        <select
+                            id="employeeId"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Employee
+                            </option>
+
+                        </select>
+
+                        <div
+                            id="employeeInfo"
+                            class="employee-info">
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-2">
+
+                        <div class="col-6">
+
+                            <label class="form-label">
+                                Priority
+                            </label>
+
+                            <select
+                                id="priority"
+                                class="form-select">
+
+                                <option value="Medium">
+                                    Medium
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-6">
+
+                            <label class="form-label">
+                                Start Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="startDate"
+                                class="form-control"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-3 mb-3">
+
+                        <label class="form-label">
+                            Due Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="dueDate"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="save-btn">
+
+                        <i class="bi bi-check2-circle me-1"></i>
+
+                        Save & Assign Task
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- ADMIN COMMENTS MODAL -->
+<!-- ===================================================== -->
+
+<div
+    class="modal fade comments-modal"
+    id="adminCommentsModal"
+    tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i
+                        class="bi bi-chat-left-text-fill me-2"
+                        style="color:#c084fc">
+                    </i>
+
+                    Employee Comments
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <!-- TASK INFO -->
+
+                <div
+                    id="commentTaskInfo"
+                    class="comment-task-info">
+
+                    <div
+                        id="commentTaskTitle"
+                        class="comment-task-title">
+
+                        Task Comments
+
+                    </div>
+
+                    <div
+                        id="commentTaskMeta"
+                        class="comment-task-meta">
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMMENTS -->
+
+                <div
+                    id="adminCommentsList"
+                    class="comments-list">
+
+                    <div class="loading-comments">
+
+                        <div
+                            class="spinner-border"
+                            role="status">
+                        </div>
+
+                        <div class="mt-2">
+                            Loading comments...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+let allTasks = [];
+
+
+// =====================================================
+// LOAD EMPLOYEES
+// =====================================================
+
+async function loadEmployees(){
+
+    const select =
+        document.getElementById("employeeId");
+
+    const info =
+        document.getElementById("employeeInfo");
+
+    select.innerHTML =
+        `<option value="">Loading employees...</option>`;
+
+    info.innerText = "";
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/employees?ts=" + Date.now(),
+                {
+                    cache:"no-store"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok || !data.success){
+
+            throw new Error(
+                data.message ||
+                "Unable to load employees"
+            );
+
+        }
+
+        const employees =
+            data.employees || [];
+
+        select.innerHTML =
+            `<option value="">Select Employee</option>`;
+
+        if(employees.length === 0){
+
+            select.innerHTML =
+                `<option value="">
+                    No employees found
+                </option>`;
+
+            return;
+        }
+
+        employees.forEach(employee => {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                employee.employeeId;
+
+            option.textContent =
+                `${employee.name} (${employee.employeeId})`;
+
+            option.dataset.name =
+                employee.name || "";
+
+            option.dataset.department =
+                employee.department || "";
+
+            select.appendChild(option);
+
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Employee loading error:",
+            error
+        );
+
+        select.innerHTML =
+            `<option value="">
+                Unable to load employees
+            </option>`;
+
+        info.innerText =
+            "Employee API error. Check server.js";
+
+    }
+
+}
+
+
+// =====================================================
+// EMPLOYEE SELECT
+// =====================================================
+
+document
+.getElementById("employeeId")
+.addEventListener(
+    "change",
+    function(){
+
+        const option =
+            this.options[this.selectedIndex];
+
+        const info =
+            document.getElementById("employeeInfo");
+
+        if(!this.value){
+
+            info.innerText = "";
+
+            return;
+        }
+
+        info.innerText =
+            `${option.dataset.name || ""} • ${
+                option.dataset.department || "Employee"
+            }`;
+
+    }
+);
+
+
+// =====================================================
+// CREATE TASK
+// =====================================================
+
+document
+.getElementById("taskForm")
+.addEventListener(
+    "submit",
+    async function(e){
+
+        e.preventDefault();
+
+        const employeeId =
+            document.getElementById("employeeId").value;
+
+        if(!employeeId){
+
+            alert("Please select an employee.");
+
+            return;
+        }
+
+        const taskData = {
+
+            taskTitle:
+                document
+                .getElementById("taskTitle")
+                .value
+                .trim(),
+
+            description:
+                document
+                .getElementById("description")
+                .value
+                .trim(),
+
+            employeeId:
+                employeeId,
+
+            priority:
+                document
+                .getElementById("priority")
+                .value,
+
+            startDate:
+                document
+                .getElementById("startDate")
+                .value,
+
+            dueDate:
+                document
+                .getElementById("dueDate")
+                .value
+
+        };
+
+
+        if(taskData.dueDate < taskData.startDate){
+
+            alert(
+                "Due date cannot be before start date."
+            );
+
+            return;
+        }
+
+
+        try{
+
+            const response =
+                await fetch(
+                    "/api/task",
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(taskData)
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if(!response.ok || !data.success){
+
+                alert(
+                    data.message ||
+                    "Task creation failed"
+                );
+
+                return;
+            }
+
+
+            const selectedOption =
+                document
+                .getElementById("employeeId")
+                .options[
+                    document
+                    .getElementById("employeeId")
+                    .selectedIndex
+                ];
+
+
+            const employeeName =
+                selectedOption.dataset.name ||
+                employeeId;
+
+
+            alert(
+                `Task assigned successfully to ${employeeName}!`
+            );
+
+
+            document
+            .getElementById("taskForm")
+            .reset();
+
+
+            const modal =
+                bootstrap.Modal.getInstance(
+                    document.getElementById("taskModal")
+                );
+
+
+            if(modal){
+
+                modal.hide();
+
+            }
+
+
+            loadTasks();
+
+        }
+        catch(error){
+
+            console.error(
+                "Create task error:",
+                error
+            );
+
+            alert(
+                "Server error. Make sure Node.js server is running."
+            );
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// LOAD ALL TASKS
+// =====================================================
+
+async function loadTasks(){
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/task?ts=" + Date.now(),
+                {
+                    cache:"no-store"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok || !data.success){
+
+            throw new Error(
+                data.message ||
+                "Failed to load tasks"
+            );
+
+        }
+
+
+        allTasks =
+            data.tasks || [];
+
+
+        updateStats();
+
+        renderTasks(allTasks);
+
+    }
+    catch(error){
+
+        console.error(
+            "Load tasks error:",
+            error
+        );
+
+        document
+        .getElementById("taskTable")
+        .innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="empty">
+
+                    Unable to load tasks
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// RENDER TASKS
+// =====================================================
+
+function renderTasks(tasks){
+
+    const table =
+        document.getElementById("taskTable");
+
+
+    if(!tasks.length){
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="empty">
+
+                    <i
+                        class="bi bi-inbox"
+                        style="
+                            font-size:30px;
+                            display:block;
+                            margin-bottom:8px;
+                        ">
+                    </i>
+
+                    No tasks found
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    table.innerHTML =
+        tasks.map(task => {
+
+            const taskId =
+                task._id ||
+                task.taskId ||
+                "";
+
+
+            const commentCount =
+                Array.isArray(task.comments)
+                    ? task.comments.length
+                    : Number(task.commentCount || 0);
+
+
+            return `
+
+                <tr>
+
+                    <td>
+
+                        <div class="task-title">
+
+                            ${escapeHtml(
+                                task.taskTitle
+                            )}
+
+                        </div>
+
+                        <div
+                            style="
+                                color:#666276;
+                                font-size:10px;
+                                margin-top:3px;
+                            ">
+
+                            ${escapeHtml(
+                                task.description || ""
+                            ).substring(0,60)}
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="employee-name">
+
+                            ${escapeHtml(
+                                task.employeeName ||
+                                task.employeeId
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="
+                                badge-custom
+                                priority-${String(
+                                    task.priority ||
+                                    "Medium"
+                                ).toLowerCase()}
+                            ">
+
+                            ${escapeHtml(
+                                task.priority ||
+                                "Medium"
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ${formatDate(
+                            task.startDate
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        ${formatDate(
+                            task.dueDate
+                        )}
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="badge-custom status">
+
+                            ${escapeHtml(
+                                task.status ||
+                                "Assigned"
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            class="comment-btn"
+                            onclick="viewComments('${escapeAttr(taskId)}')">
+
+                            <i class="bi bi-chat-left-text"></i>
+
+                            Comments
+
+                            ${
+                                commentCount > 0
+                                ? `
+                                    <span class="comment-count">
+                                        ${commentCount}
+                                    </span>
+                                  `
+                                : ""
+                            }
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+}
+
+
+// =====================================================
+// VIEW COMMENTS
+// =====================================================
+
+async function viewComments(taskId){
+
+    const modalElement =
+        document.getElementById(
+            "adminCommentsModal"
+        );
+
+
+    const list =
+        document.getElementById(
+            "adminCommentsList"
+        );
+
+
+    const title =
+        document.getElementById(
+            "commentTaskTitle"
+        );
+
+
+    const meta =
+        document.getElementById(
+            "commentTaskMeta"
+        );
+
+
+    /* Find task from already loaded list */
+
+    const task =
+        allTasks.find(
+            t =>
+                String(t._id || t.taskId) ===
+                String(taskId)
+        );
+
+
+    if(task){
+
+        title.innerText =
+            task.taskTitle || "Task Comments";
+
+
+        meta.innerText =
+            `${task.employeeName || task.employeeId || "Employee"} • ${
+                task.status || "Assigned"
+            }`;
+
+    }
+    else{
+
+        title.innerText =
+            "Task Comments";
+
+        meta.innerText = "";
+
+    }
+
+
+    list.innerHTML = `
+
+        <div class="loading-comments">
+
+            <div
+                class="spinner-border"
+                role="status">
+            </div>
+
+            <div class="mt-2">
+                Loading comments...
+            </div>
+
+        </div>
+
+    `;
+
+
+    const modal =
+        bootstrap.Modal.getOrCreateInstance(
+            modalElement
+        );
+
+
+    modal.show();
+
+
+    try{
+
+        const response =
+            await fetch(
+                `/api/task/${encodeURIComponent(taskId)}/comments?ts=${Date.now()}`,
+                {
+                    cache:"no-store"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok || !data.success){
+
+            throw new Error(
+                data.message ||
+                "Failed to load comments"
+            );
+
+        }
+
+
+        const comments =
+            data.comments || [];
+
+
+        /* Update task information from server */
+
+        if(data.task){
+
+            title.innerText =
+                data.task.taskTitle ||
+                "Task Comments";
+
+
+            meta.innerText =
+                `${data.task.employeeName || data.task.employeeId || "Employee"} • ${
+                    data.task.status || "Assigned"
+                }`;
+
+        }
+
+
+        if(!comments.length){
+
+            list.innerHTML = `
+
+                <div class="no-comments">
+
+                    <i class="bi bi-chat-square-text"></i>
+
+                    <div>
+                        No comments yet
+                    </div>
+
+                    <small>
+                        Employee hasn't added any comment.
+                    </small>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML =
+            comments
+            .map(comment => {
+
+                const name =
+                    comment.employeeName ||
+                    comment.employeeId ||
+                    "Employee";
+
+
+                const firstLetter =
+                    name
+                    .charAt(0)
+                    .toUpperCase();
+
+
+                return `
+
+                    <div class="comment-item">
+
+                        <div class="comment-top">
+
+                            <div class="comment-user">
+
+                                <div class="comment-avatar">
+
+                                    ${escapeHtml(
+                                        firstLetter
+                                    )}
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="comment-name">
+
+                                        ${escapeHtml(
+                                            name
+                                        )}
+
+                                    </div>
+
+                                    <div class="comment-date">
+
+                                        ${formatDateTime(
+                                            comment.createdAt
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="comment-text">
+
+                            ${escapeHtml(
+                                comment.comment ||
+                                ""
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            })
+            .join("");
+
+    }
+    catch(error){
+
+        console.error(
+            "Comments error:",
+            error
+        );
+
+
+        list.innerHTML = `
+
+            <div class="no-comments">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <div>
+                    Unable to load comments
+                </div>
+
+                <small>
+                    ${escapeHtml(
+                        error.message ||
+                        "Server error"
+                    )}
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// STATS
+// =====================================================
+
+function updateStats(){
+
+    document
+    .getElementById("totalTasks")
+    .innerText =
+        allTasks.length;
+
+
+    document
+    .getElementById("assignedTasks")
+    .innerText =
+        allTasks.filter(
+            x =>
+                x.status === "Assigned"
+        ).length;
+
+
+    document
+    .getElementById("progressTasks")
+    .innerText =
+        allTasks.filter(
+            x =>
+                x.status === "In Progress"
+        ).length;
+
+
+    document
+    .getElementById("completedTasks")
+    .innerText =
+        allTasks.filter(
+            x =>
+                x.status === "Completed"
+        ).length;
+
+}
+
+
+// =====================================================
+// FILTER
+// =====================================================
+
+function filterTasks(){
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const status =
+        document
+        .getElementById("statusFilter")
+        .value;
+
+
+    const priority =
+        document
+        .getElementById("priorityFilter")
+        .value;
+
+
+    const filtered =
+        allTasks.filter(task => {
+
+            const matchesSearch =
+
+                (task.taskTitle || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                (task.employeeName || "")
+                .toLowerCase()
+                .includes(search)
+
+                ||
+
+                (task.employeeId || "")
+                .toLowerCase()
+                .includes(search);
+
+
+            const matchesStatus =
+                !status ||
+                task.status === status;
+
+
+            const matchesPriority =
+                !priority ||
+                task.priority === priority;
+
+
+            return (
+                matchesSearch &&
+                matchesStatus &&
+                matchesPriority
+            );
+
+        });
+
+
+    renderTasks(filtered);
+
+}
+
+
+// =====================================================
+// DATE
+// =====================================================
+
+function formatDate(date){
+
+    if(!date) return "-";
+
+
+    const d =
+        new Date(date);
+
+
+    if(isNaN(d)) return "-";
+
+
+    return d.toLocaleDateString(
+        "en-GB",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+// =====================================================
+// DATE + TIME
+// =====================================================
+
+function formatDateTime(value){
+
+    if(!value) return "-";
+
+
+    const d =
+        new Date(value);
+
+
+    if(isNaN(d)) return "-";
+
+
+    return d.toLocaleString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+// =====================================================
+// HTML ESCAPE
+// =====================================================
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+// =====================================================
+// ATTRIBUTE ESCAPE
+// =====================================================
+
+function escapeAttr(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;");
+
+}
+
+
+// =====================================================
+// INITIAL LOAD
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadTasks();
+
+
+        const today =
+            new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+        document
+        .getElementById("startDate")
+        .value =
+            today;
+
+
+        document
+        .getElementById("dueDate")
+        .value =
+            today;
+
+    }
+);
+
+</script>
+
+</body>
+</html>

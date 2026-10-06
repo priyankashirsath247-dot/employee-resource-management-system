@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Apply Leave | ELITE ERMS</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+rel="stylesheet">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Poppins',sans-serif;
+
+    background:
+        radial-gradient(circle at 10% 15%,rgba(99,102,241,.28),transparent 28%),
+        radial-gradient(circle at 90% 85%,rgba(124,58,237,.25),transparent 30%),
+        linear-gradient(135deg,#0f172a,#1e1b4b 55%,#312e81);
+
+    color:#1e293b;
+}
+
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page-wrapper{
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.leave-container{
+    width:100%;
+    max-width:1180px;
+
+    min-height:650px;
+
+    display:grid;
+    grid-template-columns:38% 62%;
+
+    background:#fff;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.35);
+}
+
+
+/* =====================================================
+   LEFT PANEL
+===================================================== */
+
+.left-panel{
+    position:relative;
+
+    padding:32px 30px;
+
+    color:white;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #4338ca,
+            #6366f1 52%,
+            #7c3aed
+        );
+}
+
+
+/* Decorative circles */
+
+.left-panel::before{
+    content:"";
+
+    position:absolute;
+
+    width:210px;
+    height:210px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.10);
+
+    top:-90px;
+    right:-80px;
+}
+
+.left-panel::after{
+    content:"";
+
+    position:absolute;
+
+    width:170px;
+    height:170px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    bottom:-80px;
+    left:-70px;
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.brand-box{
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:25px;
+}
+
+.brand-icon{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.18);
+
+    font-size:20px;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.12);
+}
+
+.brand-text{
+    font-size:16px;
+    font-weight:800;
+
+    letter-spacing:.8px;
+}
+
+
+/* =====================================================
+   LEFT CONTENT
+===================================================== */
+
+.left-content{
+    position:relative;
+    z-index:2;
+}
+
+.left-content h1{
+    font-size:32px;
+    line-height:1.15;
+
+    font-weight:800;
+
+    margin:0 0 10px;
+}
+
+.left-content p{
+    font-size:12.5px;
+    line-height:1.7;
+
+    color:rgba(255,255,255,.82);
+
+    margin-bottom:20px;
+}
+
+
+/* =====================================================
+   FEATURES
+===================================================== */
+
+.feature{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:11px;
+
+    font-size:12.5px;
+
+    font-weight:500;
+}
+
+.feature-icon{
+    width:30px;
+    height:30px;
+
+    min-width:30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:9px;
+
+    background:rgba(255,255,255,.14);
+
+    color:#fde047;
+
+    font-size:14px;
+}
+
+
+/* =====================================================
+   MY LEAVE CARD
+===================================================== */
+
+.my-leave-card{
+    position:relative;
+    z-index:5;
+
+    margin-top:22px;
+
+    padding:17px;
+
+    border-radius:17px;
+
+    background:rgba(255,255,255,.13);
+
+    border:1px solid rgba(255,255,255,.20);
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.12);
+}
+
+.my-leave-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:10px;
+}
+
+.my-leave-title h5{
+    margin:0;
+
+    font-size:14px;
+
+    font-weight:700;
+}
+
+.refresh-btn{
+    width:30px;
+    height:30px;
+
+    border:0;
+
+    border-radius:8px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.14);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.refresh-btn:hover{
+    background:rgba(255,255,255,.25);
+    transform:rotate(90deg);
+}
+
+
+/* =====================================================
+   LEAVE DETAILS
+===================================================== */
+
+.leave-detail{
+    display:flex;
+    align-items:flex-start;
+
+    gap:9px;
+
+    padding:8px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.11);
+}
+
+.leave-detail:last-child{
+    border-bottom:0;
+}
+
+.detail-icon{
+    width:27px;
+    height:27px;
+
+    min-width:27px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:7px;
+
+    background:rgba(255,255,255,.12);
+
+    color:#fde68a;
+
+    font-size:12px;
+}
+
+.detail-label{
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.6px;
+
+    color:rgba(255,255,255,.58);
+
+    margin-bottom:1px;
+}
+
+.detail-value{
+    font-size:10.5px;
+
+    font-weight:600;
+
+    color:#fff;
+
+    word-break:break-word;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+
+    padding:4px 9px;
+
+    border-radius:20px;
+
+    font-size:9px;
+
+    font-weight:700;
+}
+
+.status-pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.status-accepted{
+    background:#d1fae5;
+    color:#065f46;
+}
+
+.status-rejected{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.status-dot{
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:currentColor;
+}
+
+
+/* =====================================================
+   NO LEAVE
+===================================================== */
+
+.no-leave{
+    text-align:center;
+
+    padding:12px 4px;
+
+    color:rgba(255,255,255,.68);
+
+    font-size:10px;
+}
+
+.no-leave i{
+    display:block;
+
+    font-size:25px;
+
+    margin-bottom:5px;
+
+    color:rgba(255,255,255,.50);
+}
+
+.no-leave small{
+    font-size:9px;
+}
+
+
+/* =====================================================
+   RIGHT PANEL
+===================================================== */
+
+.right-panel{
+    padding:35px 42px;
+
+    background:#fff;
+
+    overflow-y:auto;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.form-header{
+    margin-bottom:20px;
+}
+
+.form-title{
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    margin-bottom:5px;
+}
+
+.form-title i{
+    font-size:28px;
+
+    color:#4f46e5;
+}
+
+.form-title h2{
+    margin:0;
+
+    font-size:27px;
+
+    font-weight:800;
+
+    color:#172033;
+}
+
+.form-subtitle{
+    margin:0;
+
+    color:#64748b;
+
+    font-size:12px;
+}
+
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.pending-info{
+    display:flex;
+    align-items:center;
+
+    gap:9px;
+
+    background:#fff8dc;
+
+    border:1px solid #fde68a;
+
+    color:#92400e;
+
+    border-radius:11px;
+
+    padding:11px 14px;
+
+    margin-bottom:20px;
+
+    font-size:11px;
+}
+
+.pending-info i{
+    font-size:16px;
+}
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+.success-box,
+.error-box{
+    display:none;
+
+    margin-bottom:16px;
+
+    padding:11px 14px;
+
+    border-radius:10px;
+
+    font-size:11px;
+
+    font-weight:600;
+}
+
+.success-box{
+    background:#ecfdf5;
+
+    border:1px solid #a7f3d0;
+
+    color:#047857;
+}
+
+.error-box{
+    background:#fef2f2;
+
+    border:1px solid #fecaca;
+
+    color:#b91c1c;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-label{
+    font-size:11px;
+
+    font-weight:700;
+
+    color:#334155;
+
+    margin-bottom:6px;
+}
+
+.form-control,
+.form-select{
+    height:45px;
+
+    border-radius:10px;
+
+    border:1px solid #dbe2ea;
+
+    font-size:12px;
+
+    color:#1e293b;
+
+    padding:0 13px;
+
+    box-shadow:none;
+
+    transition:.2s;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#6366f1;
+
+    box-shadow:
+        0 0 0 3px rgba(99,102,241,.10);
+}
+
+.input-group-text{
+    width:43px;
+
+    justify-content:center;
+
+    border:1px solid #dbe2ea;
+
+    background:#f8fafc;
+
+    color:#6366f1;
+
+    border-radius:10px 0 0 10px;
+
+    font-size:14px;
+}
+
+.input-group .form-control{
+    border-left:0;
+
+    border-radius:0 10px 10px 0;
+}
+
+textarea.form-control{
+    height:105px;
+
+    padding:12px;
+
+    resize:none;
+}
+
+.employee-id-input{
+    background:#f8fafc !important;
+
+    font-weight:600;
+
+    color:#475569;
+}
+
+
+/* =====================================================
+   SUBMIT
+===================================================== */
+
+.submit-btn{
+    width:100%;
+
+    height:50px;
+
+    border:0;
+
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #6366f1
+        );
+
+    color:#fff;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    box-shadow:
+        0 10px 22px rgba(79,70,229,.24);
+
+    transition:.25s;
+}
+
+.submit-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 14px 28px rgba(79,70,229,.32);
+}
+
+.submit-btn:disabled{
+    opacity:.7;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+
+/* =====================================================
+   LAST UPDATED
+===================================================== */
+
+.last-updated{
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:9px;
+
+    margin-top:10px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:950px){
+
+    .leave-container{
+        grid-template-columns:1fr;
+
+        max-width:700px;
+    }
+
+    .left-panel{
+        padding:28px;
+    }
+
+    .right-panel{
+        padding:30px;
+    }
+
+    .my-leave-card{
+        margin-top:20px;
+    }
+}
+
+@media(max-width:600px){
+
+    .page-wrapper{
+        padding:0;
+    }
+
+    .leave-container{
+        min-height:100vh;
+
+        border-radius:0;
+    }
+
+    .left-panel,
+    .right-panel{
+        padding:25px 20px;
+    }
+
+    .left-content h1{
+        font-size:28px;
+    }
+
+    .form-title h2{
+        font-size:23px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="page-wrapper">
+
+<div class="leave-container">
+
+
+<!-- =====================================================
+     LEFT PANEL
+===================================================== -->
+
+<div class="left-panel">
+
+    <div class="brand-box">
+
+        <div class="brand-icon">
+            <i class="bi bi-calendar-heart"></i>
+        </div>
+
+        <div class="brand-text">
+            ELITE ERMS
+        </div>
+
+    </div>
+
+
+    <div class="left-content">
+
+        <h1>
+            Apply For Leave
+        </h1>
+
+        <p>
+            Submit your leave request easily.
+            Your request will be sent directly
+            to the HRMS Administrator for approval.
+        </p>
+
+
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            Quick Leave Request
+        </div>
+
+
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            Secure HRMS System
+        </div>
+
+
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            Track Leave Status
+        </div>
+
+
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="bi bi-bell"></i>
+            </div>
+            Instant Admin Notification
+        </div>
+
+
+        <!-- =================================================
+             MY LEAVE
+        ================================================== -->
+
+        <div class="my-leave-card">
+
+            <div class="my-leave-title">
+
+                <h5>
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    My Leave Details
+                </h5>
+
+                <button
+                    type="button"
+                    class="refresh-btn"
+                    onclick="loadMyLeave()"
+                    title="Refresh">
+
+                    <i class="bi bi-arrow-clockwise"></i>
+
+                </button>
+
+            </div>
+
+
+            <div id="myLeaveContent">
+
+                <div class="no-leave">
+
+                    <i class="bi bi-hourglass-split"></i>
+
+                    Loading your leave details...
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     RIGHT PANEL
+===================================================== -->
+
+<div class="right-panel">
+
+
+    <div class="form-header">
+
+        <div class="form-title">
+
+            <i class="bi bi-send-check"></i>
+
+            <h2>
+                Create Leave Request
+            </h2>
+
+        </div>
+
+        <p class="form-subtitle">
+            Fill in the details below to submit your leave request.
+        </p>
+
+    </div>
+
+
+    <!-- INFO -->
+
+    <div class="pending-info">
+
+        <i class="bi bi-hourglass-split"></i>
+
+        <span>
+            Your request will be submitted with
+            <strong>Pending</strong> status.
+        </span>
+
+    </div>
+
+
+    <!-- SUCCESS -->
+
+    <div
+        id="successBox"
+        class="success-box">
+
+        <i class="bi bi-check-circle-fill me-2"></i>
+
+        Leave request submitted successfully!
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+        id="errorBox"
+        class="error-box">
+
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+        <span id="errorMessage">
+            Something went wrong.
+        </span>
+
+    </div>
+
+
+    <!-- =================================================
+         FORM
+    ================================================== -->
+
+    <form
+        id="leaveForm"
+        onsubmit="submitLeave(event)">
+
+
+        <div class="row g-3">
+
+
+            <!-- NAME -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Employee Name
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-person"></i>
+                    </span>
+
+                    <input
+                        type="text"
+                        id="employeeName"
+                        class="form-control"
+                        placeholder="Enter name"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- ID -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Employee ID
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-person-badge"></i>
+                    </span>
+
+                    <input
+                        type="text"
+                        id="employeeId"
+                        class="form-control employee-id-input"
+                        placeholder="EMP-001"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- TYPE -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Leave Type
+                </label>
+
+                <select
+                    id="leaveType"
+                    class="form-select"
+                    required>
+
+                    <option value="">
+                        Select Leave Type
+                    </option>
+
+                    <option value="Casual Leave">
+                        Casual Leave
+                    </option>
+
+                    <option value="Sick Leave">
+                        Sick Leave
+                    </option>
+
+                    <option value="Annual Leave">
+                        Annual Leave
+                    </option>
+
+                    <option value="Emergency Leave">
+                        Emergency Leave
+                    </option>
+
+                    <option value="Personal Leave">
+                        Personal Leave
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Leave Date
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar-event"></i>
+                    </span>
+
+                    <input
+                        type="date"
+                        id="leaveDate"
+                        class="form-control"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- REASON -->
+
+            <div class="col-12">
+
+                <label class="form-label">
+                    Reason For Leave
+                </label>
+
+                <textarea
+                    id="reason"
+                    class="form-control"
+                    placeholder="Write your reason for leave..."
+                    required></textarea>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="col-12">
+
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="submit-btn">
+
+                    <i class="bi bi-send-fill me-2"></i>
+
+                    Submit Leave Request
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <div
+        id="lastUpdated"
+        class="last-updated">
+
+        Leave information will appear here after submission.
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_BASE = "http://localhost:3000";
+
+
+/* =====================================================
+   GET LOGGED EMPLOYEE
+===================================================== */
+
+function getLoggedEmployee(){
+
+    let employee = null;
+
+    try{
+
+        const data =
+            localStorage.getItem("employeeData");
+
+        if(data){
+
+            const parsed =
+                JSON.parse(data);
+
+            if(parsed){
+                employee = parsed;
+            }
+
+        }
+
+    }
+    catch(error){
+
+        console.log("employeeData parse error");
+
+    }
+
+
+    if(!employee){
+
+        try{
+
+            const data =
+                localStorage.getItem("erms_user");
+
+            if(data){
+
+                const parsed =
+                    JSON.parse(data);
+
+                if(parsed){
+                    employee = parsed;
+                }
+
+            }
+
+        }
+        catch(error){
+
+            console.log("erms_user parse error");
+
+        }
+
+    }
+
+    return employee;
+
+}
+
+
+/* =====================================================
+   GET EMPLOYEE ID
+===================================================== */
+
+function getEmployeeId(){
+
+    const employee =
+        getLoggedEmployee();
+
+    if(employee){
+
+        return String(
+
+            employee.employeeId ||
+            employee.empId ||
+            employee.employeeID ||
+            employee.id ||
+            ""
+
+        ).trim();
+
+    }
+
+    return String(
+
+        localStorage.getItem("employeeId") ||
+        localStorage.getItem("empId") ||
+        localStorage.getItem("employeeID") ||
+        ""
+
+    ).trim();
+
+}
+
+
+/* =====================================================
+   GET EMPLOYEE NAME
+===================================================== */
+
+function getEmployeeName(){
+
+    const employee =
+        getLoggedEmployee();
+
+    if(employee){
+
+        return String(
+
+            employee.name ||
+            employee.employeeName ||
+            employee.fullName ||
+            ""
+
+        ).trim();
+
+    }
+
+    return String(
+
+        localStorage.getItem("employeeName") ||
+        localStorage.getItem("name") ||
+        ""
+
+    ).trim();
+
+}
+
+
+/* =====================================================
+   AUTO FILL
+===================================================== */
+
+function autoFillEmployee(){
+
+    const employeeId =
+        getEmployeeId();
+
+    const employeeName =
+        getEmployeeName();
+
+
+    const idInput =
+        document.getElementById("employeeId");
+
+    const nameInput =
+        document.getElementById("employeeName");
+
+
+    if(employeeId && idInput){
+
+        idInput.value =
+            employeeId;
+
+    }
+
+
+    if(employeeName && nameInput){
+
+        nameInput.value =
+            employeeName;
+
+    }
+
+}
+
+
+/* =====================================================
+   SUBMIT LEAVE
+===================================================== */
+
+async function submitLeave(event){
+
+    event.preventDefault();
+
+
+    const name =
+        document
+        .getElementById("employeeName")
+        .value
+        .trim();
+
+
+    const empId =
+        document
+        .getElementById("employeeId")
+        .value
+        .trim();
+
+
+    const leaveDate =
+        document
+        .getElementById("leaveDate")
+        .value
+        .trim();
+
+
+    const leaveType =
+        document
+        .getElementById("leaveType")
+        .value
+        .trim();
+
+
+    const reason =
+        document
+        .getElementById("reason")
+        .value
+        .trim();
+
+
+    const submitBtn =
+        document.getElementById("submitBtn");
+
+
+    hideMessages();
+
+
+    /* VALIDATION */
+
+    if(!name){
+
+        showError(
+            "Please enter employee name."
+        );
+
+        return;
+
+    }
+
+
+    if(!empId){
+
+        showError(
+            "Employee ID is required."
+        );
+
+        return;
+
+    }
+
+
+    if(!leaveDate){
+
+        showError(
+            "Please select leave date."
+        );
+
+        return;
+
+    }
+
+
+    if(!leaveType){
+
+        showError(
+            "Please select leave type."
+        );
+
+        return;
+
+    }
+
+
+    if(!reason){
+
+        showError(
+            "Please enter reason."
+        );
+
+        return;
+
+    }
+
+
+    /* LOADING */
+
+    submitBtn.disabled = true;
+
+    submitBtn.innerHTML = `
+        <i class="bi bi-arrow-repeat me-2"></i>
+        Submitting...
+    `;
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/leave`,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        empId:empId,
+
+                        name:name,
+
+                        leaveDate:leaveDate,
+
+                        leaveType:leaveType,
+
+                        reason:reason
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Unable to submit leave request."
+            );
+
+        }
+
+
+        /* SUCCESS */
+
+        showSuccess(
+            "Leave request submitted successfully! Admin has been notified."
+        );
+
+
+        /* CLEAR LEAVE FIELDS */
+
+        document
+            .getElementById("leaveType")
+            .value = "";
+
+
+        document
+            .getElementById("leaveDate")
+            .value = "";
+
+
+        document
+            .getElementById("reason")
+            .value = "";
+
+
+        /* REFRESH SIDE */
+
+        await loadMyLeave();
+
+
+        document
+            .getElementById("lastUpdated")
+            .innerText =
+                "Request submitted just now";
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Leave submit error:",
+            error
+        );
+
+
+        showError(
+            error.message ||
+            "Server error. Please try again."
+        );
+
+    }
+    finally{
+
+        submitBtn.disabled = false;
+
+        submitBtn.innerHTML = `
+            <i class="bi bi-send-fill me-2"></i>
+            Submit Leave Request
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD MY LEAVE
+===================================================== */
+
+async function loadMyLeave(){
+
+    const content =
+        document.getElementById(
+            "myLeaveContent"
+        );
+
+
+    const employeeId =
+        getEmployeeId();
+
+
+    if(!employeeId){
+
+        content.innerHTML = `
+
+            <div class="no-leave">
+
+                <i class="bi bi-person-exclamation"></i>
+
+                <div>
+                    Employee ID not found.
+                </div>
+
+                <small>
+                    Please login again.
+                </small>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/leave?t=${Date.now()}`,
+                {
+
+                    method:"GET",
+
+                    cache:"no-store",
+
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    }
+
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Leave API error"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        let leaves = [];
+
+
+        if(Array.isArray(data)){
+
+            leaves = data;
+
+        }
+        else if(
+            Array.isArray(data.leaves)
+        ){
+
+            leaves = data.leaves;
+
+        }
+        else if(
+            Array.isArray(data.data)
+        ){
+
+            leaves = data.data;
+
+        }
+
+
+        /* ONLY LOGGED EMPLOYEE */
+
+        leaves =
+            leaves.filter(
+                leave => {
+
+                    const id =
+                        leave.empId ||
+                        leave.employeeId ||
+                        leave.employeeID ||
+                        "";
+
+
+                    return String(id)
+                        .trim()
+                        .toLowerCase()
+                        ===
+                        String(employeeId)
+                        .trim()
+                        .toLowerCase();
+
+                }
+            );
+
+
+        /* NEWEST FIRST */
+
+        leaves.sort(
+            (a,b) => {
+
+                return String(
+                    b.createdAt || ""
+                ).localeCompare(
+                    String(
+                        a.createdAt || ""
+                    )
+                );
+
+            }
+        );
+
+
+        if(leaves.length === 0){
+
+            content.innerHTML = `
+
+                <div class="no-leave">
+
+                    <i class="bi bi-calendar2-x"></i>
+
+                    <div>
+                        No leave request found.
+                    </div>
+
+                    <small>
+                        Submit your first leave request.
+                    </small>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* LATEST REQUEST */
+
+        const leave =
+            leaves[0];
+
+
+        renderMyLeave(leave);
+
+
+    }
+    catch(error){
+
+        console.error(
+            "Load my leave error:",
+            error
+        );
+
+
+        content.innerHTML = `
+
+            <div class="no-leave">
+
+                <i class="bi bi-wifi-off"></i>
+
+                <div>
+                    Unable to load leave details.
+                </div>
+
+                <small>
+                    Please check server connection.
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER LEAVE
+===================================================== */
+
+function renderMyLeave(leave){
+
+    const content =
+        document.getElementById(
+            "myLeaveContent"
+        );
+
+
+    let rawStatus =
+        String(
+            leave.status ||
+            "Pending"
+        ).trim();
+
+
+    /* APPROVED = ACCEPTED FOR UI */
+
+    let displayStatus =
+        rawStatus;
+
+
+    if(
+        rawStatus.toLowerCase()
+        === "approved"
+    ){
+
+        displayStatus =
+            "Accepted";
+
+    }
+
+
+    let statusClass =
+        "status-pending";
+
+
+    if(
+        rawStatus.toLowerCase()
+        === "accepted" ||
+        rawStatus.toLowerCase()
+        === "approved"
+    ){
+
+        statusClass =
+            "status-accepted";
+
+    }
+    else if(
+        rawStatus.toLowerCase()
+        === "rejected"
+    ){
+
+        statusClass =
+            "status-rejected";
+
+    }
+
+
+    const created =
+        leave.createdAt
+        ? new Date(
+            leave.createdAt
+        ).toLocaleString()
+        : "-";
+
+
+    content.innerHTML = `
+
+
+        <!-- NAME -->
+
+        <div class="leave-detail">
+
+            <div class="detail-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+            <div>
+
+                <div class="detail-label">
+                    Employee Name
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(
+                        leave.name || "-"
+                    )}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ID -->
+
+        <div class="leave-detail">
+
+            <div class="detail-icon">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+
+            <div>
+
+                <div class="detail-label">
+                    Employee ID
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(
+                        leave.empId || "-"
+                    )}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DATE -->
+
+        <div class="leave-detail">
+
+            <div class="detail-icon">
+                <i class="bi bi-calendar-event-fill"></i>
+            </div>
+
+            <div>
+
+                <div class="detail-label">
+                    Leave Date
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(
+                        leave.leaveDate || "-"
+                    )}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TYPE -->
+
+        <div class="leave-detail">
+
+            <div class="detail-icon">
+                <i class="bi bi-tag-fill"></i>
+            </div>
+
+            <div>
+
+                <div class="detail-label">
+                    Leave Type
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(
+                        leave.leaveType || "-"
+                    )}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- REASON -->
+
+        <div class="leave-detail">
+
+            <div class="detail-icon">
+                <i class="bi bi-chat-left-text-fill"></i>
+            </div>
+
+            <div>
+
+                <div class="detail-label">
+                    Reason
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(
+                        leave.reason || "-"
+                    )}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="leave-detail">
+
+            <div class="detail-icon">
+                <i class="bi bi-activity"></i>
+            </div>
+
+            <div>
+
+                <div class="detail-label">
+                    Current Status
+                </div>
+
+                <div class="detail-value">
+
+                    <span
+                        class="status-pill ${statusClass}">
+
+                        <span class="status-dot"></span>
+
+                        ${escapeHtml(
+                            displayStatus
+                        )}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUBMITTED -->
+
+        <div class="leave-detail">
+
+            <div class="detail-icon">
+                <i class="bi bi-clock-fill"></i>
+            </div>
+
+            <div>
+
+                <div class="detail-label">
+                    Submitted
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(created)}
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   SUCCESS
+===================================================== */
+
+function showSuccess(message){
+
+    const box =
+        document.getElementById(
+            "successBox"
+        );
+
+
+    box.innerHTML = `
+        <i class="bi bi-check-circle-fill me-2"></i>
+        ${escapeHtml(message)}
+    `;
+
+
+    box.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(message){
+
+    const box =
+        document.getElementById(
+            "errorBox"
+        );
+
+
+    const text =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    text.innerText =
+        message;
+
+
+    box.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   HIDE MESSAGES
+===================================================== */
+
+function hideMessages(){
+
+    document
+        .getElementById("successBox")
+        .style.display =
+            "none";
+
+
+    document
+        .getElementById("errorBox")
+        .style.display =
+            "none";
+
+}
+
+
+/* =====================================================
+   AUTO REFRESH STATUS
+===================================================== */
+
+setInterval(
+    function(){
+
+        loadMyLeave();
+
+    },
+    10000
+);
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        autoFillEmployee();
+
+        loadMyLeave();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

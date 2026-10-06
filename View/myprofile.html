@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin My Profile | ELITE ERMS</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    background:#000;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+}
+
+/* NAVBAR */
+.navbar{
+    height:58px;
+    background:#080808;
+    border-bottom:1px solid #252525;
+}
+
+.navbar-brand{
+    font-size:17px;
+}
+
+/* MAIN */
+.profile-container{
+    max-width:900px;
+    margin:18px auto;
+    padding:0 12px;
+}
+
+/* CARD */
+.profile-card{
+    background:#0b0b0b;
+    border:1px solid #292929;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,.6);
+}
+
+/* COVER */
+.cover{
+    height:85px;
+    background:linear-gradient(135deg,#111827,#1d4ed8,#4c1d95);
+}
+
+/* BODY */
+.card-body{
+    padding:0 20px 18px;
+}
+
+/* PHOTO */
+.profile-head{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-top:-42px;
+}
+
+.avatar{
+    position:relative;
+}
+
+.profile-img{
+    width:88px;
+    height:88px;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid #0b0b0b;
+    outline:2px solid #3b82f6;
+}
+
+.camera-btn{
+    position:absolute;
+    right:-2px;
+    bottom:0;
+    width:29px;
+    height:29px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    background:#2563eb;
+    border:2px solid #0b0b0b;
+    font-size:12px;
+}
+
+.profile-name{
+    padding-top:38px;
+}
+
+.profile-name h3{
+    font-size:19px;
+    margin:0;
+}
+
+.profile-name p{
+    margin:3px 0 0;
+    color:#8b8b8b;
+    font-size:12px;
+}
+
+/* SECTIONS */
+.section{
+    margin-top:17px;
+    padding-top:14px;
+    border-top:1px solid #252525;
+}
+
+.section-title{
+    color:#60a5fa;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:11px;
+}
+
+/* FORM */
+.form-label{
+    color:#8f8f8f;
+    font-size:11px;
+    margin-bottom:4px;
+}
+
+.form-control,
+.form-select{
+    height:36px;
+    padding:6px 10px;
+    background:#111;
+    color:#fff;
+    border:1px solid #303030;
+    border-radius:7px;
+    font-size:13px;
+}
+
+textarea.form-control{
+    height:auto;
+}
+
+.form-control:focus,
+.form-select:focus{
+    background:#111;
+    color:#fff;
+    border-color:#2563eb;
+    box-shadow:none;
+}
+
+.form-control:disabled,
+.form-select:disabled{
+    background:#0d0d0d;
+    color:#aaa;
+}
+
+/* SAVED */
+.saved-box{
+    background:#0d0d0d;
+    border:1px solid #252525;
+    border-radius:9px;
+    padding:11px;
+}
+
+.saved-box small{
+    color:#666;
+    font-size:9px;
+}
+
+.saved-box strong{
+    font-size:12px;
+}
+
+/* BUTTONS */
+.btn{
+    font-size:12px;
+    padding:7px 15px;
+    border-radius:7px;
+}
+
+.btn-save{
+    background:#2563eb;
+    color:white;
+    border:0;
+}
+
+.btn-save:hover{
+    background:#1d4ed8;
+    color:#fff;
+}
+
+#successMsg{
+    display:none;
+    padding:8px 12px;
+    font-size:12px;
+    margin-top:12px;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+    .profile-container{
+        margin:10px auto;
+    }
+
+    .card-body{
+        padding:0 13px 15px;
+    }
+
+    .cover{
+        height:70px;
+    }
+
+    .profile-head{
+        margin-top:-35px;
+    }
+
+    .profile-img{
+        width:75px;
+        height:75px;
+    }
+
+    .profile-name{
+        padding-top:30px;
+    }
+
+    .profile-name h3{
+        font-size:16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark">
+<div class="container-fluid px-3">
+
+<a href="admin-dashboard.html"
+   class="text-white text-decoration-none small">
+<i class="bi bi-arrow-left"></i> Dashboard
+</a>
+
+<div class="navbar-brand fw-semibold">
+<i class="bi bi-person-circle"></i> My Profile
+</div>
+
+</div>
+</nav>
+
+
+<div class="profile-container">
+
+<div class="profile-card">
+
+<div class="cover"></div>
+
+<div class="card-body">
+
+<!-- PROFILE HEADER -->
+<div class="profile-head">
+
+<div class="avatar">
+
+<img id="profileImage"
+     class="profile-img"
+     src="https://i.pravatar.cc/200?img=12"
+     alt="Admin">
+
+<label for="photoInput" class="camera-btn text-white">
+<i class="bi bi-camera-fill"></i>
+</label>
+
+<input type="file"
+       id="photoInput"
+       accept="image/png,image/jpeg,image/webp"
+       hidden>
+
+</div>
+
+<div class="profile-name">
+
+<h3 id="headName">Administrator</h3>
+
+<p id="headDesignation">
+System Administrator
+</p>
+
+</div>
+
+</div>
+
+
+<!-- PERSONAL -->
+<div class="section">
+
+<div class="section-title">
+<i class="bi bi-person-fill"></i>
+Personal Information
+</div>
+
+<div class="row g-2">
+
+<div class="col-md-6">
+<label class="form-label">Full Name</label>
+<input id="fullName" class="form-control field" disabled>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Email</label>
+<input id="email" class="form-control field" disabled>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Mobile Number</label>
+<input id="mobile" class="form-control field" disabled>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Date of Birth</label>
+<input id="dob" type="date" class="form-control field" disabled>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Gender</label>
+<select id="gender" class="form-select field" disabled>
+<option value="">Select Gender</option>
+<option>Female</option>
+<option>Male</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Designation</label>
+<input id="designation" class="form-control field" disabled>
+</div>
+
+</div>
+</div>
+
+
+<!-- COMPANY -->
+<div class="section">
+
+<div class="section-title">
+<i class="bi bi-building"></i>
+Company Information
+</div>
+
+<div class="row g-2">
+
+<div class="col-md-6">
+<label class="form-label">Company Name</label>
+<input id="companyName" class="form-control field" disabled>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Department</label>
+<input id="department" class="form-control field" disabled>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Admin ID</label>
+<input id="adminId" class="form-control field" disabled>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Joining Date</label>
+<input id="joiningDate" type="date" class="form-control field" disabled>
+</div>
+
+</div>
+</div>
+
+
+<!-- ADDRESS -->
+<div class="section">
+
+<div class="section-title">
+<i class="bi bi-geo-alt-fill"></i>
+Address
+</div>
+
+<div class="row g-2">
+
+<div class="col-12">
+<textarea id="address"
+class="form-control field"
+rows="2"
+placeholder="Full Address"
+disabled></textarea>
+</div>
+
+<div class="col-md-4">
+<input id="city"
+class="form-control field"
+placeholder="City"
+disabled>
+</div>
+
+<div class="col-md-4">
+<input id="state"
+class="form-control field"
+placeholder="State"
+disabled>
+</div>
+
+<div class="col-md-4">
+<input id="pincode"
+class="form-control field"
+placeholder="PIN Code"
+disabled>
+</div>
+
+</div>
+</div>
+
+
+<!-- SAVED -->
+<div class="section">
+
+<div class="section-title">
+<i class="bi bi-check-circle-fill"></i>
+Saved Information
+</div>
+
+<div class="saved-box">
+
+<div class="row g-2">
+
+<div class="col-6 col-md-4">
+<small>NAME</small><br>
+<strong id="sName">—</strong>
+</div>
+
+<div class="col-6 col-md-4">
+<small>EMAIL</small><br>
+<strong id="sEmail">—</strong>
+</div>
+
+<div class="col-6 col-md-4">
+<small>MOBILE</small><br>
+<strong id="sMobile">—</strong>
+</div>
+
+<div class="col-6 col-md-4">
+<small>DEPARTMENT</small><br>
+<strong id="sDepartment">—</strong>
+</div>
+
+<div class="col-6 col-md-4">
+<small>DESIGNATION</small><br>
+<strong id="sDesignation">—</strong>
+</div>
+
+<div class="col-6 col-md-4">
+<small>ADMIN ID</small><br>
+<strong id="sAdminId">—</strong>
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- SUCCESS -->
+<div id="successMsg" class="alert alert-success">
+<i class="bi bi-check-circle-fill"></i>
+Profile saved successfully!
+</div>
+
+
+<!-- BUTTON -->
+<div class="text-end mt-3">
+
+<button id="editBtn"
+class="btn btn-outline-primary">
+
+<i class="bi bi-pencil-fill"></i>
+Edit Profile
+
+</button>
+
+<button id="saveBtn"
+class="btn btn-save"
+style="display:none">
+
+<i class="bi bi-check-lg"></i>
+Save Changes
+
+</button>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+<script>
+
+const $=id=>document.getElementById(id);
+const fields=document.querySelectorAll(".field");
+
+function loadProfile(){
+
+const data=
+JSON.parse(localStorage.getItem("adminProfile")||"{}");
+
+fields.forEach(x=>{
+x.value=data[x.id]||"";
+});
+
+const photo=localStorage.getItem("adminPhoto");
+
+if(photo){
+$("profileImage").src=photo;
+}
+
+update(data);
+}
+
+
+function update(data){
+
+$("headName").textContent=
+data.fullName||"Administrator";
+
+$("headDesignation").textContent=
+data.designation||"System Administrator";
+
+$("sName").textContent=
+data.fullName||"—";
+
+$("sEmail").textContent=
+data.email||"—";
+
+$("sMobile").textContent=
+data.mobile||"—";
+
+$("sDepartment").textContent=
+data.department||"—";
+
+$("sDesignation").textContent=
+data.designation||"—";
+
+$("sAdminId").textContent=
+data.adminId||"—";
+}
+
+
+/* EDIT */
+
+$("editBtn").onclick=()=>{
+
+fields.forEach(x=>x.disabled=false);
+
+$("editBtn").style.display="none";
+$("saveBtn").style.display="inline-block";
+};
+
+
+/* SAVE */
+
+$("saveBtn").onclick=()=>{
+
+const data={};
+
+fields.forEach(x=>{
+data[x.id]=x.value.trim();
+});
+
+localStorage.setItem(
+"adminProfile",
+JSON.stringify(data)
+);
+
+localStorage.setItem(
+"adminName",
+data.fullName||"Administrator"
+);
+
+update(data);
+
+fields.forEach(x=>x.disabled=true);
+
+$("editBtn").style.display="inline-block";
+$("saveBtn").style.display="none";
+
+$("successMsg").style.display="block";
+
+setTimeout(()=>{
+$("successMsg").style.display="none";
+},2500);
+};
+
+
+/* PHOTO */
+
+$("photoInput").onchange=e=>{
+
+const file=e.target.files[0];
+
+if(!file)return;
+
+if(file.size>5*1024*1024){
+alert("Photo must be below 5 MB");
+return;
+}
+
+const reader=new FileReader();
+
+reader.onload=()=>{
+
+$("profileImage").src=reader.result;
+
+localStorage.setItem(
+"adminPhoto",
+reader.result
+);
+
+};
+
+reader.readAsDataURL(file);
+};
+
+
+loadProfile();
+
+</script>
+
+</body>
+</html>

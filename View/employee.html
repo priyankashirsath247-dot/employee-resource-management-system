@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Elite ERMS | Employee Dashboard</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        :root {
+            --bg: #080b12;
+            --sidebar: #0d111a;
+            --card: #111722;
+            --card2: #151c29;
+
+            --primary: #8fb4ff;
+            --primary2: #668eff;
+
+            --purple: #a78bfa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --yellow: #fbbf24;
+            --red: #fb7185;
+
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --border: rgba(255,255,255,.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at 80% 0%, rgba(102,142,255,.10), transparent 30%),
+                radial-gradient(circle at 10% 80%, rgba(167,139,250,.07), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: rgba(13,17,26,.96);
+            border-right: 1px solid var(--border);
+            padding: 24px 18px;
+            z-index: 1050;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 8px;
+            margin-bottom: 35px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(
+                135deg,
+                rgba(143,180,255,.2),
+                rgba(167,139,250,.15)
+            );
+            color: var(--primary);
+            font-size: 23px;
+            border: 1px solid rgba(143,180,255,.2);
+        }
+
+        .brand h5 {
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+
+        .brand small {
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        .nav-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #64748b;
+            letter-spacing: 1.5px;
+            margin: 0 10px 10px;
+        }
+
+        .side-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            color: #9aa7ba;
+            text-decoration: none;
+            border-radius: 13px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: .25s;
+        }
+
+        .side-link i {
+            font-size: 18px;
+        }
+
+        .side-link:hover,
+        .side-link.active {
+            background: linear-gradient(
+                135deg,
+                rgba(143,180,255,.14),
+                rgba(167,139,250,.08)
+            );
+            color: #fff;
+        }
+
+        .side-link.active {
+            border: 1px solid rgba(143,180,255,.12);
+            box-shadow: 0 8px 25px rgba(0,0,0,.15);
+        }
+
+        .profile-mini {
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid var(--border);
+        }
+
+        .profile-mini img {
+            width: 43px;
+            height: 43px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid rgba(143,180,255,.4);
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(8,11,18,.72);
+            backdrop-filter: blur(18px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .page-heading h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .page-heading small {
+            color: var(--muted);
+        }
+
+        .clock {
+            text-align: right;
+        }
+
+        .clock strong {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .clock small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .notification-btn {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,.04);
+            color: #dbeafe;
+            position: relative;
+            font-size: 18px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            right: -2px;
+            top: -3px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: var(--red);
+            color: white;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            padding: 32px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 25px;
+            padding: 30px;
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(143,180,255,.13),
+                    rgba(167,139,250,.07),
+                    rgba(34,211,238,.04)
+                );
+            border: 1px solid rgba(143,180,255,.14);
+            margin-bottom: 25px;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: rgba(143,180,255,.07);
+            right: -90px;
+            top: -100px;
+            filter: blur(5px);
+        }
+
+        .hero-profile {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .hero-img {
+            width: 105px;
+            height: 105px;
+            border-radius: 22px;
+            object-fit: cover;
+            border: 2px solid rgba(143,180,255,.5);
+            padding: 3px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(52,211,153,.10);
+            color: var(--green);
+            border: 1px solid rgba(52,211,153,.18);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 31px;
+            font-weight: 800;
+            margin: 10px 0 7px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .employee-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 7px 11px;
+            border-radius: 20px;
+            background: rgba(255,255,255,.045);
+            border: 1px solid var(--border);
+            color: #b9c4d4;
+            font-size: 11px;
+        }
+
+        .quote {
+            margin: 10px 0 0;
+            color: #718096;
+            font-size: 11px;
+            font-style: italic;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .btn-primary-custom {
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--primary2)
+            );
+            border: 0;
+            color: #07101f;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 11px 18px;
+            box-shadow: 0 10px 25px rgba(102,142,255,.18);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            color: #07101f;
+        }
+
+        .btn-dark-custom {
+            background: rgba(255,255,255,.045);
+            border: 1px solid var(--border);
+            color: #dbe4ef;
+            border-radius: 12px;
+            padding: 11px 18px;
+        }
+
+        .btn-dark-custom:hover {
+            background: rgba(255,255,255,.08);
+            color: white;
+        }
+
+        /* ================= STAT CARDS ================= */
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            padding: 22px;
+            border-radius: 20px;
+            background: linear-gradient(
+                145deg,
+                rgba(255,255,255,.045),
+                rgba(255,255,255,.018)
+            );
+            border: 1px solid var(--border);
+            transition: .3s;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(143,180,255,.25);
+            box-shadow: 0 15px 40px rgba(0,0,0,.2);
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 17px;
+        }
+
+        .blue {
+            color: var(--primary);
+            background: rgba(143,180,255,.10);
+        }
+
+        .purple {
+            color: var(--purple);
+            background: rgba(167,139,250,.10);
+        }
+
+        .green {
+            color: var(--green);
+            background: rgba(52,211,153,.10);
+        }
+
+        .cyan {
+            color: var(--cyan);
+            background: rgba(34,211,238,.10);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .stat-trend {
+            position: absolute;
+            top: 22px;
+            right: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* ================= CARDS ================= */
+
+        .dashboard-card {
+            background: rgba(17,23,34,.72);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            padding: 20px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header-custom h6 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .card-body-custom {
+            padding: 22px;
+        }
+
+        .chart-box {
+            height: 300px;
+        }
+
+        /* ================= TASK ================= */
+
+        .task-item {
+            padding: 17px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .task-item:last-child {
+            border-bottom: 0;
+        }
+
+        .priority {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 5px 8px;
+            border-radius: 6px;
+        }
+
+        .priority.high {
+            color: var(--red);
+            background: rgba(251,113,133,.10);
+        }
+
+        .priority.medium {
+            color: var(--yellow);
+            background: rgba(251,191,36,.10);
+        }
+
+        .progress {
+            height: 5px;
+            background: rgba(255,255,255,.06);
+            border-radius: 20px;
+        }
+
+        .progress-bar {
+            border-radius: 20px;
+        }
+
+        /* ================= SCHEDULE ================= */
+
+        .schedule-item {
+            display: flex;
+            gap: 13px;
+            padding: 13px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+        }
+
+        .date-box {
+            width: 45px;
+            min-width: 45px;
+            height: 48px;
+            border-radius: 11px;
+            background: rgba(143,180,255,.09);
+            border: 1px solid rgba(143,180,255,.15);
+            color: var(--primary);
+            text-align: center;
+            padding-top: 5px;
+        }
+
+        .date-box small {
+            font-size: 8px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .date-box strong {
+            font-size: 16px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        .mobile-menu-btn {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255,255,255,.04);
+            color: white;
+        }
+
+        .mobile-overlay {
+            display: none;
+        }
+
+        @media(max-width: 991px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: .3s;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-overlay.show {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.65);
+                z-index: 1040;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .hero-profile {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+        }
+
+        @media(max-width: 575px) {
+
+            .clock {
+                display: none;
+            }
+
+            .hero {
+                padding: 22px;
+            }
+
+            .hero-img {
+                width: 85px;
+                height: 85px;
+            }
+
+            .hero h1 {
+                font-size: 23px;
+            }
+
+            .hero-actions {
+                width: 100%;
+            }
+
+            .hero-actions a {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- ================= MOBILE OVERLAY ================= -->
+
+<div class="mobile-overlay" id="mobileOverlay"
+     onclick="toggleSidebar()"></div>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div>
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="bi bi-cpu"></i>
+            </div>
+
+            <div>
+                <h5>Elite ERMS</h5>
+                <small>ENTERPRISE SUITE</small>
+            </div>
+
+        </div>
+
+
+        <div class="nav-title">
+            Workspace
+        </div>
+
+
+        <a href="#" class="side-link active">
+
+            <i class="bi bi-grid-1x2-fill"></i>
+
+            Dashboard
+
+        </a>
+
+
+        <a href="createleave.html" class="side-link">
+
+            <i class="bi bi-calendar2-heart"></i>
+
+            Leave Portal
+
+        </a>
+
+
+        <a href="employeeattendance.html" class="side-link">
+
+            <i class="bi bi-fingerprint"></i>
+
+            My Attendance
+
+        </a>
+
+
+        <a href="#" class="side-link">
+
+            <i class="bi bi-list-check"></i>
+
+            My Tasks
+
+        </a>
+
+
+        <a href="#" class="side-link">
+
+            <i class="bi bi-building"></i>
+
+            Company Info
+
+        </a>
+
+    </div>
+
+
+    <div class="profile-mini">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNdmlCrK0o4pxiNkeW3tPNv2Ch2F9u1o8ngkG4mt1kSmXYRq7EC4UL9uxGTI9LnzxpvJlT6rJ4Ikpxn38n1hBlOzqM82BgEpKLerm12qmPfsuSlewVyXDB-BmzUwUQ8HnC8u-ozKHDttbaUxQZQo4eAebn6r-XHuE2jVEw01CFgRkkF-keCCXzh6jfw3BSUBEJVpeMmVZ1X1CQrfpoGYT4vzmT-axPFFi2SemgHbH4cc8gxP-m6wHXOxErVKOlJ0sfYy0l7ItlGe8"
+                alt="Priyanka"
+            >
+
+            <div class="overflow-hidden">
+
+                <div class="fw-bold small text-truncate">
+                    Priyanka
+                </div>
+
+                <div class="text-secondary small">
+                    UI/UX Designer
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="main">
+
+
+    <!-- ================= TOPBAR ================= -->
+
+    <header class="topbar">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <button
+                class="mobile-menu-btn"
+                onclick="toggleSidebar()">
+
+                <i class="bi bi-list fs-5"></i>
+
+            </button>
+
+            <div class="page-heading">
+
+                <h4>Employee Workspace</h4>
+
+                <small>
+                    Welcome back, Priyanka 👋
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="clock">
+
+                <strong id="top-clock">
+                    00:00:00
+                </strong>
+
+                <small id="top-date">
+                    Loading...
+                </small>
+
+            </div>
+
+
+            <button
+                class="notification-btn"
+                onclick="showNotifications()">
+
+                <i class="bi bi-bell"></i>
+
+                <span
+                    class="notification-badge"
+                    id="notificationCount">
+                    0
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <main class="content">
+
+
+        <!-- ================= HERO ================= -->
+
+        <section class="hero">
+
+            <div class="row align-items-center g-4">
+
+                <div class="col-lg-8">
+
+                    <div class="hero-profile">
+
+                        <img
+                            class="hero-img"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNdmlCrK0o4pxiNkeW3tPNv2Ch2F9u1o8ngkG4mt1kSmXYRq7EC4UL9uxGTI9LnzxpvJlT6rJ4Ikpxn38n1hBlOzqM82BgEpKLerm12qmPfsuSlewVyXDB-BmzUwUQ8HnC8u-ozKHDttbaUxQZQo4eAebn6r-XHuE2jVEw01CFgRkkF-keCCXzh6jfw3BSUBEJVpeMmVZ1X1CQrfpoGYT4vzmT-axPFFi2SemgHbH4cc8gxP-m6wHXOxErVKOlJ0sfYy0l7ItlGe8"
+                            alt="Priyanka"
+                        >
+
+                        <div>
+
+                            <span class="status">
+
+                                <span class="status-dot"></span>
+
+                                ACTIVE EMPLOYEE
+
+                            </span>
+
+                            <h1>
+                                Welcome Back,
+                                <span>Priyanka</span>
+                            </h1>
+
+                            <div class="employee-tags">
+
+                                <span class="tag">
+                                    <i class="bi bi-palette me-1"></i>
+                                    UI/UX Designer
+                                </span>
+
+                                <span class="tag">
+                                    <i class="bi bi-person-badge me-1"></i>
+                                    EMP1024
+                                </span>
+
+                                <span class="tag">
+                                    <i class="bi bi-diagram-3 me-1"></i>
+                                    Design Department
+                                </span>
+
+                            </div>
+
+                            <p class="quote">
+                                "Design is not just what it looks like and feels like.
+                                Design is how it works."
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-4">
+
+                    <div class="hero-actions d-grid gap-2">
+
+                        <a
+                            href="employeeattendance.html"
+                            class="btn btn-primary-custom">
+
+                            <i class="bi bi-fingerprint me-2"></i>
+
+                            Mark Attendance
+
+                        </a>
+
+
+                        <a
+                            href="createleave.html"
+                            class="btn btn-dark-custom">
+
+                            <i class="bi bi-calendar-plus me-2"></i>
+
+                            Request Leave
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="row g-4 mb-4">
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+
+                    <span class="stat-trend text-success">
+                        +4.5%
+                    </span>
+
+                    <div class="stat-number">
+                        22/26
+                    </div>
+
+                    <div class="stat-label">
+                        Present Days This Month
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        <i class="bi bi-list-task"></i>
+                    </div>
+
+                    <span class="stat-trend text-danger">
+                        -12%
+                    </span>
+
+                    <div class="stat-number">
+                        08
+                    </div>
+
+                    <div class="stat-label">
+                        Pending Tasks
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        <i class="bi bi-umbrella"></i>
+                    </div>
+
+                    <span class="stat-trend text-success">
+                        Available
+                    </span>
+
+                    <div class="stat-number">
+                        12
+                    </div>
+
+                    <div class="stat-label">
+                        Leave Balance Days
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon cyan">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <span class="stat-trend text-success">
+                        +6.2%
+                    </span>
+
+                    <div class="stat-number">
+                        94%
+                    </div>
+
+                    <div class="stat-label">
+                        Performance Score
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CHART + TASK DISTRIBUTION ================= -->
+
+        <section class="row g-4 mb-4">
+
+
+            <div class="col-lg-8">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <div>
+
+                            <h6>
+                                <i class="bi bi-graph-up me-2 text-primary"></i>
+                                Monthly Attendance Trend
+                            </h6>
+
+                            <small class="text-secondary">
+                                Attendance performance overview
+                            </small>
+
+                        </div>
+
+                        <select
+                            class="form-select form-select-sm bg-dark text-light border-secondary"
+                            style="width:150px;">
+
+                            <option>
+                                September 2026
+                            </option>
+
+                            <option>
+                                August 2026
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="card-body-custom">
+
+                        <div class="chart-box">
+
+                            <canvas id="attendanceChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="dashboard-card h-100">
+
+                    <div class="card-header-custom">
+
+                        <h6>
+                            <i class="bi bi-pie-chart me-2 text-info"></i>
+                            Task Distribution
+                        </h6>
+
+                    </div>
+
+                    <div class="card-body-custom">
+
+                        <div style="height:220px">
+
+                            <canvas id="taskChart"></canvas>
+
+                        </div>
+
+                        <div class="row g-2 mt-3">
+
+                            <div class="col-6">
+
+                                <div class="p-3 rounded-3 bg-dark text-center">
+
+                                    <div class="fw-bold text-primary">
+                                        18
+                                    </div>
+
+                                    <small class="text-secondary">
+                                        Completed
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-6">
+
+                                <div class="p-3 rounded-3 bg-dark text-center">
+
+                                    <div class="fw-bold text-purple">
+                                        06
+                                    </div>
+
+                                    <small class="text-secondary">
+                                        Active
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TASKS + SCHEDULE ================= -->
+
+        <section class="row g-4">
+
+
+            <!-- TASKS -->
+
+            <div class="col-lg-8">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <div>
+
+                            <h6>
+                                <i class="bi bi-check2-square me-2 text-primary"></i>
+                                Today's Active Tasks
+                            </h6>
+
+                            <small class="text-secondary">
+                                Your current work assignments
+                            </small>
+
+                        </div>
+
+                        <button class="btn btn-sm btn-dark-custom">
+                            View All
+                        </button>
+
+                    </div>
+
+
+                    <div class="card-body-custom">
+
+
+                        <div class="task-item">
+
+                            <div class="d-flex justify-content-between gap-3">
+
+                                <div>
+
+                                    <h6 class="mb-1">
+                                        Finalize Resource Budgeting UI
+                                    </h6>
+
+                                    <small class="text-secondary">
+                                        Project: Obsidian-9
+                                    </small>
+
+                                </div>
+
+                                <span class="priority high">
+                                    HIGH
+                                </span>
+
+                            </div>
+
+
+                            <div class="d-flex justify-content-between mt-3 mb-2">
+
+                                <small class="text-secondary">
+                                    Progress
+                                </small>
+
+                                <small class="text-primary fw-bold">
+                                    85%
+                                </small>
+
+                            </div>
+
+
+                            <div class="progress">
+
+                                <div
+                                    class="progress-bar"
+                                    style="width:85%; background:#8fb4ff;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="task-item">
+
+                            <div class="d-flex justify-content-between gap-3">
+
+                                <div>
+
+                                    <h6 class="mb-1">
+                                        Mobile Dashboard Wireframes
+                                    </h6>
+
+                                    <small class="text-secondary">
+                                        Project: ERMS Mobile
+                                    </small>
+
+                                </div>
+
+                                <span class="priority medium">
+                                    MEDIUM
+                                </span>
+
+                            </div>
+
+
+                            <div class="d-flex justify-content-between mt-3 mb-2">
+
+                                <small class="text-secondary">
+                                    Progress
+                                </small>
+
+                                <small class="text-info fw-bold">
+                                    62%
+                                </small>
+
+                            </div>
+
+
+                            <div class="progress">
+
+                                <div
+                                    class="progress-bar bg-info"
+                                    style="width:62%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="task-item">
+
+                            <div class="d-flex justify-content-between gap-3">
+
+                                <div>
+
+                                    <h6 class="mb-1">
+                                        Employee Portal Prototype
+                                    </h6>
+
+                                    <small class="text-secondary">
+                                        Project: Elite ERMS
+                                    </small>
+
+                                </div>
+
+                                <span class="priority medium">
+                                    MEDIUM
+                                </span>
+
+                            </div>
+
+
+                            <div class="d-flex justify-content-between mt-3 mb-2">
+
+                                <small class="text-secondary">
+                                    Progress
+                                </small>
+
+                                <small class="text-success fw-bold">
+                                    45%
+                                </small>
+
+                            </div>
+
+
+                            <div class="progress">
+
+                                <div
+                                    class="progress-bar bg-success"
+                                    style="width:45%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCHEDULE -->
+
+            <div class="col-lg-4">
+
+                <div class="dashboard-card h-100">
+
+                    <div class="card-header-custom">
+
+                        <h6>
+                            <i class="bi bi-calendar-event me-2 text-primary"></i>
+                            Upcoming Schedule
+                        </h6>
+
+                    </div>
+
+
+                    <div class="card-body-custom">
+
+
+                        <div class="schedule-item">
+
+                            <div class="date-box">
+
+                                <small>Sep</small>
+
+                                <strong>15</strong>
+
+                            </div>
+
+                            <div>
+
+                                <div class="fw-semibold small">
+                                    Weekly Design Sync
+                                </div>
+
+                                <small class="text-secondary">
+                                    10:00 AM · Zoom Meeting
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="schedule-item">
+
+                            <div class="date-box">
+
+                                <small>Sep</small>
+
+                                <strong>17</strong>
+
+                            </div>
+
+                            <div>
+
+                                <div class="fw-semibold small">
+                                    UX Research Review
+                                </div>
+
+                                <small class="text-secondary">
+                                    02:00 PM · Meeting Room 3
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="schedule-item">
+
+                            <div class="date-box">
+
+                                <small>Sep</small>
+
+                                <strong>20</strong>
+
+                            </div>
+
+                            <div>
+
+                                <div class="fw-semibold small">
+                                    Monthly Team Meeting
+                                </div>
+
+                                <small class="text-secondary">
+                                    11:30 AM · Conference Hall
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- ================= BOOTSTRAP ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+function toggleSidebar() {
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("show");
+
+    document
+        .getElementById("mobileOverlay")
+        .classList.toggle("show");
+
+}
+
+
+/* ==========================================
+   REAL TIME CLOCK
+========================================== */
+
+function updateClock() {
+
+    const now = new Date();
+
+    const time = now.toLocaleTimeString(
+        "en-IN",
+        {
+            hour12: true
+        }
+    );
+
+    const date = now.toLocaleDateString(
+        "en-IN",
+        {
+            weekday: "long",
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+
+    document.getElementById("top-clock").innerText = time;
+
+    document.getElementById("top-date").innerText = date;
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+
+/* ==========================================
+   ATTENDANCE CHART
+========================================== */
+
+const attendanceCtx =
+    document
+        .getElementById("attendanceChart")
+        .getContext("2d");
+
+
+new Chart(attendanceCtx, {
+
+    type: "line",
+
+    data: {
+
+        labels: [
+            "Week 1",
+            "Week 2",
+            "Week 3",
+            "Week 4"
+        ],
+
+        datasets: [
+
+            {
+                label: "Attendance %",
+
+                data: [
+                    92,
+                    95,
+                    90,
+                    96
+                ],
+
+                borderColor: "#8fb4ff",
+
+                backgroundColor:
+                    "rgba(143,180,255,.08)",
+
+                borderWidth: 3,
+
+                fill: true,
+
+                tension: .45,
+
+                pointRadius: 4,
+
+                pointBackgroundColor:
+                    "#8fb4ff"
+            }
+
+        ]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+                display: false
+            }
+
+        },
+
+        scales: {
+
+            y: {
+
+                min: 70,
+
+                max: 100,
+
+                grid: {
+                    color: "rgba(255,255,255,.05)"
+                },
+
+                ticks: {
+                    color: "#64748b"
+                }
+
+            },
+
+            x: {
+
+                grid: {
+                    display: false
+                },
+
+                ticks: {
+                    color: "#64748b"
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+
+/* ==========================================
+   TASK CHART
+========================================== */
+
+const taskCtx =
+    document
+        .getElementById("taskChart")
+        .getContext("2d");
+
+
+new Chart(taskCtx, {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: [
+            "Completed",
+            "Active"
+        ],
+
+        datasets: [
+
+            {
+                data: [
+                    18,
+                    6
+                ],
+
+                backgroundColor: [
+                    "#8fb4ff",
+                    "#a78bfa"
+                ],
+
+                borderWidth: 0
+            }
+
+        ]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        cutout: "76%",
+
+        plugins: {
+
+            legend: {
+                display: false
+            }
+
+        }
+
+    }
+
+});
+
+
+/* ==========================================
+   NOTIFICATIONS
+========================================== */
+
+function loadNotifications() {
+
+    const employeeId =
+        "ERMS-4029-BA";
+
+    let notifications =
+        JSON.parse(
+            localStorage.getItem("notifications")
+        ) || [];
+
+    const myNotifications =
+        notifications.filter(
+            n => n.empId === employeeId
+        );
+
+    const unread =
+        myNotifications.filter(
+            n => n.read === false
+        ).length;
+
+    document
+        .getElementById("notificationCount")
+        .innerText = unread;
+
+}
+
+
+function showNotifications() {
+
+    const employeeId =
+        "ERMS-4029-BA";
+
+    let notifications =
+        JSON.parse(
+            localStorage.getItem("notifications")
+        ) || [];
+
+    const myNotifications =
+        notifications.filter(
+            n => n.empId === employeeId
+        );
+
+    if (!myNotifications.length) {
+
+        alert("🔔 No new notifications");
+
+        return;
+
+    }
+
+    let message = "";
+
+    myNotifications.forEach(n => {
+
+        message +=
+            "• " +
+            n.message +
+            "\n" +
+            n.date +
+            "\n\n";
+
+    });
+
+    alert(message);
+
+    notifications.forEach(n => {
+
+        if (n.empId === employeeId) {
+
+            n.read = true;
+
+        }
+
+    });
+
+    localStorage.setItem(
+        "notifications",
+        JSON.stringify(notifications)
+    );
+
+    loadNotifications();
+
+}
+
+
+loadNotifications();
+
+</script>
+
+</body>
+</html>

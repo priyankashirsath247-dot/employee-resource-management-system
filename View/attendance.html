@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Smart Attendance - Face Scan</title>
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<!-- Google Font: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="theme-variables">
+    :root {
+      --bg-primary: #020912;
+      --bg-gradient: radial-gradient(circle at 50% 20%, #071c33 0%, #020912 85%);
+      --card-bg: rgba(10, 24, 43, 0.72);
+      --card-border: rgba(8, 127, 255, 0.18);
+      --card-border-glow: rgba(8, 127, 255, 0.35);
+      --accent-blue: #087FFF;
+      --accent-cyan: #00d2ff;
+      --accent-purple: #5B2EFF;
+      --text-muted: #8da4be;
+      --text-dark-muted: #4e657e;
+      --input-bg: rgba(6, 17, 30, 0.75);
+    }
+  </style>
+<style data-purpose="base-layout">
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #01060c;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: 
+        radial-gradient(ellipse at 80% 45%, rgba(8, 127, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 50%, rgba(91, 46, 255, 0.08) 0%, transparent 40%);
+    }
+
+    /* Target mobile container simulating iOS screen */
+    .app-screen {
+      width: 100%;
+      max-width: 420px;
+      min-height: 844px;
+      background: var(--bg-gradient);
+      border-radius: 36px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 20px 24px;
+    }
+
+    /* Ambient cyber dot grid overlay */
+    .cyber-mesh {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(rgba(8, 127, 255, 0.12) 1px, transparent 0);
+      background-size: 24px 24px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .relative-content {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+<style data-purpose="ios-header-and-nav">
+    /* iOS status bar */
+    .ios-status-bar {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: #e5eef7;
+      margin-bottom: 12px;
+      padding: 0 6px;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .icon-glass-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(8, 127, 255, 0.08);
+      border: 1px solid rgba(8, 127, 255, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #087FFF;
+      font-size: 20px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    .icon-glass-btn:hover {
+      background: rgba(8, 127, 255, 0.2);
+      border-color: #087FFF;
+      box-shadow: 0 0 15px rgba(8, 127, 255, 0.4);
+    }
+
+    .header-text-group {
+      flex: 1;
+      padding-left: 14px;
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+    }
+
+    .header-title .text-accent {
+      color: var(--accent-blue);
+    }
+
+    .header-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 2px 0 0;
+      font-weight: 400;
+    }
+  </style>
+<style data-purpose="scanner-card-styles">
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 26px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+
+    .scan-meta-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 20px 10px;
+    }
+
+    .biometric-icon-badge {
+      width: 44px;
+      height: 44px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-blue);
+      font-size: 24px;
+    }
+
+    .scanner-viewport {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      margin: 15px auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Glowing 4-corner brackets */
+    .corner-bracket {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-color: #087FFF;
+      border-style: solid;
+      pointer-events: none;
+      filter: drop-shadow(0 0 5px rgba(8, 127, 255, 0.7));
+    }
+    .corner-tl {
+      top: 0;
+      left: 0;
+      border-width: 3px 0 0 3px;
+      border-top-left-radius: 9px;
+    }
+    .corner-tr {
+      top: 0;
+      right: 0;
+      border-width: 3px 3px 0 0;
+      border-top-right-radius: 9px;
+    }
+    .corner-bl {
+      bottom: 0;
+      left: 0;
+      border-width: 0 0 3px 3px;
+      border-bottom-left-radius: 9px;
+    }
+    .corner-br {
+      bottom: 0;
+      right: 0;
+      border-width: 0 3px 3px 0;
+      border-bottom-right-radius: 9px;
+    }
+
+    /* Face Container & Image Reticle */
+    .reticle-circle {
+      width: 204px;
+      height: 204px;
+      border-radius: 50%;
+      position: relative;
+      border: 2px solid #087FFF;
+      box-shadow: 0 0 20px rgba(8, 127, 255, 0.4), inset 0 0 15px rgba(8, 127, 255, 0.25);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d1e33;
+    }
+
+    .reticle-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: contrast(1.03) brightness(0.98);
+    }
+
+    /* Cyber scan laser beam */
+    .scan-beam {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #ffffff;
+      box-shadow: 
+        0 0 8px #ffffff,
+        0 0 16px var(--accent-cyan),
+        0 0 28px var(--accent-blue);
+      z-index: 5;
+      animation: sweepLaser 2.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes sweepLaser {
+      0% {
+        top: 15%;
+        opacity: 0.8;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        top: 85%;
+        opacity: 0.8;
+      }
+    }
+
+    /* Tap to Scan button inside card */
+    .btn-tap-scan {
+      background: rgba(8, 127, 255, 0.08);
+      border: 1.5px solid rgba(8, 127, 255, 0.45);
+      color: #087FFF;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 22px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(8, 127, 255, 0.12);
+    }
+
+    .btn-tap-scan:hover, .btn-tap-scan:active {
+      background: rgba(8, 127, 255, 0.2);
+      color: #38a5ff;
+      border-color: #087FFF;
+      box-shadow: 0 0 16px rgba(8, 127, 255, 0.35);
+      transform: translateY(-1px);
+    }
+  </style>
+<style data-purpose="mobile-input-and-cta">
+    /* Mobile number field card */
+    .mobile-input-card {
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .mobile-badge-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(8, 127, 255, 0.14);
+      color: #087FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      flex-shrink: 0;
+    }
+
+    .custom-input-group {
+      position: relative;
+      background: var(--input-bg);
+      border: 1px solid rgba(8, 127, 255, 0.22);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      padding: 11px 16px;
+      margin-top: 14px;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .custom-input-group:focus-within {
+      border-color: #087FFF;
+      box-shadow: 0 0 0 3px rgba(8, 127, 255, 0.2);
+    }
+
+    .custom-input-group i {
+      color: #5c7594;
+      font-size: 17px;
+      margin-right: 12px;
+    }
+
+    .custom-input-group input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      outline: none;
+      font-size: 14.5px;
+      width: 100%;
+      font-weight: 500;
+    }
+
+    .custom-input-group input::placeholder {
+      color: #4e657e;
+      font-weight: 400;
+    }
+
+    /* Main CTA Button */
+    .btn-mark-attendance {
+      background: linear-gradient(90deg, #087FFF 0%, #5B2EFF 100%);
+      border: none;
+      border-radius: 50px;
+      padding: 15px 24px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.1px;
+      width: 100%;
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(91, 46, 255, 0.45);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-mark-attendance:hover {
+      box-shadow: 0 10px 28px rgba(8, 127, 255, 0.55), 0 0 16px rgba(91, 46, 255, 0.4);
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      color: #ffffff;
+    }
+    #cameraVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* Mirror front camera */
+    transform: scaleX(-1);
+
+    background: #07182b;
+}
+
+
+    .btn-mark-attendance:active {
+      transform: scale(0.985);
+      box-shadow: 0 4px 14px rgba(91, 46, 255, 0.4);
+    }
+
+    .security-note {
+      text-align: center;
+      color: var(--text-dark-muted);
+      font-size: 12.5px;
+      margin-top: 14px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+<!-- BEGIN: MobileDeviceContainer -->
+<main class="app-screen" data-purpose="mobile-ios-app-container">
+<div class="cyber-mesh"></div>
+<div class="relative-content">
+<!-- BEGIN: StatusBar -->
+<!-- iOS Status Bar Simulation -->
+<div class="ios-status-bar d-flex justify-content-between align-items-center" data-purpose="ios-top-bar">
+<span>9:41</span>
+<div class="d-flex align-items-center gap-2">
+<i class="bi bi-reception-4" style="font-size: 13px;"></i>
+<i class="bi bi-wifi" style="font-size: 14px;"></i>
+<i class="bi bi-battery-full" style="font-size: 16px;"></i>
+</div>
+</div>
+<!-- END: StatusBar -->
+<!-- BEGIN: AppHeader -->
+<!-- Main Application Header with Branding and Help Button -->
+<header class="app-header" data-purpose="app-header-navigation">
+<!-- Shield security icon button -->
+<button aria-label="Security Status" class="icon-glass-btn" type="button">
+<i class="bi bi-person"></i>
+</button>
+<!-- Centered Header Title -->
+<div class="header-text-group">
+<h1 class="header-title">Smart <span class="text-accent">Attendance</span></h1>
+<p class="header-subtitle">Face Scan to Mark Attendance</p>
+</div>
+<!-- Help information button -->
+<button aria-label="Help &amp; Information" class="icon-glass-btn" type="button">
+<i class="bi bi-question-lg"></i>
+</button>
+</header>
+<!-- END: AppHeader -->
+<!-- BEGIN: FaceScanCard -->
+<!-- Primary Biometric Verification Card -->
+<section class="glass-card text-center" data-purpose="face-recognition-card">
+<!-- Scan Card Headline -->
+<div class="scan-meta-header">
+<div aria-hidden="true" class="biometric-icon-badge">
+<svg fill="none" height="34" stroke="#087FFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24" width="34">
+<path d="M4 8V6a2 2 0 0 1 2-2h2"></path>
+<path d="M4 16v2a2 2 0 0 0 2 2h2"></path>
+<path d="M16 4h2a2 2 0 0 1 2 2v2"></path>
+<path d="M16 20h2a2 2 0 0 0 2-2v-2"></path>
+<path d="M9 10h.01"></path>
+<path d="M15 10h.01"></path>
+<path d="M9.5 15a3.5 3.5 0 0 0 5 0"></path>
+</svg>
+</div>
+<div class="text-start">
+<h2 class="h5 fw-bold mb-1 text-white">Face Scan</h2>
+<p class="mb-0 text-secondary" style="font-size: 13px; color: #8da4be !important;">Align your face in the frame</p>
+</div>
+</div>
+<!-- Optical Face Scanning Zone with Target Corners -->
+<div class="scanner-viewport" data-purpose="optical-scan-viewport">
+<!-- Cyber Targeting Corners -->
+<div class="corner-bracket corner-tl"></div>
+<div class="corner-bracket corner-tr"></div>
+<div class="corner-bracket corner-bl"></div>
+<div class="corner-bracket corner-br"></div>
+<!-- Circular Scanning Reticle -->
+<div class="reticle-circle" id="reticleFrame">
+<!-- Continuous sweep laser line -->
+<div class="scan-beam"></div>
+<!-- Portrait Image Source from dataset -->
+<video
+    id="cameraVideo"
+    class="reticle-image"
+    autoplay
+    muted
+    playsinline>
+</video>
+<img
+    id="capturedPhotoImg"
+    class="reticle-image"
+    style="display:none;"
+    alt="Captured face"/>
+
+</div>
+</div>
+<!-- Scan action trigger button -->
+<div class="pb-3 pt-1 d-flex justify-content-center gap-2 flex-wrap">
+<button class="btn btn-tap-scan" id="tapToScanBtn" type="button">
+<i class="bi bi-camera"></i>
+<span>Tap to Scan</span>
+</button>
+<button class="btn btn-tap-scan" id="retakeBtn" type="button" style="display:none; color:#ff9f43; border-color:rgba(255,159,67,0.5);">
+<i class="bi bi-arrow-repeat"></i>
+<span>Retake</span>
+</button>
+</div>
+</section>
+<!-- END: FaceScanCard -->
+<!-- BEGIN: MobileInputCard -->
+<!-- Secondary Verification Detail Card -->
+<section class="glass-card mobile-input-card" data-purpose="mobile-number-verification">
+<div class="d-flex align-items-center gap-3">
+<div aria-hidden="true" class="mobile-badge-icon">
+<i class="bi bi-telephone"></i>
+</div>
+<div>
+<h3 class="h6 fw-bold mb-0 text-white">Mobile Number</h3>
+<p class="mb-0" style="font-size: 12px; color: #8da4be;">Enter your registered mobile number</p>
+</div>
+</div>
+<!-- Text Input with Phone Icon prefix -->
+<div class="custom-input-group">
+<i class="bi bi-telephone"></i>
+<input aria-label="Registered Mobile Number" autocomplete="tel" id="mobileInput" maxlength="10" pattern="[0-9]*" placeholder="Enter Mobile Number" type="tel"/>
+</div>
+</section>
+<!-- END: MobileInputCard -->
+<!-- BEGIN: ActionSection -->
+<!-- Submission and Security Footer -->
+<section class="mt-2" data-purpose="submit-attendance-section">
+<button class="btn-mark-attendance" id="markAttendanceBtn" type="button">
+<i class="bi bi-check-circle me-2 fs-5"></i>
+<span>Mark Attendance</span>
+</button>
+<p class="security-note">
+<i class="bi bi-lock me-1"></i> Your data is secure and encrypted
+        </p>
+</section>
+<!-- END: ActionSection -->
+</div>
+</main>
+<!-- END: MobileDeviceContainer -->
+<!-- BEGIN: InteractiveScripts -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const scanBtn = document.getElementById("tapToScanBtn");
+    const retakeBtn = document.getElementById("retakeBtn");
+    const attendanceBtn = document.getElementById("markAttendanceBtn");
+    const video = document.getElementById("cameraVideo");
+    const capturedPhotoImg = document.getElementById("capturedPhotoImg");
+    const scanBeam = document.querySelector(".scan-beam");
+    const reticleFrame = document.getElementById("reticleFrame");
+    const mobileInput = document.getElementById("mobileInput");
+
+    let cameraStream = null;
+    let faceScanned = false;
+    let scanning = false;
+    let capturedPhoto = null;
+
+    function resetScanState() {
+        faceScanned = false;
+        scanning = false;
+        capturedPhoto = null;
+        window.employeeCapturedPhoto = null;
+
+        capturedPhotoImg.style.display = "none";
+        capturedPhotoImg.src = "";
+        video.style.display = "block";
+
+        scanBeam.style.display = "block";
+        scanBeam.style.animationDuration = "2.8s";
+
+        reticleFrame.style.borderColor = "#087FFF";
+        reticleFrame.style.boxShadow =
+            "0 0 20px rgba(8, 127, 255, 0.4), inset 0 0 15px rgba(8, 127, 255, 0.25)";
+
+        scanBtn.innerHTML =
+            '<i class="bi bi-camera"></i><span>Tap to Scan</span>';
+        scanBtn.style.color = "#087FFF";
+        scanBtn.style.borderColor = "rgba(8, 127, 255, 0.45)";
+
+        retakeBtn.style.display = "none";
+    }
+
+    async function startCamera() {
+        try {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error("Camera API is not supported");
+            }
+
+            stopCamera();
+
+            const constraints = {
+                audio: false,
+                video: {
+                    facingMode: { ideal: "user" },
+                    width: { ideal: 640 },
+                    height: { ideal: 480 },
+                    frameRate: { ideal: 30, max: 30 }
+                }
+            };
+
+            cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+            video.srcObject = cameraStream;
+            video.style.display = "block";
+            await video.play();
+
+            scanBtn.innerHTML =
+                '<i class="bi bi-camera-video-fill"></i><span>Start Face Scan</span>';
+            scanBtn.style.color = "#00d2ff";
+            scanBtn.style.borderColor = "#087FFF";
+
+        } catch (error) {
+            console.error("Camera Error:", error);
+
+            if (error.name === "NotAllowedError") {
+                alert("Camera permission denied. Please allow camera access in your browser.");
+            } else if (error.name === "NotFoundError") {
+                alert("No camera was found on this device.");
+            } else {
+                alert("Unable to access camera. Please check your camera settings.");
+            }
+        }
+    }
+
+    function stopCamera() {
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
+        }
+    }
+
+    function capturePhoto() {
+        if (!video || video.videoWidth === 0 || video.videoHeight === 0) {
+            throw new Error("Camera is not ready for photo capture");
+        }
+
+        const canvas = document.createElement("canvas");
+        const maxWidth = 500;
+        const ratio = video.videoHeight / video.videoWidth;
+
+        canvas.width = maxWidth;
+        canvas.height = Math.round(maxWidth * ratio);
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        capturedPhoto = canvas.toDataURL("image/jpeg", 0.7);
+        window.employeeCapturedPhoto = capturedPhoto;
+
+        capturedPhotoImg.src = capturedPhoto;
+        capturedPhotoImg.style.display = "block";
+        video.style.display = "none";
+
+        return capturedPhoto;
+    }
+
+    scanBtn.addEventListener("click", async () => {
+
+        if (!cameraStream) {
+            scanBtn.innerHTML =
+                '<span class="spinner-border spinner-border-sm me-2"></span> Opening Camera...';
+
+            await startCamera();
+            return;
+        }
+
+        if (scanning || faceScanned) return;
+
+        scanning = true;
+        faceScanned = false;
+
+        scanBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span> Scanning Face...';
+
+        reticleFrame.style.boxShadow =
+            "0 0 45px rgba(0,210,255,0.9), inset 0 0 30px rgba(8,127,255,0.7)";
+        reticleFrame.style.borderColor = "#00d2ff";
+        scanBeam.style.animationDuration = "1.2s";
+
+        setTimeout(() => {
+            try {
+                capturePhoto();
+
+                faceScanned = true;
+                scanning = false;
+
+                scanBeam.style.display = "none";
+                stopCamera();
+                video.srcObject = null;
+
+                reticleFrame.style.borderColor = "#10b981";
+                reticleFrame.style.boxShadow =
+                    "0 0 40px rgba(16,185,129,0.8), inset 0 0 25px rgba(16,185,129,0.3)";
+
+                scanBtn.innerHTML =
+                    '<i class="bi bi-check-circle-fill me-2"></i> Face Verified';
+                scanBtn.style.color = "#10b981";
+                scanBtn.style.borderColor = "#10b981";
+
+                retakeBtn.style.display = "inline-flex";
+                mobileInput.focus();
+
+            } catch (error) {
+                console.error("Photo Capture Error:", error);
+                scanning = false;
+                alert("Photo could not be captured. Please retake the scan.");
+                resetScanState();
+            }
+        }, 2500);
+    });
+
+    retakeBtn.addEventListener("click", async () => {
+        resetScanState();
+
+        scanBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span> Opening Camera...';
+
+        await startCamera();
+    });
+
+    attendanceBtn.addEventListener("click", async () => {
+
+        const mobileNumber = mobileInput.value.trim();
+        console.log("Mobile entered:", mobileNumber);
+console.log("Sending attendance data...");
+
+        if (!faceScanned) {
+            alert("Please complete face scan first.");
+            return;
+        }
+
+        if (!/^\d{10}$/.test(mobileNumber)) {
+            alert("Please enter a valid 10-digit mobile number.");
+            mobileInput.focus();
+            return;
+        }
+
+        if (!capturedPhoto) {
+            alert("Face photo not captured. Please scan again.");
+            return;
+        }
+
+        try {
+            attendanceBtn.disabled = true;
+            attendanceBtn.innerHTML =
+                '<span class="spinner-border spinner-border-sm me-2"></span> Saving...';
+
+            const response = await fetch("http://localhost:3000/attendance", { 
+                method: "POST", 
+                headers: { 
+                    "Content-Type": "application/json" 
+                }, 
+                body: JSON.stringify({ 
+                    mobile: mobileNumber, 
+                    photo: capturedPhoto, 
+                    timestamp: new Date().toISOString() 
+                }) 
+            }); 
+ 
+            let result = {}; 
+            const contentType = response.headers.get("content-type") || ""; 
+ 
+            if (contentType.includes("application/json")) { 
+                result = await response.json(); 
+            } else { 
+                result.message = await response.text(); 
+            } 
+ 
+            if (!response.ok) { 
+                throw new Error( 
+                    result.message || 
+                    `Attendance could not be saved. Server returned ${response.status}` 
+                ); 
+            } 
+ 
+            alert(result.message || "Attendance marked successfully!"); 
+ 
+            mobileInput.value = ""; 
+            resetScanState(); 
+ 
+        } catch (error) { 
+            console.error("Attendance Error:", error); 
+            alert(error.message || "Server error! Please check server connection."); 
+        } finally { 
+            attendanceBtn.disabled = false; 
+            attendanceBtn.innerHTML = 
+                '<i class="bi bi-check-circle me-2 fs-5"></i><span>Mark Attendance</span>'; 
+        } 
+    }); 
+ 
+});
+</script>

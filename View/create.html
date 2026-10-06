@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Create Account | HRMS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Poppins, sans-serif;
+            padding: 20px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(13, 110, 253, .6), transparent 70%);
+            filter: blur(80px);
+        }
+
+        .register-box {
+            width: 450px;
+            background: #111;
+            padding: 30px;
+            border-radius: 18px;
+            color: #fff;
+            box-shadow: 0 0 35px rgba(13, 110, 253, .5);
+            z-index: 10;
+        }
+
+        input,
+        select {
+            background: #1c1c1c !important;
+            color: #fff !important;
+            border: 1px solid #444 !important;
+        }
+
+        .eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .create-btn {
+            background: linear-gradient(45deg, #0d6efd, #6610f2);
+            border: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="register-box">
+
+        <h3 class="text-center text-primary mb-3">
+            Create New Account
+        </h3>
+
+        <p class="text-center text-muted mb-4">
+            HRMS Registration
+        </p>
+
+        <!-- FORM START -->
+        <form id="registerForm">
+
+            <label class="mb-2">
+                Employee Registration
+            </label>
+
+            <input type="hidden" id="role" value="employee">
+
+
+            <!-- NAME -->
+
+            <label>Employee Name</label>
+
+            <input
+                type="text"
+                id="name"
+                class="form-control mb-3"
+                required>
+
+
+            <!-- MOBILE -->
+
+            <label>Mobile Number</label>
+
+            <input
+                type="text"
+                id="mobile"
+                class="form-control mb-3"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                placeholder="Enter 10 digit mobile number"
+                required>
+
+
+            <!-- DEPARTMENT -->
+
+            <label>Department</label>
+
+            <input
+                type="text"
+                id="department"
+                class="form-control mb-3"
+                required>
+
+
+            <!-- POSITION -->
+
+            <label>Position</label>
+
+            <input
+                type="text"
+                id="position"
+                class="form-control mb-3"
+                required>
+
+
+            <!-- EMAIL -->
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                id="email"
+                class="form-control mb-3"
+                required>
+
+
+            <!-- PASSWORD -->
+
+            <label>Password</label>
+
+            <div class="position-relative mb-3">
+
+                <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    pattern="[A-Za-z]+[0-9]{3,}"
+                    title="Password must be letters followed by at least 3 numbers. Example: user123"
+                    required>
+
+                <span
+                    class="eye"
+                    onclick="toggle('password')">
+                    👁️
+                </span>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <label>Confirm Password</label>
+
+            <div class="position-relative mb-3">
+
+                <input
+                    type="password"
+                    id="confirm"
+                    class="form-control"
+                    required>
+
+                <span
+                    class="eye"
+                    onclick="toggle('confirm')">
+                    👁️
+                </span>
+
+            </div>
+
+
+            <!-- CREATE BUTTON -->
+
+            <button
+                type="submit"
+                class="btn create-btn text-white w-100">
+
+                Create Account
+
+            </button>
+
+        </form>
+        <!-- FORM END -->
+
+
+        <hr>
+
+
+        <div class="text-center">
+
+            <a
+                href="login.html"
+                class="text-info text-decoration-none">
+
+                ← Back To Login
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // SHOW / HIDE PASSWORD
+
+        function toggle(id) {
+
+            const x = document.getElementById(id);
+
+            if (x.type === "password") {
+
+                x.type = "text";
+
+            } else {
+
+                x.type = "password";
+
+            }
+
+        }
+
+
+        // CREATE ACCOUNT
+
+        document.getElementById("registerForm").addEventListener("submit", createAccount);
+
+
+        async function createAccount(event) {
+
+            // Prevent page refresh
+            event.preventDefault();
+
+
+            const password =
+                document.getElementById("password").value.trim();
+
+            const confirm =
+                document.getElementById("confirm").value.trim();
+
+
+            // PASSWORD MATCH CHECK
+
+            if (password !== confirm) {
+
+                alert("Passwords do not match!");
+
+                return;
+
+            }
+
+
+            // EMPLOYEE DATA
+
+            const data = {
+
+                role: "employee",
+
+                employeeId: "EMP" + Date.now(),
+
+                name:
+                    document.getElementById("name").value.trim(),
+
+                mobile:
+                    document.getElementById("mobile").value.trim(),
+
+                department:
+                    document.getElementById("department").value.trim(),
+
+                position:
+                    document.getElementById("position").value.trim(),
+
+                email:
+                    document.getElementById("email").value.trim(),
+
+                password: password,
+
+                salary: 0
+
+            };
+
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:3000/api/employees",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(data)
+
+                    }
+                );
+
+
+                const result =
+                    await response.json();
+
+
+                if (result.success) {
+
+                    alert("Account Created Successfully!");
+
+                    // Login page वर जा
+                    window.location.href =
+                        "login.html";
+
+                } else {
+
+                    alert(result.message);
+
+                }
+
+
+            } catch (err) {
+
+                console.log(err);
+
+                alert("Server Error! Please check if server is running.");
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

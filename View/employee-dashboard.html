@@ -1,0 +1,5318 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> ERMS | Employee Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<style>
+
+/* =====================================================
+   DESIGN TOKENS
+   Palette: midnight base + electric blue / violet / magenta
+   ratio: blue leads (structure), purple carries emphasis,
+   pink is the single "spark" accent used sparingly.
+===================================================== */
+
+:root{
+
+    --bg:#0a0714;
+    --bg2:#120a24;
+
+    --card:rgba(20,15,38,.72);
+    --card-hover:rgba(30,22,54,.85);
+
+    --border:rgba(255,255,255,.08);
+    --border-glow:rgba(139,92,246,.35);
+
+    --blue:#4b7bff;
+    --blue2:#3b5bfd;
+    --purple:#9b5cf6;
+    --purple2:#7c3aed;
+    --pink:#f0489e;
+    --cyan:#2dd4e8;
+    --green:#22c55e;
+    --yellow:#f5a623;
+    --red:#f0475c;
+
+    --white:#f6f5ff;
+    --muted:#8b87ab;
+
+    --grad-main:linear-gradient(120deg,var(--blue) 0%,var(--purple) 55%,var(--pink) 100%);
+    --grad-soft:linear-gradient(135deg,rgba(75,123,255,.16),rgba(155,92,246,.14));
+
+    --radius-lg:24px;
+    --radius-md:16px;
+    --radius-sm:11px;
+
+    --font-display:"Sora","Manrope",sans-serif;
+    --font-body:"Manrope","Sora",sans-serif;
+
+}
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+::selection{
+    background:var(--purple2);
+    color:#fff;
+}
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    font-family:var(--font-body);
+
+    color:var(--white);
+
+    overflow-x:hidden;
+
+    background:
+
+        radial-gradient(
+            ellipse 700px 500px at 8% -5%,
+            rgba(75,123,255,.28),
+            transparent 55%
+        ),
+
+        radial-gradient(
+            ellipse 650px 550px at 96% 8%,
+            rgba(155,92,246,.24),
+            transparent 55%
+        ),
+
+        radial-gradient(
+            ellipse 600px 500px at 75% 100%,
+            rgba(240,72,158,.16),
+            transparent 55%
+        ),
+
+        linear-gradient(
+            170deg,
+            #060411,
+            #0b0a1d 45%,
+            #08061a
+        );
+
+    background-attachment:fixed;
+
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family:var(--font-display);
+    letter-spacing:-.02em;
+}
+
+
+/* =====================================================
+   BACKGROUND ORBS
+===================================================== */
+
+.bg-orb{
+
+    position:fixed;
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.20;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+}
+
+.orb1{
+    top:-180px;
+    left:120px;
+    background:var(--blue);
+}
+
+.orb2{
+    right:-170px;
+    top:220px;
+    background:var(--purple);
+}
+
+.orb3{
+    bottom:-190px;
+    left:32%;
+    background:var(--pink);
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:264px;
+    height:100vh;
+
+    padding:24px 16px;
+
+    z-index:1000;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(11,8,24,.96),
+            rgba(6,4,15,.98)
+        );
+
+    border-right:1px solid var(--border);
+
+    backdrop-filter:blur(22px);
+
+}
+
+
+/* LOGO */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:4px 6px;
+
+    margin-bottom:34px;
+
+}
+
+
+.logo-icon{
+
+    width:46px;
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    font-size:21px;
+
+    background:var(--grad-main);
+
+    box-shadow:
+        0 10px 28px rgba(123,90,246,.35);
+
+    position:relative;
+
+}
+
+.logo-icon::after{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:16px;
+    padding:2px;
+    background:var(--grad-main);
+    opacity:.5;
+    filter:blur(6px);
+    z-index:-1;
+}
+
+
+.logo-name{
+
+    font-family:var(--font-display);
+
+    font-size:17px;
+
+    font-weight:800;
+
+    background:linear-gradient(100deg,#fff,#cdd6ff 60%,#e6c9ff);
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+}
+
+
+.logo-sub{
+
+    font-size:8px;
+
+    letter-spacing:2.2px;
+
+    color:#6d6690;
+
+    margin-top:2px;
+
+}
+
+
+/* NAV */
+
+.nav-heading{
+
+    color:#585274;
+
+    font-size:9.5px;
+
+    font-weight:700;
+
+    letter-spacing:1.2px;
+
+    margin:0 12px 12px;
+
+}
+
+
+.nav-item-custom{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    padding:12px 14px;
+
+    margin-bottom:6px;
+
+    border-radius:13px;
+
+    text-decoration:none;
+
+    color:#948eb5;
+
+    font-size:12.5px;
+
+    font-weight:600;
+
+    transition:.22s ease;
+
+    position:relative;
+
+}
+
+
+.nav-item-custom i{
+
+    width:20px;
+
+    font-size:16px;
+
+}
+
+
+.nav-item-custom:hover{
+
+    color:#fff;
+
+    background:rgba(155,92,246,.10);
+
+    transform:translateX(3px);
+
+}
+
+
+.nav-item-custom.active{
+
+    color:#fff;
+
+    background:var(--grad-main);
+
+    box-shadow:
+        0 10px 26px rgba(123,90,246,.30);
+
+}
+
+
+/* SIDEBAR PROFILE */
+
+.sidebar-profile{
+
+    position:absolute;
+
+    left:16px;
+    right:16px;
+    bottom:20px;
+
+    padding:13px;
+
+    border-radius:17px;
+
+    background:rgba(155,92,246,.07);
+
+    border:1px solid var(--border-glow);
+
+}
+
+
+.avatar{
+
+    width:42px;
+    height:42px;
+
+    min-width:42px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    color:#fff;
+
+    background:var(--grad-main);
+
+}
+
+
+.avatar-big{
+
+    width:64px;
+    height:64px;
+
+    min-width:64px;
+
+    border-radius:19px;
+
+    font-size:25px;
+
+    box-shadow:0 12px 30px rgba(123,90,246,.35);
+
+}
+
+
+.side-name{
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+.side-position{
+
+    font-size:9px;
+
+    color:#8880a8;
+
+    margin-top:2px;
+
+}
+
+
+.side-id{
+
+    font-size:9px;
+
+    color:var(--cyan);
+
+    margin-top:3px;
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+
+    margin-left:264px;
+
+    min-height:100vh;
+
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:500;
+
+    height:76px;
+
+    padding:0 30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:rgba(8,6,18,.78);
+
+    border-bottom:1px solid var(--border);
+
+    backdrop-filter:blur(22px);
+
+}
+
+
+.top-title{
+
+    font-family:var(--font-display);
+
+    font-size:16.5px;
+
+    font-weight:800;
+
+}
+
+
+.top-sub{
+
+    color:#847dab;
+
+    font-size:10px;
+
+    margin-top:3px;
+
+}
+
+
+.search{
+
+    width:250px;
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 13px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.045);
+
+    border:1px solid var(--border);
+
+    transition:.2s;
+
+}
+
+.search:focus-within{
+    border-color:var(--purple);
+    box-shadow:0 0 0 3px rgba(155,92,246,.15);
+}
+
+
+.search i{
+
+    color:#77719a;
+
+}
+
+
+.search input{
+
+    width:100%;
+
+    border:0;
+    outline:0;
+
+    background:transparent;
+
+    color:#fff;
+
+    font-size:11px;
+
+}
+
+
+.search input::placeholder{
+
+    color:#5e587e;
+
+}
+
+
+.clock{
+
+    text-align:right;
+
+}
+
+
+.clock-time{
+
+    font-size:12px;
+
+    font-weight:700;
+
+    font-variant-numeric:tabular-nums;
+
+}
+
+
+.clock-date{
+
+    font-size:9px;
+
+    color:#7c76a0;
+
+}
+
+
+.notify-btn{
+
+    width:40px;
+    height:40px;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.04);
+
+    color:#e2ddfa;
+
+    transition:.2s;
+
+}
+
+
+.notify-btn:hover{
+
+    background:rgba(155,92,246,.16);
+    border-color:rgba(155,92,246,.35);
+
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content{
+
+    padding:28px;
+
+    max-width:1600px;
+
+    margin:auto;
+
+}
+
+
+/* =====================================================
+   GLASS CARD
+===================================================== */
+
+.glass{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.28);
+
+    backdrop-filter:blur(20px);
+
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:32px;
+
+    background:
+        linear-gradient(
+            125deg,
+            #2447e6 0%,
+            #6d2fe0 48%,
+            #d0298f 100%
+        );
+
+}
+
+
+.hero:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:400px;
+    height:400px;
+
+    border-radius:50%;
+
+    right:-160px;
+    top:-230px;
+
+    background:rgba(45,212,232,.22);
+
+    filter:blur(10px);
+
+}
+
+
+.hero:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:270px;
+    height:270px;
+
+    border-radius:50%;
+
+    right:270px;
+    bottom:-220px;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+.active-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:6px 11px;
+
+    border-radius:30px;
+
+    color:#bdf7d4;
+
+    background:rgba(34,197,94,.16);
+
+    border:1px solid rgba(34,197,94,.28);
+
+    font-size:8.5px;
+
+    font-weight:700;
+
+    letter-spacing:.6px;
+
+}
+
+
+.active-dot{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#34d399;
+
+    box-shadow:
+        0 0 12px #34d399;
+
+}
+
+
+.hero h1{
+
+    font-size:clamp(26px,3.6vw,40px);
+
+    font-weight:800;
+
+    letter-spacing:-1.4px;
+
+    line-height:1.1;
+
+}
+
+
+.hero-text{
+
+    max-width:640px;
+
+    color:#e3d9ff;
+
+    font-size:12.5px;
+
+    line-height:1.8;
+
+}
+
+
+.hero-btn{
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    padding:11px 18px;
+
+    border:0;
+
+}
+
+.hero-btn.btn-light{
+    color:#38258c;
+}
+
+
+.hero-glass-btn{
+
+    color:#fff;
+
+    background:rgba(255,255,255,.10);
+
+    border:1px solid rgba(255,255,255,.22) !important;
+
+}
+
+
+.hero-glass-btn:hover{
+
+    color:#fff;
+
+    background:rgba(255,255,255,.18);
+
+}
+
+
+/* =====================================================
+   SLIDER
+===================================================== */
+
+.slider{
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+
+.slide{
+
+    height:235px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.10),
+            rgba(255,255,255,.02)
+        );
+
+}
+
+
+.slide-icon{
+
+    font-size:56px;
+
+    color:#e4d6ff;
+
+    text-shadow:
+        0 0 35px rgba(240,72,158,.5);
+
+}
+
+
+.slide h4{
+
+    font-family:var(--font-display);
+
+    font-size:17px;
+
+    font-weight:800;
+
+    margin-top:15px;
+
+}
+
+
+.slide p{
+
+    font-size:10px;
+
+    color:#d3c7f2;
+
+}
+
+
+/* =====================================================
+   EMPLOYEE QUICK DETAILS
+===================================================== */
+
+.quick-card{
+
+    padding:17px 19px;
+
+    height:100%;
+
+    border-left:3px solid transparent;
+
+    background-image:linear-gradient(var(--card),var(--card)),var(--grad-main);
+    background-origin:border-box;
+    background-clip:padding-box,border-box;
+
+    transition:.2s;
+
+}
+
+.quick-card:hover{
+    transform:translateY(-2px);
+}
+
+
+.quick-label{
+
+    color:#7a75a0;
+
+    font-size:8.5px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+
+.quick-value{
+
+    margin-top:5px;
+
+    font-size:12.5px;
+
+    font-weight:700;
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.stat-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:158px;
+
+    padding:20px;
+
+    transition:.25s;
+
+}
+
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+    background:var(--card-hover);
+
+    border-color:rgba(155,92,246,.30);
+
+}
+
+
+.stat-icon{
+
+    width:46px;
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    font-size:20px;
+
+}
+
+
+.green-icon{
+
+    color:#5eead4;
+
+    background:rgba(34,211,238,.13);
+
+}
+
+
+.red-icon{
+
+    color:#fb7bab;
+
+    background:rgba(240,72,158,.14);
+
+}
+
+
+.yellow-icon{
+
+    color:#f5c76a;
+
+    background:rgba(245,166,35,.14);
+
+}
+
+
+.blue-icon{
+
+    color:#9db4ff;
+
+    background:rgba(75,123,255,.15);
+
+}
+
+
+.stat-number{
+
+    font-family:var(--font-display);
+
+    font-size:27px;
+
+    font-weight:800;
+
+    margin-top:14px;
+
+}
+
+
+.stat-label{
+
+    color:#8983ac;
+
+    font-size:10px;
+
+    margin-top:2px;
+
+}
+
+
+.progress-line{
+
+    width:100%;
+
+    height:5px;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+    margin-top:14px;
+
+    background:rgba(255,255,255,.07);
+
+}
+
+
+.progress-line div{
+
+    height:100%;
+
+    border-radius:20px;
+
+    transition:.6s ease;
+
+}
+
+
+/* =====================================================
+   SECTION
+===================================================== */
+
+.section{
+
+    padding:22px;
+
+}
+
+
+.section-head{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:18px;
+
+}
+
+
+.section-title{
+
+    font-family:var(--font-display);
+
+    font-size:14px;
+
+    font-weight:800;
+
+}
+
+
+.section-title i{
+
+    color:var(--cyan);
+
+    margin-right:7px;
+
+}
+
+
+.section-small{
+
+    color:#726c92;
+
+    font-size:9px;
+
+    margin-top:4px;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-custom{
+
+    --bs-table-bg:transparent;
+
+    --bs-table-color:#eae7fb;
+
+    margin:0;
+
+}
+
+
+.table-custom th{
+
+    color:#7d77a0;
+
+    border-bottom:1px solid var(--border);
+
+    padding:12px 10px;
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+
+.table-custom td{
+
+    padding:13px 10px;
+
+    font-size:10px;
+
+    border-bottom:1px solid rgba(255,255,255,.045);
+
+}
+
+
+.table-custom tbody tr{
+    transition:.15s;
+}
+
+.table-custom tbody tr:hover{
+
+    background:rgba(155,92,246,.055);
+
+}
+
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    padding:5px 9px;
+
+    border-radius:20px;
+
+    font-size:8px;
+
+    font-weight:700;
+
+}
+
+
+.present{
+
+    color:#7cf0c8;
+
+    background:rgba(34,211,238,.12);
+
+}
+
+
+.absent{
+
+    color:#ff9ab5;
+
+    background:rgba(240,72,158,.13);
+
+}
+
+
+.leave{
+
+    color:#fcd483;
+
+    background:rgba(245,166,35,.13);
+
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.info-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:11px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+
+.info-row:last-child{
+
+    border-bottom:0;
+
+}
+
+
+.info-icon{
+
+    width:34px;
+    height:34px;
+
+    min-width:34px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    color:#b39bff;
+
+    background:rgba(155,92,246,.12);
+
+}
+
+
+.info-label{
+
+    color:#726c92;
+
+    font-size:8px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.8px;
+
+}
+
+
+.info-value{
+
+    color:#f1eeff;
+
+    font-size:10px;
+
+    font-weight:600;
+
+    margin-top:3px;
+
+    word-break:break-word;
+
+}
+
+
+/* =====================================================
+   SUMMARY BOX
+===================================================== */
+
+.mini-box{
+
+    padding:14px;
+
+    border-radius:15px;
+
+    background:rgba(155,92,246,.06);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    transition:.2s;
+
+}
+
+.mini-box:hover{
+    background:rgba(155,92,246,.11);
+}
+
+
+.mini-number{
+
+    font-family:var(--font-display);
+
+    font-size:21px;
+
+    font-weight:800;
+
+}
+
+
+.mini-label{
+
+    color:#807aa2;
+
+    font-size:8px;
+
+    margin-top:3px;
+
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+
+    padding:35px 15px;
+
+    text-align:center;
+
+    color:#726c92;
+
+}
+
+
+.empty i{
+
+    font-size:35px;
+
+    opacity:.55;
+
+    background:var(--grad-main);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+}
+
+
+/* =====================================================
+   QUOTE
+===================================================== */
+
+.quote{
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:var(--grad-soft);
+
+    border:1px solid rgba(155,92,246,.20);
+
+}
+
+
+.quote i{
+
+    color:#c9a3ff;
+
+    font-size:24px;
+
+}
+
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+.loader{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#05040d;
+
+    transition:.4s;
+
+}
+
+
+.loader-box{
+
+    text-align:center;
+
+}
+
+
+.loader-logo{
+
+    width:64px;
+    height:64px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    margin:auto;
+
+    border-radius:19px;
+
+    font-size:28px;
+
+    background:var(--grad-main);
+
+    animation:pulse 1.5s infinite;
+
+    box-shadow:0 0 40px rgba(155,92,246,.4);
+
+}
+
+
+@keyframes pulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+.mobile-menu{
+
+    display:none;
+
+}
+
+
+@media(max-width:991px){
+
+    .sidebar{
+
+        display:none;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+    }
+
+    .mobile-menu{
+
+        display:inline-flex;
+
+    }
+
+    .search{
+
+        display:none;
+
+    }
+
+    .content{
+
+        padding:18px;
+
+    }
+
+}
+
+
+@media(max-width:575px){
+
+    .topbar{
+
+        padding:0 15px;
+
+    }
+
+    .clock{
+
+        display:none;
+
+    }
+
+    .content{
+
+        padding:13px;
+
+    }
+
+    .hero{
+
+        padding:22px;
+
+    }
+
+    .section{
+
+        padding:16px;
+
+    }
+
+
+}
+
+</style>
+
+<style id="admin-matching-employee-theme">:root{--bg:#f4f6f9!important;--bg2:#eef2f7!important;--card:#fff!important;--card-hover:#fff!important;--border:rgba(15,23,42,.08)!important;--border-glow:rgba(79,70,229,.22)!important;--blue:#2563eb!important;--blue2:#1d4ed8!important;--purple:#4f46e5!important;--purple2:#4338ca!important;--pink:#764ba2!important;--cyan:#0891b2!important;--green:#059669!important;--yellow:#ea580c!important;--red:#dc2626!important;--white:#20242b!important;--muted:#777!important;--grad-main:linear-gradient(135deg,#4f46e5,#2563eb)!important;--grad-soft:linear-gradient(135deg,rgba(79,70,229,.10),rgba(37,99,235,.08))!important}body{background:#f4f6f9!important;color:#20242b!important;background-attachment:scroll!important}body::before,body::after{opacity:0!important}.bg-orb{display:none!important}.sidebar{background:#151515!important;border-right:0!important;box-shadow:4px 0 18px rgba(0,0,0,.08)!important;backdrop-filter:none!important}.logo-icon,.avatar,.avatar-big{background:linear-gradient(135deg,#4f46e5,#2563eb)!important}.logo-icon::after{background:linear-gradient(135deg,#4f46e5,#2563eb)!important}.logo-name{background:none!important;color:#fff!important;-webkit-text-fill-color:#fff!important}.logo-sub{color:#9ca3af!important}.nav-heading{color:#777!important}.nav-item-custom{color:#d7d7d7!important}.nav-item-custom:hover{background:#292929!important;color:#fff!important}.nav-item-custom.active{background:#4f46e5!important;color:#fff!important;box-shadow:0 5px 15px rgba(79,70,229,.25)!important}.sidebar-profile{background:#202020!important;border:1px solid rgba(255,255,255,.10)!important}.side-name{color:#fff!important}.side-position{color:#aaa!important}.side-id{color:#60a5fa!important}.main,.content{background:#f4f6f9!important}.topbar{height:70px!important;padding:0 25px!important;background:linear-gradient(135deg,#4f46e5,#2563eb)!important;border-bottom:0!important;box-shadow:0 4px 15px rgba(0,0,0,.15)!important;backdrop-filter:none!important}.top-title,.clock-time{color:#fff!important}.top-sub,.clock-date{color:#dbeafe!important}.search{background:#fff!important;border:0!important;border-radius:22px!important;box-shadow:0 3px 10px rgba(0,0,0,.08)!important}.search input{color:#20242b!important}.search input::placeholder{color:#9ca3af!important}.search i{color:#6b7280!important}.notify-btn{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.25)!important;color:#fff!important}.glass{background:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 5px 18px rgba(0,0,0,.06)!important;backdrop-filter:none!important}.hero{background:linear-gradient(135deg,#667eea,#764ba2)!important;border:0!important;border-radius:18px!important;box-shadow:0 8px 25px rgba(0,0,0,.08)!important}.hero h1,.hero p,.hero .hero-text,.hero #heroMeta{color:#fff!important}.hero-text{color:rgba(255,255,255,.88)!important}.hero-btn.btn-light{color:#4f46e5!important;background:#fff!important}.hero-glass-btn{color:#fff!important;background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.30)!important}.slide{background:linear-gradient(135deg,#667eea,#764ba2)!important;border:0!important;color:#fff!important}.slide-icon,.slide h4,.slide p{color:#fff!important}.quick-card{background:#fff!important;border:0!important;border-left:4px solid #4f46e5!important;box-shadow:0 5px 18px rgba(0,0,0,.06)!important}.quick-label{color:#777!important}.quick-value,.stat-number{color:#20242b!important}.stat-card{background:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 5px 18px rgba(0,0,0,.06)!important}.stat-title{color:#777!important}.icon-blue{background:#eef2ff!important;color:#4f46e5!important}.icon-green{background:#ecfdf5!important;color:#059669!important}.icon-orange{background:#fff7ed!important;color:#ea580c!important}.icon-red{background:#fef2f2!important;color:#dc2626!important}.icon-purple{background:#faf5ff!important;color:#9333ea!important}.icon-cyan{background:#ecfeff!important;color:#0891b2!important}.section-title,.section-title i,.info-row,.info-row *{color:#20242b!important}.section-small,.text-muted{color:#777!important}.table{color:#20242b!important;--bs-table-color:#20242b!important;--bs-table-bg:transparent!important}.table thead th{color:#6b7280!important;background:#f8fafc!important;border-color:#e5e7eb!important}.table tbody td{border-color:#edf0f4!important}.progress{background:#e9edf3!important}.progress-bar{background:linear-gradient(135deg,#4f46e5,#2563eb)!important}.btn-primary{background:#4f46e5!important;border-color:#4f46e5!important}.btn-primary:hover{background:#4338ca!important;border-color:#4338ca!important}.form-control,.form-select{background:#fff!important;color:#20242b!important;border:1px solid #dfe3e8!important}.form-control:focus,.form-select:focus{border-color:#4f46e5!important;box-shadow:0 0 0 3px rgba(79,70,229,.12)!important}.modal-content{background:#fff!important;color:#20242b!important;border:0!important}.api-status{background:rgba(255,255,255,.95)!important;color:#777!important}@media(max-width:600px){.search{display:none!important}.topbar{height:64px!important}}</style></head>
+
+
+<body>
+
+
+<!-- BACKGROUND -->
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+
+<!-- =====================================================
+     LOADING SCREEN
+===================================================== -->
+
+<div
+    class="loader"
+    id="loader"
+>
+
+    <div class="loader-box">
+
+        <div class="loader-logo">
+
+            <i class="bi bi-boxes"></i>
+
+        </div>
+
+        <div class="mt-3 fw-bold">
+            Loading Employee Workspace
+        </div>
+
+        <div class="small text-secondary mt-1">
+            Please wait...
+        </div>
+
+        <div
+            class="spinner-border spinner-border-sm text-info mt-3"
+        ></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            <i class="bi bi-boxes"></i>
+
+        </div>
+
+        <div>
+
+            <div class="logo-name">
+             ERMS
+            </div>
+
+            <div class="logo-sub">
+                SMART WORKFORCE
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="nav-heading">
+        EMPLOYEE MENU
+    </div>
+
+
+    <a
+        href="employee-dashboard.html"
+        class="nav-item-custom active"
+    >
+
+        <i class="bi bi-grid-1x2-fill"></i>
+
+        Dashboard
+
+    </a>
+
+
+    <a
+        href="createleave.html"
+        class="nav-item-custom"
+    >
+
+        <i class="bi bi-airplane-fill"></i>
+
+        Leave Portal
+
+    </a>
+
+
+    <a
+        href="employeeattendance.html"
+        class="nav-item-custom"
+    >
+
+        <i class="bi bi-calendar2-check-fill"></i>
+
+        My Attendance
+
+    </a>
+
+    <a
+        href="employeetask.html"
+        class="nav-item-custom"
+    >
+
+        <i class="bi bi-calendar2-check-fill"></i>
+
+        My Task
+
+    </a>
+
+
+
+    <!-- SIDEBAR PROFILE -->
+
+    <div class="sidebar-profile">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div
+                class="avatar"
+                id="sideAvatar"
+            >
+                E
+            </div>
+
+            <div class="overflow-hidden">
+
+                <div
+                    class="side-name text-truncate"
+                    id="sideName"
+                >
+                    Employee
+                </div>
+
+                <div
+                    class="side-position text-truncate"
+                    id="sidePosition"
+                >
+                    Employee
+                </div>
+
+                <div
+                    class="side-id"
+                    id="sideId"
+                >
+                    ● EMPLOYEE
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="main">
+
+
+    <!-- =================================================
+         TOPBAR
+    ================================================== -->
+
+    <header class="topbar">
+
+
+        <div class="d-flex align-items-center gap-3">
+
+
+            <button
+                class="btn btn-dark mobile-menu"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#mobileNav"
+            >
+
+                <i class="bi bi-list fs-5"></i>
+
+            </button>
+
+
+            <div>
+
+                <div class="top-title">
+                    Employee Workspace
+                </div>
+
+                <div
+                    class="top-sub"
+                    id="topWelcome"
+                >
+                    Welcome back 👋
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="d-flex align-items-center gap-3">
+
+
+            <div class="search">
+
+                <i class="bi bi-search"></i>
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search attendance..."
+                >
+
+            </div>
+
+
+            <div class="clock">
+
+                <div
+                    class="clock-time"
+                    id="clockTime"
+                >
+                    00:00:00
+                </div>
+
+                <div
+                    class="clock-date"
+                    id="clockDate"
+                >
+                    Loading...
+                </div>
+
+            </div>
+
+
+            <button
+                class="notify-btn position-relative"
+                onclick="showNotifications()"
+            >
+
+                <i class="bi bi-bell"></i>
+
+                <span
+                    id="notificationCount"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    style="font-size:7px;"
+                >
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="btn btn-outline-danger border-0"
+                onclick="logout()"
+                title="Logout"
+            >
+
+                <i class="bi bi-box-arrow-right fs-5"></i>
+
+            </button>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         PAGE CONTENT
+    ================================================== -->
+
+    <main class="content">
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section class="glass hero mb-4">
+
+
+            <div class="row align-items-center g-4 hero-content">
+
+
+                <!-- LEFT -->
+
+                <div class="col-xl-7">
+
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+
+
+                        <div
+                            class="avatar avatar-big"
+                            id="heroAvatar"
+                        >
+                            E
+                        </div>
+
+
+                        <div>
+
+                            <span class="active-badge">
+
+                                <span class="active-dot"></span>
+
+                                ACTIVE EMPLOYEE
+
+                            </span>
+
+
+                            <div
+                                id="heroMeta"
+                                class="small mt-2"
+                                style="color:#dcd0ff;"
+                            >
+                                Employee
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <h1 class="mb-2">
+
+                        Hello,
+                        <span id="employeeName">
+                            Employee
+                        </span>
+                        👋
+
+                    </h1>
+
+
+                    <p class="hero-text mb-4">
+
+                        Welcome to your personal Elite ERMS workspace.
+                        Manage your attendance, leave, payroll and
+                        employee information from one beautiful dashboard.
+
+                    </p>
+
+
+                    <div class="d-flex flex-wrap gap-2">
+
+
+                        <a
+                            href="employeeattendance.html"
+                            class="btn btn-light hero-btn"
+                        >
+
+                            <i class="bi bi-calendar-check me-2"></i>
+
+                            View Attendance
+
+                        </a>
+
+
+                        <a
+                            href="createleave.html"
+                            class="btn hero-glass-btn hero-btn"
+                        >
+
+                            <i class="bi bi-send me-2"></i>
+
+                            Apply Leave
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- RIGHT SLIDER -->
+
+                <div class="col-xl-5">
+
+
+                    <div
+                        id="dashboardSlider"
+                        class="carousel slide carousel-fade slider"
+                        data-bs-ride="carousel"
+                        data-bs-interval="3200"
+                    >
+
+
+                        <div class="carousel-indicators">
+
+                            <button
+                                type="button"
+                                data-bs-target="#dashboardSlider"
+                                data-bs-slide-to="0"
+                                class="active"
+                            ></button>
+
+                            <button
+                                type="button"
+                                data-bs-target="#dashboardSlider"
+                                data-bs-slide-to="1"
+                            ></button>
+
+                            <button
+                                type="button"
+                                data-bs-target="#dashboardSlider"
+                                data-bs-slide-to="2"
+                            ></button>
+
+                        </div>
+
+
+                        <div class="carousel-inner">
+
+
+                            <div class="carousel-item active">
+
+                                <div class="slide">
+
+                                    <div>
+
+                                        <i class="bi bi-person-workspace slide-icon"></i>
+
+                                        <h4>
+                                            Employee Workspace
+                                        </h4>
+
+                                        <p>
+                                            Your work life in one place
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="carousel-item">
+
+                                <div class="slide">
+
+                                    <div>
+
+                                        <i class="bi bi-calendar2-check slide-icon"></i>
+
+                                        <h4>
+                                            Attendance
+                                        </h4>
+
+                                        <p id="sliderText">
+                                            Your attendance overview
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="carousel-item">
+
+                                <div class="slide">
+
+                                    <div>
+
+                                        <i class="bi bi-shield-check slide-icon"></i>
+
+                                        <h4>
+                                            Secure Profile
+                                        </h4>
+
+                                        <p>
+                                            Your employee information
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button
+                            class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#dashboardSlider"
+                            data-bs-slide="prev"
+                        >
+
+                            <span class="carousel-control-prev-icon"></span>
+
+                        </button>
+
+
+                        <button
+                            class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#dashboardSlider"
+                            data-bs-slide="next"
+                        >
+
+                            <span class="carousel-control-next-icon"></span>
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             EMPLOYEE QUICK DETAILS
+        ================================================== -->
+
+        <section class="row g-3 mb-4">
+
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="glass quick-card">
+
+                    <div class="quick-label">
+                        Employee ID
+                    </div>
+
+                    <div
+                        class="quick-value"
+                        id="quickId"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="glass quick-card">
+
+                    <div class="quick-label">
+                        Department
+                    </div>
+
+                    <div
+                        class="quick-value"
+                        id="quickDepartment"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="glass quick-card">
+
+                    <div class="quick-label">
+                        Position
+                    </div>
+
+                    <div
+                        class="quick-value"
+                        id="quickPosition"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="glass quick-card">
+
+                    <div class="quick-label">
+                        Email
+                    </div>
+
+                    <div
+                        class="quick-value text-truncate"
+                        id="quickEmail"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             ATTENDANCE STATISTICS
+        ================================================== -->
+
+        <section class="row g-4 mb-4">
+
+
+            <!-- PRESENT -->
+
+            <div class="col-sm-6 col-xl-3">
+
+                <div class="glass stat-card">
+
+                    <div class="stat-icon green-icon">
+
+                        <i class="bi bi-calendar-check-fill"></i>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="presentDays"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Present Days This Month
+                    </div>
+
+                    <div class="progress-line">
+
+                        <div
+                            id="presentProgress"
+                            style="
+                                width:0%;
+                                background:linear-gradient(90deg,#2dd4e8,#4b7bff);
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ABSENT -->
+
+            <div class="col-sm-6 col-xl-3">
+
+                <div class="glass stat-card">
+
+                    <div class="stat-icon red-icon">
+
+                        <i class="bi bi-calendar-x-fill"></i>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="absentDays"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Absent Days This Month
+                    </div>
+
+                    <div class="progress-line">
+
+                        <div
+                            id="absentProgress"
+                            style="
+                                width:0%;
+                                background:linear-gradient(90deg,#f0489e,#f0475c);
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LEAVE -->
+
+            <div class="col-sm-6 col-xl-3">
+
+                <div class="glass stat-card">
+
+                    <div class="stat-icon yellow-icon">
+
+                        <i class="bi bi-calendar-heart-fill"></i>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="leaveDays"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Leave Days This Month
+                    </div>
+
+                    <div class="progress-line">
+
+                        <div
+                            id="leaveProgress"
+                            style="
+                                width:0%;
+                                background:#f5a623;
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERCENTAGE -->
+
+            <div class="col-sm-6 col-xl-3">
+
+                <div class="glass stat-card">
+
+                    <div class="stat-icon blue-icon">
+
+                        <i class="bi bi-speedometer2"></i>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="attendancePercent"
+                    >
+                        0%
+                    </div>
+
+                    <div class="stat-label">
+                        Attendance Rate
+                    </div>
+
+                    <div class="progress-line">
+
+                        <div
+                            id="attendanceProgress"
+                            style="
+                                width:0%;
+                                background:linear-gradient(90deg,#4b7bff,#9b5cf6);
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CHART + PROFILE
+        ================================================== -->
+
+        <section class="row g-4 mb-4">
+
+
+            <!-- CHART -->
+
+            <div class="col-xl-8">
+
+                <div class="glass section h-100">
+
+
+                    <div class="section-head">
+
+                        <div>
+
+                            <div class="section-title">
+
+                                <i class="bi bi-graph-up-arrow"></i>
+
+                                Monthly Attendance Trend
+
+                            </div>
+
+                            <div
+                                class="section-small"
+                                id="chartMonth"
+                            >
+                                Current Month
+                            </div>
+
+                        </div>
+
+
+                        <span
+                            class="badge rounded-pill"
+                            style="background:var(--grad-main);font-size:8.5px;letter-spacing:.6px;padding:6px 11px;"
+                        >
+                            LIVE DATA
+                        </span>
+
+                    </div>
+
+
+                    <div style="height:290px;">
+
+                        <canvas
+                            id="attendanceChart"
+                        ></canvas>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROFILE -->
+
+            <div class="col-xl-4">
+
+                <div class="glass section h-100">
+
+
+                    <div class="section-head">
+
+                        <div class="section-title">
+
+                            <i class="bi bi-person-vcard"></i>
+
+                            My Profile
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-person-badge"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Employee ID
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="profileId"
+                            >
+                                -
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-person"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Full Name
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="profileName"
+                            >
+                                -
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-briefcase"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Position
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="profilePosition"
+                            >
+                                -
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-building"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Department
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="profileDepartment"
+                            >
+                                -
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-envelope"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Email
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="profileEmail"
+                            >
+                                -
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+
+                            <i class="bi bi-telephone"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Mobile
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="profileMobile"
+                            >
+                                -
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RECENT ATTENDANCE + SUMMARY
+        ================================================== -->
+
+        <section class="row g-4 mb-4">
+
+
+            <!-- RECENT ATTENDANCE -->
+
+            <div class="col-xl-8">
+
+                <div class="glass section">
+
+
+                    <div class="section-head">
+
+
+                        <div>
+
+                            <div class="section-title">
+
+                                <i class="bi bi-clock-history"></i>
+
+                                Recent Attendance
+
+                            </div>
+
+                            <div class="section-small">
+                                Latest saved attendance records
+                            </div>
+
+                        </div>
+
+
+                        <a
+                            href="employeeattendance.html"
+                            class="btn btn-sm"
+                            style="border-radius:10px;font-size:9px;color:#c9b8ff;border:1px solid rgba(155,92,246,.4);"
+                        >
+
+                            View All
+
+                            <i class="bi bi-arrow-right ms-1"></i>
+
+                        </a>
+
+
+                    </div>
+
+
+
+                    <div class="table-responsive">
+
+                        <table class="table table-custom">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Check In
+                                    </th>
+
+                                    <th>
+                                        Check Out
+                                    </th>
+
+                                    <th>
+                                        Work Hours
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="attendanceTable">
+
+                                <tr>
+
+                                    <td colspan="5">
+
+                                        <div class="empty">
+
+                                            <div class="spinner-border spinner-border-sm text-info"></div>
+
+                                            <div class="mt-2">
+                                                Loading attendance...
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUMMARY -->
+
+            <div class="col-xl-4">
+
+                <div class="glass section h-100">
+
+
+                    <div class="section-head">
+
+                        <div class="section-title">
+
+                            <i class="bi bi-pie-chart-fill"></i>
+
+                            Attendance Summary
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+
+                        <div class="col-6">
+
+                            <div class="mini-box">
+
+                                <div
+                                    class="mini-number"
+                                    style="color:#5ee8d0;"
+                                    id="summaryPresent"
+                                >
+                                    0
+                                </div>
+
+                                <div class="mini-label">
+                                    Present
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-6">
+
+                            <div class="mini-box">
+
+                                <div
+                                    class="mini-number"
+                                    style="color:#f0489e;"
+                                    id="summaryAbsent"
+                                >
+                                    0
+                                </div>
+
+                                <div class="mini-label">
+                                    Absent
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-6">
+
+                            <div class="mini-box">
+
+                                <div
+                                    class="mini-number"
+                                    style="color:#f5c76a;"
+                                    id="summaryLeave"
+                                >
+                                    0
+                                </div>
+
+                                <div class="mini-label">
+                                    Leave
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-6">
+
+                            <div class="mini-box">
+
+                                <div
+                                    class="mini-number"
+                                    style="color:#8fb0ff;"
+                                    id="summaryTotal"
+                                >
+                                    0
+                                </div>
+
+                                <div class="mini-label">
+                                    Total Records
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="mt-4">
+
+                        <div class="d-flex justify-content-between">
+
+                            <small class="text-secondary">
+                                Current Month Rate
+                            </small>
+
+                            <small
+                                class="fw-bold"
+                                id="summaryRate"
+                            >
+                                0%
+                            </small>
+
+                        </div>
+
+
+                        <div class="progress-line mt-2">
+
+                            <div
+                                id="summaryProgress"
+                                style="
+                                    width:0%;
+                                    background:var(--grad-main);
+                                "
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="quote mt-4">
+
+                        <i class="bi bi-stars"></i>
+
+                        <div class="fw-bold mt-2">
+                            Keep growing every day ✨
+                        </div>
+
+                        <div class="small text-secondary mt-2">
+                            Consistency today creates success tomorrow.
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =====================================================
+     MOBILE MENU
+===================================================== -->
+
+<div
+    class="offcanvas offcanvas-start text-bg-dark"
+    tabindex="-1"
+    id="mobileNav"
+>
+
+
+    <div class="offcanvas-header">
+
+        <h5 class="fw-bold">
+
+            <i class="bi bi-boxes me-2"></i>
+
+            Elite ERMS
+
+        </h5>
+
+
+        <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+        ></button>
+
+    </div>
+
+
+    <div class="offcanvas-body">
+
+
+        <a
+            href="employee-dashboard.html"
+            class="nav-item-custom active"
+        >
+
+            <i class="bi bi-grid-1x2-fill"></i>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            href="createleave.html"
+            class="nav-item-custom"
+        >
+
+            <i class="bi bi-airplane-fill"></i>
+
+            Leave Portal
+
+        </a>
+
+
+        <a
+            href="employeeattendance.html"
+            class="nav-item-custom"
+        >
+
+            <i class="bi bi-calendar2-check-fill"></i>
+
+            My Attendance
+
+        </a>
+
+
+        <a
+            href="payroll.html"
+            class="nav-item-custom"
+        >
+
+            <i class="bi bi-wallet2"></i>
+
+            Payroll
+
+        </a>
+
+
+        <hr class="border-secondary my-4">
+
+
+        <button
+            class="btn btn-outline-danger w-100"
+            onclick="logout()"
+        >
+
+            <i class="bi bi-box-arrow-right me-2"></i>
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- Bootstrap -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+></script> 
+ 
+ 
+ 
+ 
+<script> 
+/* ===================================================== 
+   ELITE ERMS - EMPLOYEE DASHBOARD 
+   DYNAMIC EMPLOYEE + OWN ATTENDANCE ONLY 
+===================================================== */ 
+ 
+let currentEmployee = null; 
+let attendanceRecords = []; 
+let attendanceChart = null; 
+ 
+ 
+/* ===================================================== 
+   START 
+===================================================== */ 
+ 
+document.addEventListener("DOMContentLoaded", startDashboard); 
+ 
+ 
+/* ===================================================== 
+   START DASHBOARD 
+===================================================== */ 
+ 
+async function startDashboard() { 
+ 
+    console.log("========== ELITE ERMS EMPLOYEE DASHBOARD =========="); 
+ 
+    try { 
+ 
+        /* --------------------------------------------- 
+           GET EMPLOYEE SESSION 
+        --------------------------------------------- */ 
+ 
+        currentEmployee = getStoredEmployee(); 
+ 
+        console.log("Employee session:", currentEmployee); 
+ 
+ 
+        if (!currentEmployee) { 
+ 
+            hideLoader(); 
+ 
+            alert( 
+                "Employee session not found.\n\nPlease login again." 
+            ); 
+ 
+            window.location.href = "/employeeLogin.html"; 
+ 
+            return; 
+        } 
+ 
+ 
+        /* --------------------------------------------- 
+           GET EMPLOYEE ID 
+        --------------------------------------------- */ 
+ 
+        const employeeId = getEmployeeId(); 
+ 
+        console.log("Logged employee ID:", employeeId); 
+ 
+ 
+        if (!employeeId) { 
+ 
+            hideLoader(); 
+ 
+            alert( 
+                "Employee ID not found.\n\nPlease login again." 
+            ); 
+ 
+            window.location.href = "/employeeLogin.html"; 
+ 
+            return; 
+        } 
+ 
+ 
+        /* --------------------------------------------- 
+           NORMALIZE SESSION 
+        --------------------------------------------- */ 
+ 
+        normalizeEmployeeSession(employeeId); 
+ 
+ 
+        /* --------------------------------------------- 
+           FETCH COMPLETE EMPLOYEE DETAILS 
+        --------------------------------------------- */ 
+ 
+        await getEmployeeDetails(employeeId); 
+ 
+ 
+        /* --------------------------------------------- 
+           UPDATE PROFILE UI 
+        --------------------------------------------- */ 
+ 
+        updateEmployeeUI(); 
+ 
+ 
+        /* --------------------------------------------- 
+           LOAD ONLY THIS EMPLOYEE ATTENDANCE 
+        --------------------------------------------- */ 
+ 
+        await getAttendance(employeeId); 
+ 
+ 
+        /* --------------------------------------------- 
+           CLOCK 
+        --------------------------------------------- */ 
+ 
+        updateClock(); 
+ 
+        setInterval(updateClock, 1000); 
+ 
+ 
+        /* --------------------------------------------- 
+           SEARCH 
+        --------------------------------------------- */ 
+ 
+        setupSearch(); 
+ 
+ 
+        /* --------------------------------------------- 
+           NOTIFICATIONS 
+        --------------------------------------------- */ 
+ 
+        loadNotificationCount(); 
+ 
+ 
+        /* --------------------------------------------- 
+           HIDE LOADER 
+        --------------------------------------------- */ 
+ 
+        hideLoader(); 
+ 
+ 
+        console.log( 
+            "Dashboard loaded for:", 
+            employeeId 
+        ); 
+ 
+    } 
+    catch(error) { 
+ 
+        console.error( 
+            "Dashboard startup error:", 
+            error 
+        ); 
+ 
+        hideLoader(); 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   GET STORED EMPLOYEE 
+===================================================== */ 
+ 
+function getStoredEmployee() { 
+ 
+    const possibleKeys = [ 
+        "erms_user", 
+        "employeeData", 
+        "loggedInEmployee" 
+    ]; 
+ 
+ 
+    for (const key of possibleKeys) { 
+ 
+        const raw = localStorage.getItem(key); 
+ 
+        if (!raw) { 
+            continue; 
+        } 
+ 
+ 
+        try { 
+ 
+            const parsed = JSON.parse(raw); 
+ 
+            if ( 
+                parsed && 
+                typeof parsed === "object" 
+            ) { 
+ 
+                return parsed; 
+ 
+            } 
+ 
+        } 
+        catch(error) { 
+ 
+            console.warn( 
+                key + " contains invalid JSON" 
+            ); 
+ 
+        } 
+ 
+    } 
+ 
+ 
+    /* --------------------------------------------- 
+       FALLBACK SESSION 
+    --------------------------------------------- */ 
+ 
+    const employeeId = 
+        localStorage.getItem("employeeId") || 
+        localStorage.getItem("empId") || 
+        ""; 
+ 
+ 
+    const employeeName = 
+        localStorage.getItem("employeeName") || 
+        ""; 
+ 
+ 
+    if (employeeId) { 
+ 
+        return { 
+ 
+            employeeId: employeeId, 
+ 
+            name: employeeName || "Employee" 
+ 
+        }; 
+ 
+    } 
+ 
+ 
+    return null; 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   GET EMPLOYEE ID 
+===================================================== */ 
+ 
+function getEmployeeId() { 
+ 
+    if (currentEmployee) { 
+ 
+        const id = 
+ 
+            currentEmployee.employeeId || 
+ 
+            currentEmployee.employee_id || 
+ 
+            currentEmployee.empId || 
+ 
+            currentEmployee.employeeID || 
+ 
+            currentEmployee.empID || 
+ 
+            currentEmployee.employee_code || 
+ 
+            currentEmployee.id || 
+ 
+            currentEmployee._employeeId; 
+ 
+ 
+        if (id) { 
+ 
+            return String(id).trim(); 
+ 
+        } 
+ 
+    } 
+ 
+ 
+    return ( 
+ 
+        localStorage.getItem("employeeId") || 
+ 
+        localStorage.getItem("empId") || 
+ 
+        "" 
+ 
+    ).trim(); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   NORMALIZE SESSION 
+===================================================== */ 
+ 
+function normalizeEmployeeSession(employeeId) { 
+ 
+    if (!currentEmployee) { 
+ 
+        currentEmployee = {}; 
+ 
+    } 
+ 
+ 
+    currentEmployee.employeeId = employeeId; 
+ 
+ 
+    const name = 
+ 
+        currentEmployee.name || 
+ 
+        currentEmployee.employeeName || 
+ 
+        localStorage.getItem("employeeName") || 
+ 
+        "Employee"; 
+ 
+ 
+    currentEmployee.name = name; 
+ 
+ 
+    /* Save all compatibility keys */ 
+ 
+    localStorage.setItem( 
+        "employeeId", 
+        employeeId 
+    ); 
+ 
+ 
+    localStorage.setItem( 
+        "employeeName", 
+        name 
+    ); 
+ 
+ 
+    localStorage.setItem( 
+        "erms_user", 
+        JSON.stringify(currentEmployee) 
+    ); 
+ 
+ 
+    localStorage.setItem( 
+        "employeeData", 
+        JSON.stringify(currentEmployee) 
+    ); 
+ 
+ 
+    localStorage.setItem( 
+        "loggedInEmployee", 
+        JSON.stringify(currentEmployee) 
+    ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   GET COMPLETE EMPLOYEE DETAILS 
+===================================================== */ 
+ 
+async function getEmployeeDetails(employeeId) { 
+ 
+    try { 
+ 
+        const response = await fetch( 
+            "/api/employees", 
+            { 
+                method: "GET", 
+                cache: "no-store" 
+            } 
+        ); 
+ 
+ 
+        if (!response.ok) { 
+ 
+            console.warn( 
+                "Employee API status:", 
+                response.status 
+            ); 
+ 
+            return; 
+ 
+        } 
+ 
+ 
+        const result = await response.json(); 
+ 
+ 
+        console.log( 
+            "Employee API:", 
+            result 
+        ); 
+ 
+ 
+        let employees = []; 
+ 
+ 
+        if (Array.isArray(result)) { 
+ 
+            employees = result; 
+ 
+        } 
+        else if ( 
+            Array.isArray(result.employees) 
+        ) { 
+ 
+            employees = result.employees; 
+ 
+        } 
+        else if ( 
+            Array.isArray(result.data) 
+        ) { 
+ 
+            employees = result.data; 
+ 
+        } 
+ 
+ 
+        const found = employees.find( 
+            employee => { 
+ 
+                const id = 
+ 
+                    employee.employeeId || 
+ 
+                    employee.employee_id || 
+ 
+                    employee.empId || 
+ 
+                    employee.employeeID || 
+ 
+                    employee.empID || 
+ 
+                    employee.id || 
+ 
+                    ""; 
+ 
+ 
+                return ( 
+ 
+                    String(id) 
+                        .trim() 
+                        .toLowerCase() 
+ 
+                    === 
+ 
+                    String(employeeId) 
+                        .trim() 
+                        .toLowerCase() 
+ 
+                ); 
+ 
+            } 
+        ); 
+ 
+ 
+        if (found) { 
+ 
+            /* 
+             * IMPORTANT: 
+             * Merge only this employee. 
+             */ 
+ 
+            currentEmployee = { 
+ 
+                ...currentEmployee, 
+ 
+                ...found, 
+ 
+                employeeId: employeeId 
+ 
+            }; 
+ 
+ 
+            localStorage.setItem( 
+                "erms_user", 
+                JSON.stringify(currentEmployee) 
+            ); 
+ 
+ 
+            localStorage.setItem( 
+                "employeeData", 
+                JSON.stringify(currentEmployee) 
+            ); 
+ 
+ 
+            localStorage.setItem( 
+                "loggedInEmployee", 
+                JSON.stringify(currentEmployee) 
+            ); 
+ 
+ 
+            console.log( 
+                "Complete employee details loaded:", 
+                currentEmployee 
+            ); 
+ 
+        } 
+ 
+    } 
+    catch(error) { 
+ 
+        console.warn( 
+            "Employee details unavailable:", 
+            error 
+        ); 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   UPDATE EMPLOYEE UI 
+===================================================== */ 
+ 
+function updateEmployeeUI() { 
+ 
+    const employeeId = 
+        getEmployeeId() || "-"; 
+ 
+ 
+    const name = 
+ 
+        currentEmployee.name || 
+ 
+        currentEmployee.employeeName || 
+ 
+        localStorage.getItem("employeeName") || 
+ 
+        "Employee"; 
+ 
+ 
+    const department = 
+ 
+        currentEmployee.department || 
+ 
+        currentEmployee.dept || 
+ 
+        currentEmployee.departmentName || 
+ 
+        "Not Available"; 
+ 
+ 
+    const position = 
+ 
+        currentEmployee.position || 
+ 
+        currentEmployee.designation || 
+ 
+        currentEmployee.jobTitle || 
+ 
+        currentEmployee.title || 
+ 
+        "Employee"; 
+ 
+ 
+    const email = 
+ 
+        currentEmployee.email || 
+ 
+        currentEmployee.emailAddress || 
+ 
+        "Not Available"; 
+ 
+ 
+    const mobile = 
+ 
+        currentEmployee.mobile || 
+ 
+        currentEmployee.phone || 
+ 
+        currentEmployee.contact || 
+ 
+        currentEmployee.phoneNumber || 
+ 
+        "Not Available"; 
+ 
+ 
+    const initial = 
+ 
+        name 
+            .trim() 
+            .charAt(0) 
+            .toUpperCase() || "E"; 
+ 
+ 
+    /* --------------------------------------------- 
+       AVATARS 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "sideAvatar", 
+        initial 
+    ); 
+ 
+ 
+    setText( 
+        "heroAvatar", 
+        initial 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       SIDEBAR 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "sideName", 
+        name 
+    ); 
+ 
+ 
+    setText( 
+        "sidePosition", 
+        position 
+    ); 
+ 
+ 
+    setText( 
+        "sideId", 
+        "● " + employeeId 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       TOPBAR 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "topWelcome", 
+        getGreeting() + 
+        ", " + 
+        name + 
+        " 👋" 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       HERO 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "employeeName", 
+        name 
+    ); 
+ 
+ 
+    setText( 
+        "heroMeta", 
+        position + 
+        " • " + 
+        employeeId 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       QUICK DETAILS 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "quickId", 
+        employeeId 
+    ); 
+ 
+ 
+    setText( 
+        "quickDepartment", 
+        department 
+    ); 
+ 
+ 
+    setText( 
+        "quickPosition", 
+        position 
+    ); 
+ 
+ 
+    setText( 
+        "quickEmail", 
+        email 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       PROFILE 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "profileId", 
+        employeeId 
+    ); 
+ 
+ 
+    setText( 
+        "profileName", 
+        name 
+    ); 
+ 
+ 
+    setText( 
+        "profilePosition", 
+        position 
+    ); 
+ 
+ 
+    setText( 
+        "profileDepartment", 
+        department 
+    ); 
+ 
+ 
+    setText( 
+        "profileEmail", 
+        email 
+    ); 
+ 
+ 
+    setText( 
+        "profileMobile", 
+        mobile 
+    ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   GET MY ATTENDANCE 
+===================================================== */ 
+ 
+async function getAttendance(employeeId) { 
+ 
+    try { 
+ 
+        /* 
+         * VERY IMPORTANT 
+         * 
+         * We are NOT using: 
+         * 
+         * /api/attendance 
+         * 
+         * We are using: 
+         * 
+         * /api/attendance/:employeeId 
+         * 
+         * Therefore only logged-in employee records 
+         * should be returned. 
+         */ 
+ 
+        const url = 
+            "/api/attendance/" + 
+            encodeURIComponent(employeeId); 
+ 
+ 
+        console.log( 
+            "Loading attendance:", 
+            url 
+        ); 
+ 
+ 
+        const response = await fetch( 
+            url, 
+            { 
+                method: "GET", 
+                cache: "no-store", 
+                headers: { 
+                    "Cache-Control": "no-cache" 
+                } 
+            } 
+        ); 
+ 
+ 
+        if (!response.ok) { 
+ 
+            throw new Error( 
+                "Attendance API returned " + 
+                response.status 
+            ); 
+ 
+        } 
+ 
+ 
+        const result = await response.json(); 
+ 
+ 
+        console.log( 
+            "My attendance API:", 
+            result 
+        ); 
+ 
+ 
+        let records = []; 
+ 
+ 
+        if (Array.isArray(result)) { 
+ 
+            records = result; 
+ 
+        } 
+        else if ( 
+            Array.isArray(result.attendance) 
+        ) { 
+ 
+            records = result.attendance; 
+ 
+        } 
+        else if ( 
+            Array.isArray(result.data) 
+        ) { 
+ 
+            records = result.data; 
+ 
+        } 
+ 
+ 
+        /* 
+         * EXTRA SECURITY: 
+         * 
+         * Even if backend accidentally returns 
+         * other records, frontend will keep only 
+         * logged-in employee records. 
+         */ 
+ 
+        attendanceRecords = records.filter( 
+            record => { 
+ 
+                const recordId = 
+ 
+                    record.employeeId || 
+ 
+                    record.employee_id || 
+ 
+                    record.empId || 
+ 
+                    record.employeeID || 
+ 
+                    ""; 
+ 
+ 
+                return ( 
+ 
+                    String(recordId) 
+                        .trim() 
+                        .toLowerCase() 
+ 
+                    === 
+ 
+                    String(employeeId) 
+                        .trim() 
+                        .toLowerCase() 
+ 
+                ); 
+ 
+            } 
+        ); 
+ 
+ 
+        /* 
+         * Sort newest first 
+         */ 
+ 
+        attendanceRecords.sort( 
+            (a, b) => { 
+ 
+                return String( 
+                    b.date || "" 
+                ).localeCompare( 
+                    String(a.date || "") 
+                ); 
+ 
+            } 
+        ); 
+ 
+ 
+        console.log( 
+            "Filtered MY attendance:", 
+            attendanceRecords 
+        ); 
+ 
+ 
+        calculateStats(); 
+ 
+        renderAttendanceTable(); 
+ 
+        createAttendanceChart(); 
+ 
+    } 
+    catch(error) { 
+ 
+        console.error( 
+            "Attendance loading error:", 
+            error 
+        ); 
+ 
+ 
+        attendanceRecords = []; 
+ 
+ 
+        calculateStats(); 
+ 
+        renderAttendanceTable(); 
+ 
+        createAttendanceChart(); 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   CURRENT MONTH 
+===================================================== */ 
+ 
+function currentMonthRecords() { 
+ 
+    const now = new Date(); 
+ 
+ 
+    const year = 
+        now.getFullYear(); 
+ 
+ 
+    const month = 
+        String( 
+            now.getMonth() + 1 
+        ).padStart(2, "0"); 
+ 
+ 
+    const key = 
+        year + "-" + month; 
+ 
+ 
+    return attendanceRecords.filter( 
+        record => { 
+ 
+            const date = 
+                String( 
+                    record.date || "" 
+                ).split("T")[0]; 
+ 
+ 
+            return date.startsWith(key); 
+ 
+        } 
+    ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   CALCULATE STATISTICS 
+===================================================== */ 
+ 
+function calculateStats() { 
+ 
+    const records = 
+        currentMonthRecords(); 
+ 
+ 
+    const present = 
+        records.filter( 
+            record => { 
+ 
+                return String( 
+                    record.status || "" 
+                ) 
+                .trim() 
+                .toLowerCase() 
+                === "present"; 
+ 
+            } 
+        ).length; 
+ 
+ 
+    const absent = 
+        records.filter( 
+            record => { 
+ 
+                return String( 
+                    record.status || "" 
+                ) 
+                .trim() 
+                .toLowerCase() 
+                === "absent"; 
+ 
+            } 
+        ).length; 
+ 
+ 
+    const leave = 
+        records.filter( 
+            record => { 
+ 
+                return String( 
+                    record.status || "" 
+                ) 
+                .trim() 
+                .toLowerCase() 
+                === "leave"; 
+ 
+            } 
+        ).length; 
+ 
+ 
+    const total = 
+        present + 
+        absent + 
+        leave; 
+ 
+ 
+    const percentage = 
+        total > 0 
+            ? Math.round( 
+                present / 
+                total * 
+                100 
+            ) 
+            : 0; 
+ 
+ 
+    /* --------------------------------------------- 
+       MAIN CARDS 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "presentDays", 
+        present 
+    ); 
+ 
+ 
+    setText( 
+        "absentDays", 
+        absent 
+    ); 
+ 
+ 
+    setText( 
+        "leaveDays", 
+        leave 
+    ); 
+ 
+ 
+    setText( 
+        "attendancePercent", 
+        percentage + "%" 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       PROGRESS 
+    --------------------------------------------- */ 
+ 
+    setWidth( 
+        "presentProgress", 
+        total 
+            ? present / total * 100 
+            : 0 
+    ); 
+ 
+ 
+    setWidth( 
+        "absentProgress", 
+        total 
+            ? absent / total * 100 
+            : 0 
+    ); 
+ 
+ 
+    setWidth( 
+        "leaveProgress", 
+        total 
+            ? leave / total * 100 
+            : 0 
+    ); 
+ 
+ 
+    setWidth( 
+        "attendanceProgress", 
+        percentage 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       SUMMARY 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "summaryPresent", 
+        present 
+    ); 
+ 
+ 
+    setText( 
+        "summaryAbsent", 
+        absent 
+    ); 
+ 
+ 
+    setText( 
+        "summaryLeave", 
+        leave 
+    ); 
+ 
+ 
+    setText( 
+        "summaryTotal", 
+        total 
+    ); 
+ 
+ 
+    setText( 
+        "summaryRate", 
+        percentage + "%" 
+    ); 
+ 
+ 
+    setWidth( 
+        "summaryProgress", 
+        percentage 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       SLIDER 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "sliderText", 
+        present + 
+        " Present • " + 
+        percentage + 
+        "% attendance" 
+    ); 
+ 
+ 
+    /* --------------------------------------------- 
+       MONTH 
+    --------------------------------------------- */ 
+ 
+    setText( 
+        "chartMonth", 
+        new Date().toLocaleDateString( 
+            "en-IN", 
+            { 
+                month: "long", 
+                year: "numeric" 
+            } 
+        ) 
+    ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   ATTENDANCE TABLE 
+===================================================== */ 
+ 
+function renderAttendanceTable() { 
+ 
+    const table = 
+        document.getElementById( 
+            "attendanceTable" 
+        ); 
+ 
+ 
+    if (!table) { 
+        return; 
+    } 
+ 
+ 
+    /* 
+     * Show latest 7 records only 
+     */ 
+ 
+    const records = 
+        attendanceRecords.slice(0, 7); 
+ 
+ 
+    if (!records.length) { 
+ 
+        table.innerHTML = ` 
+ 
+            <tr> 
+ 
+                <td colspan="5"> 
+ 
+                    <div class="empty"> 
+ 
+                        <i class="bi bi-calendar-x"></i> 
+ 
+                        <div class="mt-2 fw-semibold"> 
+ 
+                            No attendance records found 
+ 
+                        </div> 
+ 
+                        <div class="small mt-1"> 
+ 
+                            Your attendance records 
+                            will appear here. 
+ 
+                        </div> 
+ 
+                    </div> 
+ 
+                </td> 
+ 
+            </tr> 
+ 
+        `; 
+ 
+        return; 
+ 
+    } 
+ 
+ 
+    table.innerHTML = records.map( 
+        record => { 
+ 
+            const status = 
+                String( 
+                    record.status || 
+                    "Present" 
+                ); 
+ 
+ 
+            const lowerStatus = 
+                status.toLowerCase(); 
+ 
+ 
+            let statusClass = 
+                "present"; 
+ 
+ 
+            let icon = 
+                "bi-check-circle-fill"; 
+ 
+ 
+            if (lowerStatus === "absent") { 
+ 
+                statusClass = 
+                    "absent"; 
+ 
+                icon = 
+                    "bi-x-circle-fill"; 
+ 
+            } 
+ 
+ 
+            if (lowerStatus === "leave") { 
+ 
+                statusClass = 
+                    "leave"; 
+ 
+                icon = 
+                    "bi-clock-fill"; 
+ 
+            } 
+ 
+ 
+            const checkIn = 
+                record.checkInTime || 
+                "--"; 
+ 
+ 
+            const checkOut = 
+                record.checkOutTime || 
+                "--"; 
+ 
+ 
+            const workHours = 
+                record.workHours !== undefined && 
+                record.workHours !== null && 
+                record.workHours !== "" 
+                    ? String(record.workHours) + " hrs" 
+                    : "--"; 
+ 
+ 
+            return ` 
+ 
+                <tr> 
+ 
+                    <td> 
+ 
+                        <strong> 
+ 
+                            ${escapeHTML( 
+                                formatDate( 
+                                    record.date 
+                                ) 
+                            )} 
+ 
+                        </strong> 
+ 
+                    </td> 
+ 
+ 
+                    <td> 
+ 
+                        <span 
+                            class="status ${statusClass}" 
+                        > 
+ 
+                            <i 
+                                class="bi ${icon}" 
+                            ></i> 
+ 
+                            ${escapeHTML(status)} 
+ 
+                        </span> 
+ 
+                    </td> 
+ 
+ 
+                    <td class="text-info"> 
+ 
+                        ${escapeHTML(checkIn)} 
+ 
+                    </td> 
+ 
+ 
+                    <td> 
+ 
+                        ${escapeHTML(checkOut)} 
+ 
+                    </td> 
+ 
+ 
+                    <td> 
+ 
+                        ${escapeHTML(workHours)} 
+ 
+                    </td> 
+ 
+                </tr> 
+ 
+            `; 
+ 
+        } 
+    ).join(""); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   ATTENDANCE CHART 
+===================================================== */ 
+ 
+function createAttendanceChart() { 
+ 
+    const canvas = 
+        document.getElementById( 
+            "attendanceChart" 
+        ); 
+ 
+ 
+    if (!canvas) { 
+        return; 
+    } 
+ 
+ 
+    if (attendanceChart) { 
+ 
+        attendanceChart.destroy(); 
+ 
+    } 
+ 
+ 
+    const records = 
+        currentMonthRecords(); 
+ 
+ 
+    const weeks = { 
+ 
+        "Week 1": [], 
+        "Week 2": [], 
+        "Week 3": [], 
+        "Week 4": [], 
+        "Week 5": [] 
+ 
+    }; 
+ 
+ 
+    records.forEach( 
+        record => { 
+ 
+            const date = 
+                String( 
+                    record.date || "" 
+                ).split("T")[0]; 
+ 
+ 
+            const parts = 
+                date.split("-"); 
+ 
+ 
+            if (parts.length !== 3) { 
+                return; 
+            } 
+ 
+ 
+            const day = 
+                Number(parts[2]); 
+ 
+ 
+            if (!day) { 
+                return; 
+            } 
+ 
+ 
+            const week = 
+                Math.ceil(day / 7); 
+ 
+ 
+            const key = 
+                "Week " + week; 
+ 
+ 
+            if (weeks[key]) { 
+ 
+                weeks[key].push(record); 
+ 
+            } 
+ 
+        } 
+    ); 
+ 
+ 
+    const labels = 
+        Object.keys(weeks); 
+ 
+ 
+    const data = 
+        labels.map( 
+            label => { 
+ 
+                const list = 
+                    weeks[label]; 
+ 
+ 
+                if (!list.length) { 
+                    return null; 
+                } 
+ 
+ 
+                const present = 
+                    list.filter( 
+                        record => { 
+ 
+                            return String( 
+                                record.status || "" 
+                            ) 
+                            .toLowerCase() 
+                            === "present"; 
+ 
+                        } 
+                    ).length; 
+ 
+ 
+                return Math.round( 
+                    present / 
+                    list.length * 
+                    100 
+                ); 
+ 
+            } 
+        ); 
+ 
+ 
+    const chartCtx = canvas.getContext("2d"); 
+
+    const chartGradient = chartCtx.createLinearGradient(0, 0, 0, 290); 
+    chartGradient.addColorStop(0, "rgba(155,92,246,.35)"); 
+    chartGradient.addColorStop(1, "rgba(240,72,158,.02)"); 
+
+
+    attendanceChart = 
+        new Chart( 
+            canvas, 
+            { 
+ 
+                type: "line", 
+ 
+                data: { 
+ 
+                    labels: labels, 
+ 
+                    datasets: [ 
+ 
+                        { 
+ 
+                            label: 
+                                "Attendance", 
+ 
+                            data: 
+                                data, 
+ 
+                            borderColor: 
+                                "#9b5cf6", 
+ 
+                            backgroundColor: 
+                                chartGradient, 
+ 
+                            borderWidth: 
+                                3, 
+ 
+                            fill: 
+                                true, 
+ 
+                            tension: 
+                                .42, 
+ 
+                            pointRadius: 
+                                5, 
+ 
+                            pointHoverRadius: 
+                                7, 
+ 
+                            pointBackgroundColor: 
+                                "#f0489e", 
+ 
+                            pointBorderColor: 
+                                "#ffffff", 
+ 
+                            pointBorderWidth: 
+                                2 
+ 
+                        } 
+ 
+                    ] 
+ 
+                }, 
+ 
+ 
+                options: { 
+ 
+                    responsive: 
+                        true, 
+ 
+                    maintainAspectRatio: 
+                        false, 
+ 
+ 
+                    plugins: { 
+ 
+                        legend: { 
+                            display: false 
+                        }, 
+ 
+ 
+                        tooltip: { 
+ 
+                            backgroundColor: 
+                                "#150f28", 
+ 
+                            borderColor: 
+                                "#9b5cf6", 
+ 
+                            borderWidth: 
+                                1, 
+ 
+                            callbacks: { 
+ 
+                                label: 
+                                    context => { 
+ 
+                                        if ( 
+                                            context.raw === null 
+                                        ) { 
+ 
+                                            return " No records"; 
+ 
+                                        } 
+ 
+ 
+                                        return ( 
+                                            " Attendance: " + 
+                                            context.raw + 
+                                            "%" 
+                                        ); 
+ 
+                                    } 
+ 
+                            } 
+ 
+                        } 
+ 
+                    }, 
+ 
+ 
+                    scales: { 
+ 
+                        y: { 
+ 
+                            min: 
+                                0, 
+ 
+                            max: 
+                                100, 
+ 
+                            grid: { 
+                                color: "rgba(255,255,255,.05)" 
+                            }, 
+ 
+                            ticks: { 
+ 
+                                color: 
+                                    "#847ea6", 
+ 
+                                callback: 
+                                    value => 
+                                        value + "%" 
+ 
+                            } 
+ 
+                        }, 
+ 
+ 
+                        x: { 
+ 
+                            ticks: { 
+ 
+                                color: 
+                                    "#847ea6" 
+ 
+                            }, 
+ 
+                            grid: { 
+ 
+                                display: 
+                                    false 
+ 
+                            } 
+ 
+                        } 
+ 
+                    } 
+ 
+                } 
+ 
+            } 
+        ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   CLOCK 
+===================================================== */ 
+ 
+function updateClock() { 
+ 
+    const now = 
+        new Date(); 
+ 
+ 
+    const time = 
+        document.getElementById( 
+            "clockTime" 
+        ); 
+ 
+ 
+    const date = 
+        document.getElementById( 
+            "clockDate" 
+        ); 
+ 
+ 
+    if (time) { 
+ 
+        time.textContent = 
+            now.toLocaleTimeString( 
+                "en-IN", 
+                { 
+                    timeZone: 
+                        "Asia/Kolkata", 
+ 
+                    hour: 
+                        "2-digit", 
+ 
+                    minute: 
+                        "2-digit", 
+ 
+                    second: 
+                        "2-digit", 
+ 
+                    hour12: 
+                        true 
+                } 
+            ); 
+ 
+    } 
+ 
+ 
+    if (date) { 
+ 
+        date.textContent = 
+            now.toLocaleDateString( 
+                "en-IN", 
+                { 
+                    timeZone: 
+                        "Asia/Kolkata", 
+ 
+                    weekday: 
+                        "short", 
+ 
+                    day: 
+                        "2-digit", 
+ 
+                    month: 
+                        "short", 
+ 
+                    year: 
+                        "numeric" 
+                } 
+            ); 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   SEARCH 
+===================================================== */ 
+ 
+function setupSearch() { 
+ 
+    const input = 
+        document.getElementById( 
+            "searchInput" 
+        ); 
+ 
+ 
+    if (!input) { 
+        return; 
+    } 
+ 
+ 
+    input.addEventListener( 
+        "input", 
+        function() { 
+ 
+            const value = 
+                this.value 
+                    .trim() 
+                    .toLowerCase(); 
+ 
+ 
+            const rows = 
+                document.querySelectorAll( 
+                    "#attendanceTable tr" 
+                ); 
+ 
+ 
+            rows.forEach( 
+                row => { 
+ 
+                    const text = 
+                        row.textContent 
+                            .toLowerCase(); 
+ 
+ 
+                    row.style.display = 
+                        !value || 
+                        text.includes(value) 
+                            ? "" 
+                            : "none"; 
+ 
+                } 
+            ); 
+ 
+        } 
+    ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   NOTIFICATION COUNT 
+===================================================== */ 
+ 
+function loadNotificationCount() { 
+ 
+    try { 
+ 
+        const raw = 
+            localStorage.getItem( 
+                "notifications" 
+            ); 
+ 
+ 
+        if (!raw) { 
+ 
+            setText( 
+                "notificationCount", 
+                "0" 
+            ); 
+ 
+            return; 
+ 
+        } 
+ 
+ 
+        const notifications = 
+            JSON.parse(raw); 
+ 
+ 
+        const employeeId = 
+            getEmployeeId(); 
+ 
+ 
+        const mine = 
+            notifications.filter( 
+                item => { 
+ 
+                    const id = 
+ 
+                        item.employeeId || 
+ 
+                        item.employee_id || 
+ 
+                        item.empId || 
+ 
+                        ""; 
+ 
+ 
+                    return ( 
+ 
+                        String(id) 
+                            .trim() 
+                            .toLowerCase() 
+ 
+                        === 
+ 
+                        String(employeeId) 
+                            .trim() 
+                            .toLowerCase() 
+ 
+                    ); 
+ 
+                } 
+            ); 
+ 
+ 
+        const unread = 
+            mine.filter( 
+                item => 
+                    item.read !== true 
+            ).length; 
+ 
+ 
+        setText( 
+            "notificationCount", 
+            unread 
+        ); 
+ 
+    } 
+    catch(error) { 
+ 
+        console.warn( 
+            "Notification error:", 
+            error 
+        ); 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   SHOW NOTIFICATIONS 
+===================================================== */ 
+ 
+function showNotifications() { 
+ 
+    try { 
+ 
+        const raw = 
+            localStorage.getItem( 
+                "notifications" 
+            ); 
+ 
+ 
+        if (!raw) { 
+ 
+            alert( 
+                "No new notifications." 
+            ); 
+ 
+            return; 
+ 
+        } 
+ 
+ 
+        const notifications = 
+            JSON.parse(raw); 
+ 
+ 
+        const employeeId = 
+            getEmployeeId(); 
+ 
+ 
+        const mine = 
+            notifications.filter( 
+                item => { 
+ 
+                    const id = 
+ 
+                        item.employeeId || 
+ 
+                        item.employee_id || 
+ 
+                        item.empId || 
+ 
+                        ""; 
+ 
+ 
+                    return ( 
+ 
+                        String(id) 
+                            .trim() 
+                            .toLowerCase() 
+ 
+                        === 
+ 
+                        String(employeeId) 
+                            .trim() 
+                            .toLowerCase() 
+ 
+                    ); 
+ 
+                } 
+            ); 
+ 
+ 
+        if (!mine.length) { 
+ 
+            alert( 
+                "No new notifications." 
+            ); 
+ 
+            return; 
+ 
+        } 
+ 
+ 
+        alert( 
+ 
+            mine.map( 
+                item => { 
+ 
+                    return ( 
+ 
+                        (item.message || 
+                            "Notification") 
+ 
+                        + 
+ 
+                        "\n" + 
+ 
+                        (item.date || 
+                            "") 
+ 
+                    ); 
+ 
+                } 
+            ).join( 
+                "\n\n" 
+            ) 
+ 
+        ); 
+ 
+    } 
+    catch(error) { 
+ 
+        alert( 
+            "Unable to load notifications." 
+        ); 
+ 
+    } 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   LOGOUT 
+===================================================== */ 
+ 
+function logout() { 
+ 
+    const yes = 
+        confirm( 
+            "Are you sure you want to logout?" 
+        ); 
+ 
+ 
+    if (!yes) { 
+        return; 
+    } 
+ 
+ 
+    const keys = [ 
+ 
+        "erms_user", 
+ 
+        "erms_role", 
+ 
+        "erms_token", 
+ 
+        "employeeId", 
+ 
+        "employeeName", 
+ 
+        "employeeData", 
+ 
+        "loggedInEmployee", 
+ 
+        "empId" 
+ 
+    ]; 
+ 
+ 
+    keys.forEach( 
+        key => { 
+ 
+            localStorage.removeItem(key); 
+ 
+        } 
+    ); 
+ 
+ 
+    currentEmployee = null; 
+ 
+    attendanceRecords = []; 
+ 
+ 
+    window.location.href = 
+        "/employeeLogin.html"; 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   GREETING 
+===================================================== */ 
+ 
+function getGreeting() { 
+ 
+    const hour = 
+        new Date().getHours(); 
+ 
+ 
+    if (hour < 12) { 
+ 
+        return "Good morning"; 
+ 
+    } 
+ 
+ 
+    if (hour < 17) { 
+ 
+        return "Good afternoon"; 
+ 
+    } 
+ 
+ 
+    return "Good evening"; 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   SET TEXT 
+===================================================== */ 
+ 
+function setText( 
+    id, 
+    value 
+) { 
+ 
+    const element = 
+        document.getElementById(id); 
+ 
+ 
+    if (!element) { 
+        return; 
+    } 
+ 
+ 
+    element.textContent = 
+ 
+        value === undefined || 
+        value === null || 
+        value === "" 
+ 
+            ? "-" 
+ 
+            : value; 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   SET WIDTH 
+===================================================== */ 
+ 
+function setWidth( 
+    id, 
+    value 
+) { 
+ 
+    const element = 
+        document.getElementById(id); 
+ 
+ 
+    if (!element) { 
+        return; 
+    } 
+ 
+ 
+    const width = 
+        Math.max( 
+            0, 
+            Math.min( 
+                100, 
+                Number(value) || 0 
+            ) 
+        ); 
+ 
+ 
+    element.style.width = 
+        width + "%"; 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   DATE FORMAT 
+===================================================== */ 
+ 
+function formatDate(value) { 
+ 
+    if (!value) { 
+        return "--"; 
+    } 
+ 
+ 
+    const clean = 
+        String(value) 
+            .split("T")[0]; 
+ 
+ 
+    const parts = 
+        clean.split("-"); 
+ 
+ 
+    if (parts.length !== 3) { 
+        return clean; 
+    } 
+ 
+ 
+    const date = 
+        new Date( 
+            Number(parts[0]), 
+            Number(parts[1]) - 1, 
+            Number(parts[2]) 
+        ); 
+ 
+ 
+    if (isNaN(date.getTime())) { 
+        return clean; 
+    } 
+ 
+ 
+    return date.toLocaleDateString( 
+        "en-IN", 
+        { 
+            day: "2-digit", 
+            month: "short", 
+            year: "numeric" 
+        } 
+    ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   ESCAPE HTML 
+===================================================== */ 
+ 
+function escapeHTML(value) { 
+ 
+    return String( 
+        value ?? "" 
+    ) 
+    .replace( 
+        /&/g, 
+        "&amp;" 
+    ) 
+    .replace( 
+        /</g, 
+        "&lt;" 
+    ) 
+    .replace( 
+        />/g, 
+        "&gt;" 
+    ) 
+    .replace( 
+        /"/g, 
+        "&quot;" 
+    ) 
+    .replace( 
+        /'/g, 
+        "&#039;" 
+    ); 
+ 
+} 
+ 
+ 
+/* ===================================================== 
+   HIDE LOADER 
+===================================================== */ 
+ 
+function hideLoader() { 
+ 
+    const loader = 
+        document.getElementById( 
+            "loader" 
+        ); 
+ 
+ 
+    if (!loader) { 
+        return; 
+    } 
+ 
+ 
+    loader.style.opacity = 
+        "0"; 
+ 
+ 
+    setTimeout( 
+        () => { 
+ 
+            loader.style.display = 
+                "none"; 
+ 
+        }, 
+        400 
+    ); 
+ 
+} 
+ 
+</script> 
+ 
+ 
+</body> 
+ 
+</html>

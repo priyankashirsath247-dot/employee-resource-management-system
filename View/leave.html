@@ -1,0 +1,3145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Leave Requests | ELITE ERMS</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+rel="stylesheet">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(99,102,241,.25),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(59,130,246,.22),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #1e1b4b,
+            #312e81
+        );
+
+    color:#1e293b;
+    overflow-x:hidden;
+}
+
+
+/* ================= NAVBAR ================= */
+
+.top-navbar{
+    height:62px;
+    background:rgba(15,23,42,.95);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.1);
+
+    display:flex;
+    align-items:center;
+
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.2);
+}
+
+.nav-inner{
+    width:100%;
+    max-width:1320px;
+    margin:auto;
+    padding:0 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.brand{
+    color:white;
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:.4px;
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.brand-icon{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #2563eb
+        );
+
+    color:white;
+
+    box-shadow:
+        0 6px 18px rgba(79,70,229,.35);
+}
+
+.admin-user{
+    color:#cbd5e1;
+    font-size:11px;
+
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+
+/* ================= PAGE ================= */
+
+.page-wrapper{
+    width:100%;
+    max-width:1320px;
+    margin:auto;
+    padding:22px 20px 30px;
+}
+
+
+/* ================= HEADER ================= */
+
+.page-header{
+    color:white;
+    margin-bottom:17px;
+}
+
+.header-left h1{
+    font-size:24px;
+    font-weight:800;
+    margin:0 0 4px;
+}
+
+.header-left p{
+    margin:0;
+    color:#cbd5e1;
+    font-size:11px;
+}
+
+.refresh-btn{
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.1);
+
+    color:white;
+
+    border-radius:9px;
+    padding:8px 13px;
+
+    font-size:11px;
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.refresh-btn:hover{
+    background:white;
+    color:#312e81;
+}
+
+
+/* ================= STATS ================= */
+
+.stats-row{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+    margin-bottom:17px;
+}
+
+.stat-card{
+    position:relative;
+    overflow:hidden;
+
+    background:white;
+
+    border-radius:13px;
+    padding:13px 15px;
+
+    min-height:82px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.12);
+
+    transition:.25s;
+}
+
+.stat-card:hover{
+    transform:translateY(-2px);
+}
+
+.stat-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.stat-icon{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:15px;
+}
+
+.icon-blue{
+    background:#eef2ff;
+    color:#4f46e5;
+}
+
+.icon-orange{
+    background:#fff7ed;
+    color:#ea580c;
+}
+
+.icon-green{
+    background:#ecfdf5;
+    color:#059669;
+}
+
+.icon-red{
+    background:#fef2f2;
+    color:#dc2626;
+}
+
+.stat-number{
+    font-size:22px;
+    font-weight:800;
+    margin:0;
+    line-height:1;
+}
+
+.stat-label{
+    color:#64748b;
+    font-size:9px;
+    font-weight:600;
+    margin-top:5px;
+}
+
+
+/* ================= MAIN CARD ================= */
+
+.main-card{
+    background:white;
+    border-radius:16px;
+    overflow:hidden;
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.2);
+}
+
+
+/* ================= TOOLBAR ================= */
+
+.card-toolbar{
+    padding:14px 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1e293b
+        );
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.card-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.card-title-icon{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+
+    background:rgba(99,102,241,.25);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#a5b4fc;
+}
+
+.card-title h5{
+    margin:0;
+    font-size:13px;
+    font-weight:700;
+}
+
+.card-title span{
+    display:block;
+    color:#94a3b8;
+    font-size:9px;
+    margin-top:2px;
+}
+
+.filters{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.search-wrapper{
+    position:relative;
+}
+
+.search-wrapper i{
+    position:absolute;
+    left:10px;
+    top:50%;
+    transform:translateY(-50%);
+
+    color:#64748b;
+    font-size:12px;
+}
+
+.search-input{
+    width:220px;
+    height:34px;
+
+    border:0;
+    outline:0;
+
+    border-radius:8px;
+
+    padding:0 11px 0 30px;
+
+    font-size:10px;
+    color:#1e293b;
+
+    background:white;
+}
+
+#statusFilter{
+    width:130px;
+    padding-left:10px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+
+/* ================= DATE GROUP ================= */
+
+.date-group-header{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    padding:10px 15px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #eef2ff,
+            #f8fafc
+        );
+
+    border-top:1px solid #e2e8f0;
+    border-bottom:1px solid #e2e8f0;
+}
+
+.date-group-icon{
+    width:30px;
+    height:30px;
+    border-radius:8px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#4f46e5;
+    color:white;
+
+    font-size:13px;
+}
+
+.date-group-info{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    flex-wrap:wrap;
+}
+
+.date-group-title{
+    color:#1e293b;
+    font-size:11px;
+    font-weight:800;
+}
+
+.date-group-count{
+    display:inline-flex;
+    align-items:center;
+
+    padding:3px 7px;
+
+    border-radius:20px;
+
+    background:#e0e7ff;
+    color:#4338ca;
+
+    font-size:8px;
+    font-weight:800;
+}
+
+
+/* ================= TABLE ================= */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+.leave-table{
+    width:100%;
+    border-collapse:collapse;
+    margin:0;
+    min-width:1000px;
+}
+
+.leave-table thead{
+    background:#f8fafc;
+}
+
+.leave-table th{
+    padding:10px 13px;
+
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+
+    color:#64748b;
+    font-weight:700;
+
+    border-bottom:1px solid #e2e8f0;
+
+    white-space:nowrap;
+}
+
+.leave-table td{
+    padding:11px 13px;
+
+    font-size:10px;
+
+    border-bottom:1px solid #f1f5f9;
+
+    vertical-align:middle;
+    color:#334155;
+}
+
+.leave-table tbody tr:hover{
+    background:#f8faff;
+}
+
+
+/* ================= EMPLOYEE ================= */
+
+.employee-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.employee-avatar{
+    width:32px;
+    height:32px;
+    min-width:32px;
+
+    border-radius:9px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+    font-size:11px;
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #2563eb
+        );
+}
+
+.employee-name{
+    font-size:10px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.employee-role{
+    color:#94a3b8;
+    font-size:8px;
+    margin-top:1px;
+}
+
+.employee-id{
+    display:inline-flex;
+
+    padding:4px 7px;
+
+    border-radius:6px;
+
+    background:#f1f5f9;
+    color:#475569;
+
+    font-size:9px;
+    font-weight:700;
+}
+
+
+/* ================= DATE ================= */
+
+.date-box{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.date-icon{
+    width:25px;
+    height:25px;
+
+    border-radius:7px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#eef2ff;
+    color:#4f46e5;
+
+    font-size:11px;
+}
+
+.date-text{
+    font-size:9px;
+    font-weight:600;
+    white-space:nowrap;
+}
+
+
+/* ================= TYPE ================= */
+
+.type-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+
+    padding:4px 8px;
+
+    border-radius:20px;
+
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+
+    color:#475569;
+
+    font-size:8px;
+    font-weight:600;
+}
+
+
+/* ================= REASON ================= */
+
+.reason{
+    max-width:180px;
+
+    color:#64748b;
+
+    line-height:1.45;
+    font-size:9px;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.submitted{
+    color:#94a3b8;
+    font-size:8px;
+    white-space:nowrap;
+}
+
+
+/* ================= STATUS ================= */
+
+.status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+
+    padding:5px 8px;
+
+    border-radius:20px;
+
+    font-size:8px;
+    font-weight:800;
+}
+
+.status-pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.status-accepted{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status-rejected{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.status-dot{
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:currentColor;
+}
+
+
+/* ================= ACTION ================= */
+
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    border:0;
+    border-radius:7px;
+
+    padding:6px 8px;
+
+    color:white;
+
+    font-size:8px;
+    font-weight:700;
+
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+
+    transition:.2s;
+}
+
+.action-btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-approve{
+    background:
+        linear-gradient(
+            135deg,
+            #10b981,
+            #059669
+        );
+}
+
+.btn-reject{
+    background:
+        linear-gradient(
+            135deg,
+            #ef4444,
+            #dc2626
+        );
+}
+
+.btn-edit-date{
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #4f46e5
+        );
+}
+
+
+/* ================= EMPTY ================= */
+
+.empty-state{
+    padding:55px 20px;
+    text-align:center;
+    color:#94a3b8;
+}
+
+.empty-icon{
+    width:60px;
+    height:60px;
+
+    margin:0 auto 12px;
+
+    border-radius:17px;
+
+    background:#f1f5f9;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:25px;
+}
+
+.empty-state h5{
+    margin:0 0 4px;
+    color:#475569;
+    font-size:13px;
+    font-weight:700;
+}
+
+.empty-state p{
+    margin:0;
+    font-size:9px;
+}
+
+
+/* ================= LOADING ================= */
+
+.loading-row{
+    padding:45px 20px;
+    text-align:center;
+    color:#64748b;
+    font-size:10px;
+}
+
+
+/* ================= ERROR ================= */
+
+.api-error{
+    margin:15px;
+    padding:13px;
+
+    border-radius:9px;
+
+    background:#fef2f2;
+    border:1px solid #fecaca;
+
+    color:#b91c1c;
+
+    font-size:10px;
+    text-align:center;
+}
+
+
+/* ================= TOAST ================= */
+
+.custom-toast{
+    position:fixed;
+
+    right:18px;
+    bottom:18px;
+
+    min-width:270px;
+    max-width:360px;
+
+    padding:13px 15px;
+
+    border-radius:12px;
+
+    background:white;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.20);
+
+    display:none;
+
+    z-index:5000;
+
+    border-left:4px solid #10b981;
+}
+
+.custom-toast.show{
+    display:block;
+    animation:toastIn .25s ease;
+}
+
+.toast-title{
+    font-size:11px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.toast-text{
+    font-size:9px;
+    color:#64748b;
+    margin-top:2px;
+}
+
+@keyframes toastIn{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .stats-row{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .page-wrapper{
+        padding:17px 11px 23px;
+    }
+
+    .header-left h1{
+        font-size:20px;
+    }
+
+    .stats-row{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .stat-card{
+        padding:11px;
+        min-height:76px;
+    }
+
+    .stat-number{
+        font-size:19px;
+    }
+
+    .filters{
+        width:100%;
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    #statusFilter{
+        width:100%;
+    }
+
+    .search-wrapper{
+        width:100%;
+    }
+
+    .search-input{
+        width:100%;
+    }
+
+    .admin-user{
+        display:none;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="top-navbar">
+
+    <div class="nav-inner">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            ELITE ERMS
+
+        </div>
+
+        <div class="admin-user">
+
+            <i class="bi bi-person-circle"></i>
+
+            Administrator
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= PAGE ================= -->
+
+<div class="page-wrapper">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header
+                d-flex
+                justify-content-between
+                align-items-center
+                flex-wrap
+                gap-3">
+
+        <div class="header-left">
+
+            <h1>
+
+                <i class="bi bi-calendar-check me-2"></i>
+
+                Leave Requests
+
+            </h1>
+
+            <p>
+
+                Manage employee leave requests date-wise.
+
+            </p>
+
+        </div>
+
+
+        <button
+            class="refresh-btn"
+            onclick="loadLeaves()">
+
+            <i class="bi bi-arrow-clockwise me-1"></i>
+
+            Refresh
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= STATS ================= -->
+
+    <div class="stats-row">
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p
+                        class="stat-number"
+                        id="pendingCount">
+                        0
+                    </p>
+
+                    <div class="stat-label">
+                        Pending
+                    </div>
+
+                </div>
+
+                <div class="stat-icon icon-orange">
+
+                    <i class="bi bi-hourglass-split"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p
+                        class="stat-number"
+                        id="acceptedCount">
+                        0
+                    </p>
+
+                    <div class="stat-label">
+                        Accepted
+                    </div>
+
+                </div>
+
+                <div class="stat-icon icon-green">
+
+                    <i class="bi bi-check-circle"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p
+                        class="stat-number"
+                        id="rejectedCount">
+                        0
+                    </p>
+
+                    <div class="stat-label">
+                        Rejected
+                    </div>
+
+                </div>
+
+                <div class="stat-icon icon-red">
+
+                    <i class="bi bi-x-circle"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div>
+
+                    <p
+                        class="stat-number"
+                        id="totalCount">
+                        0
+                    </p>
+
+                    <div class="stat-label">
+                        All Requests
+                    </div>
+
+                </div>
+
+                <div class="stat-icon icon-blue">
+
+                    <i class="bi bi-list-check"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= MAIN CARD ================= -->
+
+    <div class="main-card">
+
+
+        <!-- TOOLBAR -->
+
+        <div class="card-toolbar">
+
+
+            <div class="card-title">
+
+                <div class="card-title-icon">
+
+                    <i class="bi bi-calendar3"></i>
+
+                </div>
+
+                <div>
+
+                    <h5>
+                        Employee Leave Requests
+                    </h5>
+
+                    <span>
+                        Pending / Accepted / Rejected / All
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="filters">
+
+
+                <!-- STATUS -->
+
+                <select
+                    id="statusFilter"
+                    class="search-input"
+                    onchange="changeStatusFilter()">
+
+                    <option value="Pending">
+                        🟡 Pending
+                    </option>
+
+                    <option value="Accepted">
+                        🟢 Accepted
+                    </option>
+
+                    <option value="Rejected">
+                        🔴 Rejected
+                    </option>
+
+                    <option value="All">
+                        📋 All
+                    </option>
+
+                </select>
+
+
+                <!-- SEARCH -->
+
+                <div class="search-wrapper">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search name or employee ID..."
+                        oninput="filterTable()">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            <table class="leave-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Employee</th>
+
+                        <th>Employee ID</th>
+
+                        <th>Leave Date</th>
+
+                        <th>Leave Type</th>
+
+                        <th>Reason</th>
+
+                        <th>Submitted</th>
+
+                        <th>Status</th>
+
+                        <th class="text-center">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="leaveTable">
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            class="loading-row">
+
+                            Loading leave requests...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= EDIT DATE MODAL ================= -->
+
+<div
+    class="modal fade"
+    id="editDateModal"
+    tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content"
+             style="
+                border:0;
+                border-radius:16px;
+                overflow:hidden;
+             ">
+
+
+            <div
+                style="
+                    background:
+                        linear-gradient(
+                            135deg,
+                            #111827,
+                            #312e81
+                        );
+                    color:white;
+                    padding:18px;
+                ">
+
+                <div
+                    class="d-flex
+                           justify-content-between
+                           align-items-center">
+
+                    <div>
+
+                        <h5
+                            style="
+                                margin:0;
+                                font-size:14px;
+                                font-weight:800;
+                            ">
+
+                            <i
+                                class="bi bi-calendar2-week me-2">
+                            </i>
+
+                            Change Leave Date
+
+                        </h5>
+
+                        <small
+                            style="
+                                color:#cbd5e1;
+                                font-size:9px;
+                            ">
+
+                            Update employee leave date
+
+                        </small>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-body p-4">
+
+                <label
+                    style="
+                        font-size:11px;
+                        font-weight:700;
+                        color:#475569;
+                    ">
+
+                    <i
+                        class="bi bi-calendar-event me-1">
+                    </i>
+
+                    New Leave Date
+
+                </label>
+
+
+                <input
+                    type="date"
+                    id="newLeaveDate"
+                    class="form-control mt-2"
+                    style="
+                        height:40px;
+                        border-radius:9px;
+                        font-size:12px;
+                    ">
+
+
+                <div
+                    id="dateEditError"
+                    style="
+                        display:none;
+                        margin-top:10px;
+                        color:#b91c1c;
+                        background:#fef2f2;
+                        border-radius:8px;
+                        padding:8px;
+                        font-size:9px;
+                    ">
+                </div>
+
+            </div>
+
+
+            <div
+                class="modal-footer
+                       border-0
+                       pt-0
+                       px-4
+                       pb-4">
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn"
+                    style="
+                        border:0;
+                        border-radius:9px;
+                        padding:9px 16px;
+                        background:
+                            linear-gradient(
+                                135deg,
+                                #6366f1,
+                                #2563eb
+                            );
+                        color:white;
+                        font-size:11px;
+                        font-weight:700;
+                    "
+                    onclick="saveChangedDate()">
+
+                    <i class="bi bi-check2 me-1"></i>
+
+                    Save Date
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
+    id="customToast"
+    class="custom-toast">
+
+    <div class="d-flex">
+
+        <div class="me-3">
+
+            <i
+                id="toastIcon"
+                class="bi bi-check-circle-fill fs-5 text-success">
+            </i>
+
+        </div>
+
+        <div>
+
+            <div
+                id="toastTitle"
+                class="toast-title">
+
+                Leave Updated
+
+            </div>
+
+            <div
+                id="toastText"
+                class="toast-text">
+
+                Leave request updated successfully.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_BASE =
+    "http://localhost:3000";
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let allLeaves = [];
+
+let filteredLeaves = [];
+
+let currentStatusFilter =
+    "Pending";
+
+let editingLeaveId = null;
+
+let editDateModal = null;
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   INDIA DATE
+===================================================== */
+
+function getIndiaDate(){
+
+    return new Intl.DateTimeFormat(
+        "en-CA",
+        {
+            timeZone:"Asia/Kolkata"
+        }
+    ).format(new Date());
+
+}
+
+
+/* =====================================================
+   DATE KEY
+===================================================== */
+
+function getDateKey(value){
+
+    if(!value){
+
+        return "";
+
+    }
+
+    const text =
+        String(value).trim();
+
+
+    if(
+        /^\d{4}-\d{2}-\d{2}$/
+        .test(text)
+    ){
+
+        return text;
+
+    }
+
+
+    if(
+        /^\d{2}-\d{2}-\d{4}$/
+        .test(text)
+    ){
+
+        const parts =
+            text.split("-");
+
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+    }
+
+
+    if(
+        /^\d{2}\/\d{2}\/\d{4}$/
+        .test(text)
+    ){
+
+        const parts =
+            text.split("/");
+
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+    }
+
+
+    const parsed =
+        new Date(text);
+
+
+    if(!isNaN(parsed.getTime())){
+
+        return new Intl.DateTimeFormat(
+            "en-CA",
+            {
+                timeZone:"Asia/Kolkata"
+            }
+        ).format(parsed);
+
+    }
+
+
+    return text;
+
+}
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDate(value){
+
+    const key =
+        getDateKey(value);
+
+    if(!key){
+
+        return "-";
+
+    }
+
+    const date =
+        new Date(
+            key + "T00:00:00"
+        );
+
+
+    if(isNaN(date.getTime())){
+
+        return escapeHtml(value);
+
+    }
+
+
+    return new Intl.DateTimeFormat(
+        "en-IN",
+        {
+            weekday:"short",
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    ).format(date);
+
+}
+
+
+/* =====================================================
+   DATE GROUP TITLE
+===================================================== */
+
+function getDateGroupTitle(value){
+
+    const key =
+        getDateKey(value);
+
+    if(!key){
+
+        return "Date Not Available";
+
+    }
+
+    const date =
+        new Date(
+            key + "T00:00:00"
+        );
+
+
+    if(isNaN(date.getTime())){
+
+        return escapeHtml(value);
+
+    }
+
+
+    const today =
+        getIndiaDate();
+
+
+    let prefix = "";
+
+
+    if(key === today){
+
+        prefix = "Today • ";
+
+    }
+
+
+    const tomorrowDate =
+        new Date();
+
+    tomorrowDate.setDate(
+        tomorrowDate.getDate() + 1
+    );
+
+
+    const tomorrow =
+        new Intl.DateTimeFormat(
+            "en-CA",
+            {
+                timeZone:"Asia/Kolkata"
+            }
+        ).format(tomorrowDate);
+
+
+    if(key === tomorrow){
+
+        prefix = "Tomorrow • ";
+
+    }
+
+
+    const formatted =
+        new Intl.DateTimeFormat(
+            "en-IN",
+            {
+                weekday:"long",
+                day:"2-digit",
+                month:"long",
+                year:"numeric"
+            }
+        ).format(date);
+
+
+    return prefix + formatted;
+
+}
+
+
+/* =====================================================
+   SUBMITTED DATE
+===================================================== */
+
+function formatSubmitted(value){
+
+    if(!value){
+
+        return "-";
+
+    }
+
+    const date =
+        new Date(value);
+
+    if(isNaN(date.getTime())){
+
+        return "-";
+
+    }
+
+    return new Intl.DateTimeFormat(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    ).format(date);
+
+}
+
+
+/* =====================================================
+   LOAD ALL LEAVES
+===================================================== */
+
+async function loadLeaves(){
+
+    const table =
+        document.getElementById(
+            "leaveTable"
+        );
+
+
+    table.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="9"
+                class="loading-row">
+
+                <div
+                    class="spinner-border
+                           text-primary">
+                </div>
+
+                <div class="mt-2">
+
+                    Loading leave requests...
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/leave?t=${Date.now()}`,
+                {
+                    method:"GET",
+                    cache:"no-store",
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Leave API returned " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if(Array.isArray(data)){
+
+            allLeaves = data;
+
+        }
+        else if(
+            Array.isArray(data.leaves)
+        ){
+
+            allLeaves =
+                data.leaves;
+
+        }
+        else if(
+            Array.isArray(data.data)
+        ){
+
+            allLeaves =
+                data.data;
+
+        }
+        else{
+
+            allLeaves = [];
+
+        }
+
+
+        /*
+            Sort by leave date
+            Oldest / nearest first
+        */
+
+        allLeaves.sort(
+            (a,b)=>{
+
+                const dateA =
+                    getDateKey(
+                        a.leaveDate
+                    );
+
+                const dateB =
+                    getDateKey(
+                        b.leaveDate
+                    );
+
+
+                if(
+                    dateA &&
+                    dateB &&
+                    dateA !== dateB
+                ){
+
+                    return dateA.localeCompare(
+                        dateB
+                    );
+
+                }
+
+
+                return (
+                    new Date(
+                        b.createdAt || 0
+                    ).getTime()
+                    -
+                    new Date(
+                        a.createdAt || 0
+                    ).getTime()
+                );
+
+            }
+        );
+
+
+        updateStatistics();
+
+        filterTable();
+
+    }
+    catch(error){
+
+        console.error(
+            "Load leaves error:",
+            error
+        );
+
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="9">
+
+                    <div class="api-error">
+
+                        <i
+                            class="bi bi-exclamation-triangle-fill me-1">
+                        </i>
+
+                        Unable to load leave requests.
+
+                        <br>
+
+                        <small>
+
+                            Make sure Node.js server
+                            is running on port 3000.
+
+                        </small>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        resetStatistics();
+
+    }
+
+}
+
+
+/* =====================================================
+   STATUS FILTER
+===================================================== */
+
+function changeStatusFilter(){
+
+    const filter =
+        document.getElementById(
+            "statusFilter"
+        );
+
+
+    currentStatusFilter =
+        filter
+        ? filter.value
+        : "Pending";
+
+
+    filterTable();
+
+}
+
+
+/* =====================================================
+   SEARCH + FILTER
+===================================================== */
+
+function filterTable(){
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const search =
+        searchInput
+        ? searchInput.value
+            .trim()
+            .toLowerCase()
+        : "";
+
+
+    filteredLeaves =
+        allLeaves.filter(
+            leave => {
+
+                const status =
+                    String(
+                        leave.status ||
+                        "Pending"
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                const name =
+                    String(
+                        leave.name || ""
+                    )
+                    .toLowerCase();
+
+
+                const empId =
+                    String(
+                        leave.empId ||
+                        leave.employeeId ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                const searchMatch =
+                    name.includes(search) ||
+                    empId.includes(search);
+
+
+                const statusMatch =
+                    currentStatusFilter === "All" ||
+                    status ===
+                    currentStatusFilter
+                        .toLowerCase();
+
+
+                return (
+                    searchMatch &&
+                    statusMatch
+                );
+
+            }
+        );
+
+
+    renderTable();
+
+}
+
+
+/* =====================================================
+   RENDER TABLE
+===================================================== */
+
+function renderTable(){
+
+    const table =
+        document.getElementById(
+            "leaveTable"
+        );
+
+
+    if(!filteredLeaves.length){
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td colspan="9">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <i
+                                class="bi bi-calendar2-check">
+                            </i>
+
+                        </div>
+
+                        <h5>
+                            No ${escapeHtml(
+                                currentStatusFilter
+                            )} Leave Requests
+                        </h5>
+
+                        <p>
+                            No matching leave request found.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    /*
+        GROUP BY DATE
+    */
+
+    const groups = {};
+
+
+    filteredLeaves.forEach(
+        leave => {
+
+            const dateKey =
+                getDateKey(
+                    leave.leaveDate
+                ) || "unknown";
+
+
+            if(!groups[dateKey]){
+
+                groups[dateKey] = [];
+
+            }
+
+
+            groups[dateKey].push(
+                leave
+            );
+
+        }
+    );
+
+
+    const sortedDates =
+        Object.keys(groups)
+            .sort(
+                (a,b)=>{
+
+                    if(a === "unknown"){
+                        return 1;
+                    }
+
+                    if(b === "unknown"){
+                        return -1;
+                    }
+
+                    return a.localeCompare(b);
+
+                }
+            );
+
+
+    let html = "";
+
+    let index = 1;
+
+
+    sortedDates.forEach(
+        dateKey => {
+
+            const leaves =
+                groups[dateKey];
+
+
+            /*
+                DATE HEADER
+            */
+
+            html += `
+
+                <tr>
+
+                    <td
+                        colspan="9"
+                        style="
+                            padding:0;
+                            border:0;
+                        ">
+
+                        <div
+                            class="date-group-header">
+
+                            <div
+                                class="date-group-icon">
+
+                                <i
+                                    class="bi bi-calendar-event">
+                                </i>
+
+                            </div>
+
+
+                            <div
+                                class="date-group-info">
+
+                                <span
+                                    class="date-group-title">
+
+                                    ${getDateGroupTitle(
+                                        dateKey
+                                    )}
+
+                                </span>
+
+
+                                <span
+                                    class="date-group-count">
+
+                                    ${leaves.length}
+
+                                    ${
+                                        leaves.length === 1
+                                        ? "Request"
+                                        : "Requests"
+                                    }
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            leaves.forEach(
+                leave => {
+
+                    const name =
+                        leave.name ||
+                        "Unknown Employee";
+
+
+                    const empId =
+                        leave.empId ||
+                        leave.employeeId ||
+                        "-";
+
+
+                    const leaveDate =
+                        leave.leaveDate ||
+                        "";
+
+
+                    const leaveType =
+                        leave.leaveType ||
+                        "Leave";
+
+
+                    const reason =
+                        leave.reason ||
+                        "No reason provided";
+
+
+                    const submitted =
+                        formatSubmitted(
+                            leave.createdAt
+                        );
+
+
+                    const avatar =
+                        String(name)
+                            .charAt(0)
+                            .toUpperCase();
+
+
+                    const leaveId =
+                        String(
+                            leave._id || ""
+                        );
+
+
+                    const status =
+                        String(
+                            leave.status ||
+                            "Pending"
+                        );
+
+
+                    let statusClass =
+                        "status-pending";
+
+                    let statusIcon =
+                        "bi-hourglass-split";
+
+
+                    if(
+                        status === "Accepted"
+                    ){
+
+                        statusClass =
+                            "status-accepted";
+
+                        statusIcon =
+                            "bi-check-circle-fill";
+
+                    }
+                    else if(
+                        status === "Rejected"
+                    ){
+
+                        statusClass =
+                            "status-rejected";
+
+                        statusIcon =
+                            "bi-x-circle-fill";
+
+                    }
+
+
+                    /*
+                        ACTION BUTTONS
+                    */
+
+                    let actionHtml = "";
+
+
+                    if(status === "Pending"){
+
+                        actionHtml = `
+
+                            <button
+                                class="action-btn
+                                       btn-edit-date"
+                                onclick="
+                                    openEditDate(
+                                        '${escapeHtml(leaveId)}'
+                                    )
+                                ">
+
+                                <i
+                                    class="bi bi-calendar2-week">
+                                </i>
+
+                                Date
+
+                            </button>
+
+
+                            <button
+                                class="action-btn
+                                       btn-approve"
+                                onclick="
+                                    updateLeaveStatus(
+                                        '${escapeHtml(leaveId)}',
+                                        'Accepted'
+                                    )
+                                ">
+
+                                <i
+                                    class="bi bi-check-lg">
+                                </i>
+
+                                Accept
+
+                            </button>
+
+
+                            <button
+                                class="action-btn
+                                       btn-reject"
+                                onclick="
+                                    updateLeaveStatus(
+                                        '${escapeHtml(leaveId)}',
+                                        'Rejected'
+                                    )
+                                ">
+
+                                <i
+                                    class="bi bi-x-lg">
+                                </i>
+
+                                Reject
+
+                            </button>
+
+                        `;
+
+                    }
+                    else{
+
+                        actionHtml = `
+
+                            <button
+                                class="action-btn
+                                       btn-edit-date"
+                                onclick="
+                                    openEditDate(
+                                        '${escapeHtml(leaveId)}'
+                                    )
+                                ">
+
+                                <i
+                                    class="bi bi-calendar2-week">
+                                </i>
+
+                                Date
+
+                            </button>
+
+                        `;
+
+                    }
+
+
+                    html += `
+
+                        <tr>
+
+                            <td>
+
+                                <span
+                                    class="text-muted
+                                           fw-semibold">
+
+                                    ${index}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="employee-box">
+
+                                    <div
+                                        class="employee-avatar">
+
+                                        ${escapeHtml(
+                                            avatar
+                                        )}
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div
+                                            class="employee-name">
+
+                                            ${escapeHtml(
+                                                name
+                                            )}
+
+                                        </div>
+
+                                        <div
+                                            class="employee-role">
+
+                                            Employee
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="employee-id">
+
+                                    ${escapeHtml(
+                                        empId
+                                    )}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="date-box">
+
+                                    <div
+                                        class="date-icon">
+
+                                        <i
+                                            class="bi bi-calendar3">
+                                        </i>
+
+                                    </div>
+
+
+                                    <div
+                                        class="date-text">
+
+                                        ${formatDate(
+                                            leaveDate
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="type-badge">
+
+                                    <i
+                                        class="bi bi-tag">
+                                    </i>
+
+                                    ${escapeHtml(
+                                        leaveType
+                                    )}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="reason"
+                                    title="${escapeHtml(
+                                        reason
+                                    )}">
+
+                                    ${escapeHtml(
+                                        reason
+                                    )}
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="submitted">
+
+                                    ${escapeHtml(
+                                        submitted
+                                    )}
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="
+                                        status-badge
+                                        ${statusClass}
+                                    ">
+
+                                    <span
+                                        class="status-dot">
+                                    </span>
+
+                                    <i
+                                        class="
+                                            bi
+                                            ${statusIcon}
+                                        ">
+                                    </i>
+
+                                    ${escapeHtml(
+                                        status
+                                    )}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="action-buttons">
+
+                                    ${actionHtml}
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+
+                    index++;
+
+                }
+            );
+
+        }
+    );
+
+
+    table.innerHTML = html;
+
+}
+
+
+/* =====================================================
+   UPDATE STATUS
+===================================================== */
+
+async function updateLeaveStatus(
+    leaveId,
+    status
+){
+
+    if(!leaveId){
+
+        showToast(
+            "Error",
+            "Leave ID not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const action =
+        status === "Accepted"
+        ? "accept"
+        : "reject";
+
+
+    if(
+        !confirm(
+            `Are you sure you want to ${action} this leave request?`
+        )
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/leave/${encodeURIComponent(leaveId)}`,
+                {
+                    method:"PUT",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        status:status
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Unable to update leave status."
+            );
+
+        }
+
+
+        showToast(
+            status === "Accepted"
+                ? "Leave Accepted"
+                : "Leave Rejected",
+
+            status === "Accepted"
+                ? "Leave request accepted successfully."
+                : "Leave request rejected successfully.",
+
+            status === "Accepted"
+                ? "success"
+                : "error"
+        );
+
+
+        await loadLeaves();
+
+    }
+    catch(error){
+
+        console.error(
+            "Update leave error:",
+            error
+        );
+
+
+        showToast(
+            "Update Failed",
+            error.message ||
+            "Server error.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   OPEN DATE EDIT
+===================================================== */
+
+function openEditDate(leaveId){
+
+    const leave =
+        allLeaves.find(
+            item =>
+                String(item._id) ===
+                String(leaveId)
+        );
+
+
+    if(!leave){
+
+        showToast(
+            "Error",
+            "Leave request not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    editingLeaveId =
+        leaveId;
+
+
+    const dateInput =
+        document.getElementById(
+            "newLeaveDate"
+        );
+
+
+    const errorBox =
+        document.getElementById(
+            "dateEditError"
+        );
+
+
+    if(errorBox){
+
+        errorBox.style.display =
+            "none";
+
+        errorBox.innerText = "";
+
+    }
+
+
+    if(dateInput){
+
+        dateInput.value =
+            getDateKey(
+                leave.leaveDate
+            );
+
+    }
+
+
+    const modalElement =
+        document.getElementById(
+            "editDateModal"
+        );
+
+
+    if(!editDateModal){
+
+        editDateModal =
+            new bootstrap.Modal(
+                modalElement
+            );
+
+    }
+
+
+    editDateModal.show();
+
+}
+
+
+/* =====================================================
+   SAVE CHANGED DATE
+===================================================== */
+
+async function saveChangedDate(){
+
+    if(!editingLeaveId){
+
+        return;
+
+    }
+
+
+    const dateInput =
+        document.getElementById(
+            "newLeaveDate"
+        );
+
+
+    const errorBox =
+        document.getElementById(
+            "dateEditError"
+        );
+
+
+    const newDate =
+        dateInput
+        ? dateInput.value
+        : "";
+
+
+    if(!newDate){
+
+        if(errorBox){
+
+            errorBox.innerText =
+                "Please select a leave date.";
+
+            errorBox.style.display =
+                "block";
+
+        }
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/leave/${encodeURIComponent(editingLeaveId)}/date`,
+                {
+                    method:"PUT",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        leaveDate:newDate
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Unable to update leave date."
+            );
+
+        }
+
+
+        if(editDateModal){
+
+            editDateModal.hide();
+
+        }
+
+
+        editingLeaveId =
+            null;
+
+
+        showToast(
+            "Date Updated",
+            "Leave date changed successfully.",
+            "success"
+        );
+
+
+        await loadLeaves();
+
+    }
+    catch(error){
+
+        console.error(
+            "Change date error:",
+            error
+        );
+
+
+        if(errorBox){
+
+            errorBox.innerText =
+                error.message ||
+                "Server error.";
+
+            errorBox.style.display =
+                "block";
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+function updateStatistics(){
+
+    const pending =
+        allLeaves.filter(
+            leave =>
+                String(
+                    leave.status ||
+                    "Pending"
+                ).toLowerCase()
+                === "pending"
+        ).length;
+
+
+    const accepted =
+        allLeaves.filter(
+            leave =>
+                String(
+                    leave.status || ""
+                ).toLowerCase()
+                === "accepted"
+        ).length;
+
+
+    const rejected =
+        allLeaves.filter(
+            leave =>
+                String(
+                    leave.status || ""
+                ).toLowerCase()
+                === "rejected"
+        ).length;
+
+
+    document.getElementById(
+        "pendingCount"
+    ).innerText =
+        pending;
+
+
+    document.getElementById(
+        "acceptedCount"
+    ).innerText =
+        accepted;
+
+
+    document.getElementById(
+        "rejectedCount"
+    ).innerText =
+        rejected;
+
+
+    document.getElementById(
+        "totalCount"
+    ).innerText =
+        allLeaves.length;
+
+}
+
+
+function resetStatistics(){
+
+    document.getElementById(
+        "pendingCount"
+    ).innerText = "0";
+
+
+    document.getElementById(
+        "acceptedCount"
+    ).innerText = "0";
+
+
+    document.getElementById(
+        "rejectedCount"
+    ).innerText = "0";
+
+
+    document.getElementById(
+        "totalCount"
+    ).innerText = "0";
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(
+    title,
+    message,
+    type="success"
+){
+
+    const toast =
+        document.getElementById(
+            "customToast"
+        );
+
+
+    const toastTitle =
+        document.getElementById(
+            "toastTitle"
+        );
+
+
+    const toastText =
+        document.getElementById(
+            "toastText"
+        );
+
+
+    const toastIcon =
+        document.getElementById(
+            "toastIcon"
+        );
+
+
+    toastTitle.innerText =
+        title;
+
+
+    toastText.innerText =
+        message;
+
+
+    if(type === "error"){
+
+        toast.style.borderLeftColor =
+            "#ef4444";
+
+        toastIcon.className =
+            "bi bi-x-circle-fill fs-5 text-danger";
+
+    }
+    else{
+
+        toast.style.borderLeftColor =
+            "#10b981";
+
+        toastIcon.className =
+            "bi bi-check-circle-fill fs-5 text-success";
+
+    }
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(
+        ()=>{
+            toast.classList.remove(
+                "show"
+            );
+        },
+        3500
+    );
+
+}
+
+
+/* =====================================================
+   AUTO REFRESH
+===================================================== */
+
+setInterval(
+    ()=>{
+        loadLeaves();
+    },
+    10000
+);
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    ()=>{
+
+        loadLeaves();
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>
