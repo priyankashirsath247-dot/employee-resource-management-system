@@ -25,7 +25,7 @@
 // 19. Admin Task Reply
 // 20. Employee Can See Admin Reply
 // ==========================================================
-
+require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
@@ -74,7 +74,7 @@ app.use(
 );
 app.use(
     session({
-        secret: "elite-erms-secret-key",
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: {
