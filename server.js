@@ -574,12 +574,10 @@ app.post(
                     req.body.password || ""
                 ).trim();
 
-            if (
-                email ===
-                "admin00@gmail.com" &&
-                password ===
-                "admin123"
-            ) {
+           if (
+    email === process.env.ADMIN_EMAIL &&
+    password === process.env.ADMIN_PASSWORD
+) {
 
                 console.log(
                     "✅ Admin Login Successful"
