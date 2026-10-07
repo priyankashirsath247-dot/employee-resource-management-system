@@ -1083,7 +1083,6 @@ const employees =
     await Employee
         .find()
         .select("-password")
-        .select("-password")
                     .sort({
                         name: 1
                     })
