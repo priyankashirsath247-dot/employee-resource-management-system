@@ -725,19 +725,18 @@ app.post(
                 success: true,
 
                 role: "employee",
+employee: {
 
-                employee: {
+    ...employee,
 
-                    ...employee,
+    password: undefined,
 
-                    employeeId:
-                        employeeId
+    employeeId:
+        employeeId
 
-                }
+}});
 
-            });
-
-        } catch (error) {
+ } catch (error) {
 
             console.error(
                 "❌ Employee Login Error:",
@@ -1203,23 +1202,24 @@ app.post(
 
             }
 
-            return res.json({
+          return res.json({
 
-                success: true,
+    success: true,
 
-                role:
-                    "employee",
+    role: "employee",
 
-                user: {
+    employee: {
 
-                    ...user,
+        ...employee,
 
-                    employeeId:
-                        employeeId
+        password: undefined,
 
-                }
+        employeeId:
+            employeeId
 
-            });
+    }
+
+});
 
         } catch (error) {
 
