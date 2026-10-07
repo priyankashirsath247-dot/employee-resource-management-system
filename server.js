@@ -1079,10 +1079,11 @@ app.get(
     async (req, res) => {
 
         try {
-
-            const employees =
-                await Employee
-                    .find()
+const employees =
+    await Employee
+        .find()
+        .select("-password")
+        .select("-password")
                     .sort({
                         name: 1
                     })
