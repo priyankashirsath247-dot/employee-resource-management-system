@@ -1166,12 +1166,7 @@ app.post(
                 });
 
             }
-
-            if (
-                String(
-                    user.password || ""
-                ) !== password
-            ) {
+if (!(await bcrypt.compare(password, user.password))) {
 
                 return res.status(401).json({
 
@@ -1210,7 +1205,7 @@ app.post(
 
     employee: {
 
-        ...employee,
+        ...user,
 
         password: undefined,
 
