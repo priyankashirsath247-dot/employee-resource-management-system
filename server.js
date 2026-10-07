@@ -31,7 +31,7 @@ const session = require("express-session");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
-
+const bcrypt = require("bcrypt");
 // ==========================================================
 // APP
 // ==========================================================
@@ -681,9 +681,7 @@ app.post(
             }
 
             if (
-                String(
-                    employee.password || ""
-                ) !== password
+              !(await bcrypt.compare(password, employee.password))
             ) {
 
                 return res.status(401).json({
@@ -906,7 +904,7 @@ app.post(
                         email,
 
                     password:
-                        password,
+    await bcrypt.hash(password, 10),
 
                     department:
                         department,
