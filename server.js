@@ -2175,90 +2175,70 @@ app.get(
 // EMPLOYEE SELF ATTENDANCE
 // ==========================================================
 // ==========================================================
-
+// EMPLOYEE API LOGIN
 app.post(
-    "/attendance",
+    "/api/login",
     async (req, res) => {
 
         try {
 
-            console.log(
-                "\n================================================"
-            );
+            const email =
+                String(req.body.email || "")
+                    .trim()
+                    .toLowerCase();
 
-            console.log(
-                "📸 EMPLOYEE ATTENDANCE SCAN"
-            );
+            const password =
+                String(req.body.password || "")
+                    .trim();
 
-            console.log(
-                "================================================"
-            );
-
-            const mobileInput =
-                req.body.mobile;
-
-            const photo =
-                req.body.photo || "";
-
-            if (!mobileInput) {
+            if (!email || !password) {
 
                 return res.status(400).json({
 
                     success: false,
 
                     message:
-                        "Mobile number is required"
+                        "Email and password are required"
 
                 });
 
             }
 
-            const cleanMobile =
-                String(
-                    mobileInput
-                )
-                    .trim()
-                    .replace(/\s+/g, "");
-
-            const employees =
+            const user =
                 await Employee
-                    .find()
+                    .findOne({
+                        email: email
+                    })
                     .lean();
 
-            const employee =
-                employees.find(
-                    emp => {
+            // Employee does not exist
+            if (!user) {
 
-                        if (!emp.mobile) {
-                            return false;
-                        }
-
-                        const databaseMobile =
-                            String(
-                                emp.mobile
-                            )
-                                .trim()
-                                .replace(
-                                    /\s+/g,
-                                    ""
-                                );
-
-                        return (
-                            databaseMobile ===
-                            cleanMobile
-                        );
-
-                    }
-                );
-
-            if (!employee) {
-
-                return res.status(404).json({
+                return res.status(401).json({
 
                     success: false,
 
                     message:
-                        "Employee not found with this mobile number!"
+                        "Invalid Email or Password"
+
+                });
+
+            }
+
+            // Check password
+            if (
+                !(await bcrypt.compare(
+                    password,
+                    user.password
+                ))
+            ) {
+
+                return res.status(401).json({
+
+                    success: false,
+
+                    message:
+                        "Invalid Email or Password"
 
                 });
 
@@ -2266,7 +2246,7 @@ app.post(
 
             const employeeId =
                 String(
-                    employee.employeeId || ""
+                    user.employeeId || ""
                 ).trim();
 
             if (!employeeId) {
@@ -2276,283 +2256,70 @@ app.post(
                     success: false,
 
                     message:
-                        "Employee ID missing in employee record"
+                        "Employee ID missing"
 
                 });
 
             }
 
-            const today =
-                getIndiaDate();
+            // ==========================================
+            // CREATE EMPLOYEE SERVER SESSION
+            // ==========================================
 
-            const currentTime =
-                getIndiaTime();
+            req.session.employeeId =
+                employeeId;
+
+            req.session.employeeName =
+                String(
+                    user.name || ""
+                ).trim();
+
+            req.session.role =
+                "employee";
 
             console.log(
-                "👤 Employee:",
-                employee.name
-            );
-
-            console.log(
-                "🆔 Employee ID:",
+                "🔐 Employee session created:",
                 employeeId
             );
 
-            console.log(
-                "📅 Date:",
-                today
-            );
+            // ==========================================
+            // SEND LOGIN RESPONSE
+            // ==========================================
 
-            console.log(
-                "⏰ Current Time:",
-                currentTime
-            );
+            return res.json({
 
-            let attendance =
-                await Attendance.findOne({
+                success: true,
+
+                role: "employee",
+
+                employee: {
+
+                    ...user,
+
+                    password:
+                        undefined,
 
                     employeeId:
-                        employeeId,
-
-                    date:
-                        today
-
-                });
-
-            if (!attendance) {
-
-                attendance =
-                    new Attendance({
-
-                        employeeId:
-                            employeeId,
-
-                        employeeName:
-                            employee.name,
-
-                        date:
-                            today,
-
-                        checkInTime:
-                            currentTime,
-
-                        checkOutTime:
-                            "",
-
-                        workHours:
-                            0,
-
-                        status:
-                            "Present",
-
-                        dayType:
-                            "Full Day",
-
-                        photo:
-                            photo
-
-                    });
-
-                try {
-
-                    await attendance.save();
-
-                } catch (saveError) {
-
-                    if (
-                        saveError.code ===
-                        11000
-                    ) {
-
-                        attendance =
-                            await Attendance.findOne({
-
-                                employeeId:
-                                    employeeId,
-
-                                date:
-                                    today
-
-                            });
-
-                    } else {
-
-                        throw saveError;
-
-                    }
+                        employeeId
 
                 }
-
-                if (
-                    attendance &&
-                    !attendance.checkOutTime
-                ) {
-
-                    console.log(
-                        "🟢 IN MARKED:",
-                        employee.name,
-                        "|",
-                        currentTime
-                    );
-
-                    return res.status(200).json({
-
-                        success: true,
-
-                        action:
-                            "IN",
-
-                        message:
-                            `IN marked successfully for ${employee.name} at ${currentTime}`,
-
-                        attendance:
-                            attendance
-
-                    });
-
-                }
-
-            }
-
-            if (
-                attendance &&
-                !String(
-                    attendance.checkOutTime || ""
-                ).trim()
-            ) {
-
-                const checkInTime =
-                    String(
-                        attendance.checkInTime || ""
-                    ).trim();
-
-                const workHours =
-                    calculateWorkHours(
-                        checkInTime,
-                        currentTime
-                    );
-
-                attendance.checkOutTime =
-                    currentTime;
-
-                attendance.workHours =
-                    workHours;
-
-                attendance.status =
-                    "Present";
-
-                attendance.dayType =
-                    attendance.dayType ||
-                    "Full Day";
-
-                if (photo) {
-
-                    attendance.photo =
-                        photo;
-
-                }
-
-                await attendance.save();
-
-                console.log(
-                    "🔴 OUT MARKED:",
-                    employee.name,
-                    "|",
-                    currentTime
-                );
-
-                console.log(
-                    "⏱️ Work Hours:",
-                    workHours
-                );
-
-                return res.status(200).json({
-
-                    success: true,
-
-                    action:
-                        "OUT",
-
-                    message:
-                        `OUT marked successfully for ${employee.name} at ${currentTime}. Work Hours: ${workHours} hrs`,
-
-                    attendance:
-                        attendance
-
-                });
-
-            }
-
-            if (
-                attendance &&
-                String(
-                    attendance.checkOutTime || ""
-                ).trim()
-            ) {
-
-                return res.status(409).json({
-
-                    success: false,
-
-                    alreadyMarked:
-                        true,
-
-                    action:
-                        "ALREADY_OUT",
-
-                    message:
-                        `Attendance already completed. IN: ${attendance.checkInTime}, OUT: ${attendance.checkOutTime}`,
-
-                    attendance:
-                        attendance
-
-                });
-
-            }
-
-            return res.status(500).json({
-
-                success: false,
-
-                message:
-                    "Unable to process attendance"
 
             });
 
         } catch (error) {
 
             console.error(
-                "\n❌ ATTENDANCE ERROR:",
+                "❌ API Login Error:",
                 error
             );
-
-            if (
-                error.code === 11000
-            ) {
-
-                return res.status(409).json({
-
-                    success: false,
-
-                    alreadyMarked:
-                        true,
-
-                    message:
-                        "Attendance record already exists for today"
-
-                });
-
-            }
 
             return res.status(500).json({
 
                 success: false,
 
                 message:
-                    "Server error while saving attendance",
-
-                error:
-                    error.message
+                    error.message ||
+                    "Login failed"
 
             });
 
