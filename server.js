@@ -50,7 +50,7 @@ const Attendance = require("./models/attendance");
 // OTHER ROUTES
 // ==========================================================
 
-const contactRoutes = require("./ContactRoutes/contactRoutes");
+const contactRoutes = require("./ContactRoutes/Contactroutes");
 const leaveRoutes = require("./LeaveRoutes/leaveroutes");
 const taskRoutes = require("./tasksroute/tasksroutes");
 const notificationRoutes = require("./NotificationRoutes/notificationroutes");
