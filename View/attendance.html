@@ -744,7 +744,7 @@ console.log("Sending attendance data...");
             attendanceBtn.innerHTML =
                 '<span class="spinner-border spinner-border-sm me-2"></span> Saving...';
 
-            const response = await fetch("http://localhost:3000/attendance", { 
+            const response = await fetch("/attendance", {
                 method: "POST", 
                 headers: { 
                     "Content-Type": "application/json" 
