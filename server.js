@@ -3704,7 +3704,7 @@ app.use(
 
 mongoose
     .connect(
-        "mongodb://127.0.0.1:27017/erms"
+        process.env.MONGODB_URI
     )
 
     .then(() => {
