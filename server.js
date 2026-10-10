@@ -25,16 +25,23 @@
 // 19. Admin Task Reply
 // 20. Employee Can See Admin Reply
 // ==========================================================
+
 require("dotenv").config();
+
+const dns = require("dns");
+
+// Google DNS only for local development.
+// Railway will use its default DNS configuration.
+if (!process.env.RAILWAY_ENVIRONMENT) {
+    dns.setServers(["8.8.8.8"]);
+}
+
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 const bcrypt = require("bcrypt");
-// ==========================================================
-// APP
-// ==========================================================
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -2327,6 +2334,98 @@ app.post(
 
     }
 );
+
+// ==========================================================
+// EMPLOYEE SELF ATTENDANCE - AUTO IN / OUT
+// Only employees already present in the Employee collection can mark attendance.
+// ==========================================================
+app.post("/attendance", async (req, res) => {
+    try {
+        const mobileInput = String(req.body.mobile || "").trim().replace(/\s+/g, "");
+        const photo = req.body.photo || "";
+
+        if (!mobileInput) {
+            return res.status(400).json({ success: false, message: "Mobile number is required" });
+        }
+
+        // Look up the employee directly in the database. Never trust an employee ID/name from the browser.
+        const employee = await Employee.findOne({ mobile: mobileInput }).lean();
+        if (!employee) {
+            return res.status(404).json({ success: false, message: "Employee not found with this mobile number. Contact your admin." });
+        }
+
+        const employeeId = String(employee.employeeId || "").trim();
+        if (!employeeId) {
+            return res.status(500).json({ success: false, message: "Employee ID missing in employee record" });
+        }
+
+        const today = getIndiaDate();
+        const currentTime = getIndiaTime();
+        let attendance = await Attendance.findOne({ employeeId, date: today });
+
+        if (!attendance) {
+            attendance = new Attendance({
+                employeeId,
+                employeeName: String(employee.name || "").trim(),
+                date: today,
+                checkInTime: currentTime,
+                checkOutTime: "",
+                workHours: 0,
+                status: "Present",
+                dayType: "Full Day",
+                photo
+            });
+
+            try {
+                await attendance.save();
+                return res.status(200).json({
+                    success: true,
+                    action: "IN",
+                    message: `IN marked successfully for ${employee.name} at ${currentTime}`,
+                    attendance
+                });
+            } catch (saveError) {
+                if (saveError.code !== 11000) throw saveError;
+                attendance = await Attendance.findOne({ employeeId, date: today });
+            }
+        }
+
+        if (attendance && !String(attendance.checkOutTime || "").trim()) {
+            const workHours = calculateWorkHours(String(attendance.checkInTime || "").trim(), currentTime);
+            attendance.checkOutTime = currentTime;
+            attendance.workHours = workHours;
+            attendance.status = "Present";
+            attendance.dayType = attendance.dayType || "Full Day";
+            if (photo) attendance.photo = photo;
+            await attendance.save();
+
+            return res.status(200).json({
+                success: true,
+                action: "OUT",
+                message: `OUT marked successfully for ${employee.name} at ${currentTime}. Work Hours: ${workHours} hrs`,
+                attendance
+            });
+        }
+
+        if (attendance && String(attendance.checkOutTime || "").trim()) {
+            return res.status(409).json({
+                success: false,
+                alreadyMarked: true,
+                action: "ALREADY_OUT",
+                message: `Attendance already completed. IN: ${attendance.checkInTime}, OUT: ${attendance.checkOutTime}`,
+                attendance
+            });
+        }
+
+        return res.status(500).json({ success: false, message: "Unable to process attendance" });
+    } catch (error) {
+        console.error("❌ EMPLOYEE ATTENDANCE ERROR:", error);
+        if (error.code === 11000) {
+            return res.status(409).json({ success: false, alreadyMarked: true, message: "Attendance record already exists for today" });
+        }
+        return res.status(500).json({ success: false, message: "Server error while saving attendance" });
+    }
+});
 
 // ==========================================================
 // ADMIN SAVE ATTENDANCE
