@@ -31,7 +31,7 @@ const notificationSchema = new mongoose.Schema(
         // employee = selected employee
         recipientType: {
             type: String,
-            enum: ["all", "employee"],
+           enum: ["all", "employee", "admin"],
             default: "all"
         },
 
