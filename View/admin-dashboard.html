@@ -2236,15 +2236,33 @@ async function loadDashboardStats(){
             ).length;
 
 
-        const leave =
-            attendance.filter(
-                r =>
-                    String(
-                        r.status || ""
-                    )
-                    .toLowerCase() ===
-                    "leave"
-            ).length;
+/* ON LEAVE TODAY - FROM APPROVED LEAVE REQUESTS */
+
+let leave = 0;
+
+try {
+    const leaveResponse = await fetch(
+        `${API_BASE}/api/leave?t=${Date.now()}`,
+        { cache: "no-store" }
+    );
+
+    if (leaveResponse.ok) {
+        const leaveData = await leaveResponse.json();
+
+        const allLeaves = Array.isArray(leaveData)
+            ? leaveData
+            : (leaveData.leaves || leaveData.data || []);
+
+        const today = getIndiaDate();
+
+        leave = allLeaves.filter(item =>
+            String(item.status || "").trim().toLowerCase() === "accepted" &&
+            String(item.leaveDate || "").trim() === today
+        ).length;
+    }
+} catch (error) {
+    console.error("Today's approved leave count error:", error);
+}
 
 
         document.getElementById(
