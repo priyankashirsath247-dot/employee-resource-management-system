@@ -2224,16 +2224,29 @@ async function loadDashboardStats(){
                     "present"
             ).length;
 
+const presentIds = new Set(
+    attendance
+        .filter(r =>
+            String(r.date || "").slice(0, 10) === getIndiaDate() &&
+            String(r.status || "").trim().toLowerCase() === "present"
+        )
+        .map(r => String(r.employeeId || "").trim())
+);
 
-        const absent =
-            attendance.filter(
-                r =>
-                    String(
-                        r.status || ""
-                    )
-                    .toLowerCase() ===
-                    "absent"
-            ).length;
+const leaveIds = new Set(
+    allLeaves
+        .filter(r =>
+            String(r.status || "").trim().toLowerCase() === "accepted" &&
+            String(r.leaveDate || "").trim() === getIndiaDate()
+        )
+        .map(r => String(r.empId || "").trim())
+);
+
+const absent = employees.filter(emp => {
+    const id = String(emp.employeeId || emp.empId || "").trim();
+
+    return id && !presentIds.has(id) && !leaveIds.has(id);
+}).length;
 
 
 /* ON LEAVE TODAY - FROM APPROVED LEAVE REQUESTS */
